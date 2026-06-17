@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import emailjs from '@emailjs/browser';
 import {
   Store,
   User,
@@ -8,9 +9,13 @@ import {
   MessageSquare,
   CheckCircle,
   UtensilsCrossed,
+  GraduationCap,
   Clock,
   Truck,
+  AlertCircle,
 } from 'lucide-react';
+import { saveVendorAsPending } from '../data/vendors';
+import { EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, EMAILJS_PUBLIC_KEY } from '../config/emailjs';
 
 const benefits = [
   {
@@ -35,9 +40,28 @@ const benefits = [
   },
 ];
 
-const foodCategories = ['Local Dishes', 'Continental', 'Fast Food', 'Drinks & Juices', 'Bakery', 'Other'];
+const vendorCategories = {
+  food: [
+    { value: 'local',      label: 'Local Dishes' },
+    { value: 'restaurant', label: 'Restaurant' },
+    { value: 'fast_food',  label: 'Fast Food' },
+    { value: 'cafe',       label: 'Cafés & Drinks' },
+    { value: 'chinese',    label: 'Chinese / Intl' },
+  ],
+  student: [
+    { value: 'printing',  label: 'Printing & Stationery' },
+    { value: 'beauty',    label: 'Hair & Beauty' },
+    { value: 'tech',      label: 'Tech Services' },
+    { value: 'clothing',  label: 'Clothing & Accessories' },
+    { value: 'tutoring',  label: 'Tutoring & Academic' },
+  ],
+};
 
 export default function Contact() {
+  const [vendorType, setVendorType] = useState('');
+  const [categoryError, setCategoryError] = useState('');
+  const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState('');
   const [form, setForm] = useState({
     vendorName: '',
     ownerName: '',
@@ -57,8 +81,57 @@ export default function Contact() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleVendorTypeChange = (type) => {
+    setVendorType(type);
+    setForm((f) => ({ ...f, category: '' }));
+    setCategoryError('');
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!vendorType) return;
+    if (!form.category) {
+      setCategoryError('Please select a category before submitting.');
+      return;
+    }
+    setCategoryError('');
+    setSendError('');
+    setSending(true);
+
+    const categoryLabel = {
+      local: 'Local Dishes', restaurant: 'Restaurant', fast_food: 'Fast Food',
+      cafe: 'Cafés & Drinks', chinese: 'Chinese / International',
+      printing: 'Printing & Stationery', beauty: 'Hair & Beauty',
+      tech: 'Tech Services', clothing: 'Clothing & Accessories', tutoring: 'Tutoring & Academic',
+    };
+
+    try {
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          vendor_name:  form.vendorName,
+          owner_name:   form.ownerName,
+          vendor_type:  vendorType === 'food' ? 'Food Vendor' : 'Student Vendor',
+          category:     categoryLabel[form.category] || form.category,
+          phone:        form.phone,
+          whatsapp:     form.whatsapp,
+          email:        form.email || 'Not provided',
+          location:     form.location,
+          open_hours:   form.openHours,
+          delivery:     form.delivery,
+          description:  form.description,
+          message:      form.message || 'None',
+        },
+        EMAILJS_PUBLIC_KEY
+      );
+    } catch {
+      // Email failed — still save locally, just warn
+      setSendError('Note: email notification could not be sent, but your request was saved.');
+    }
+
+    saveVendorAsPending({ ...form, vendorType });
+    setSending(false);
     setSubmitted(true);
   };
 
@@ -66,19 +139,27 @@ export default function Contact() {
     return (
       <div className="pt-16 min-h-screen bg-gray-50 flex items-center justify-center px-4">
         <div className="bg-white rounded-3xl p-10 shadow-sm border border-gray-100 max-w-md w-full text-center">
-          <div className="w-20 h-20 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-6">
-            <CheckCircle size={40} className="text-emerald-600" />
+          <div className="w-20 h-20 bg-amber-50 rounded-full flex items-center justify-center mx-auto mb-6">
+            <Clock size={40} className="text-amber-500" />
           </div>
-          <h2 className="text-2xl font-black text-gray-900 mb-3">Request Received!</h2>
+          <h2 className="text-2xl font-black text-gray-900 mb-3">Request Submitted!</h2>
           <p className="text-gray-500 mb-2 leading-relaxed">
-            Thank you, <strong>{form.ownerName}</strong>! We've received your listing request for{' '}
-            <strong>{form.vendorName}</strong>.
+            Thank you, <strong>{form.ownerName}</strong>! Your listing request for{' '}
+            <strong>{form.vendorName}</strong> has been received.
           </p>
-          <p className="text-gray-500 text-sm mb-8">
-            Our team will review your details and reach out within <strong>48 hours</strong> via phone or WhatsApp.
+          <p className="text-gray-500 text-sm mb-2 leading-relaxed">
+            Our team will <strong>verify your details</strong> before your vendor goes live on UCC Radar. We'll reach out within <strong>48 hours</strong> via phone or WhatsApp once you're approved.
           </p>
+          {sendError && (
+            <p className="text-xs text-amber-600 bg-amber-50 px-3 py-2 rounded-lg mb-4">{sendError}</p>
+          )}
           <button
-            onClick={() => setSubmitted(false)}
+            onClick={() => {
+              setSubmitted(false);
+              setVendorType('');
+              setSendError('');
+              setForm({ vendorName: '', ownerName: '', phone: '', whatsapp: '', email: '', location: '', category: '', openHours: '', delivery: '', description: '', message: '' });
+            }}
             className="px-6 py-3 bg-emerald-600 text-white font-semibold rounded-xl hover:bg-emerald-700 transition-colors"
           >
             Submit Another Request
@@ -132,11 +213,13 @@ export default function Contact() {
                 Reach out directly and we'll help you get set up as quickly as possible.
               </p>
               <a
-                href="mailto:joshuaoheneba01@gmail.com"
+                href="https://mail.google.com/mail/?view=cm&fs=1&to=joshuamcclerf@gmail.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex items-center gap-2 text-sm font-semibold text-white hover:text-emerald-200 transition-colors"
               >
                 <Mail size={14} />
-                joshuaoheneba01@gmail.com
+                joshuamcclerf@gmail.com
               </a>
             </div>
           </div>
@@ -147,6 +230,34 @@ export default function Contact() {
               <h2 className="text-xl font-black text-gray-900 mb-6">Vendor Listing Request</h2>
 
               <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+                {/* Vendor Type */}
+                <div>
+                  <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-3">
+                    Vendor Type *
+                  </label>
+                  <div className="grid grid-cols-2 gap-3">
+                    {[
+                      { value: 'food', label: 'Food Vendor', icon: <UtensilsCrossed size={20} />, desc: 'Restaurant, café, fast food, etc.' },
+                      { value: 'student', label: 'Student Vendor', icon: <GraduationCap size={20} />, desc: 'Services, products, skills, etc.' },
+                    ].map(({ value, label, icon, desc }) => (
+                      <button
+                        key={value}
+                        type="button"
+                        onClick={() => handleVendorTypeChange(value)}
+                        className={`flex flex-col items-center gap-2 py-5 px-4 rounded-xl border-2 cursor-pointer transition-all text-center ${
+                          vendorType === value
+                            ? 'border-emerald-500 bg-emerald-50 text-emerald-700'
+                            : 'border-gray-200 text-gray-500 hover:border-emerald-300'
+                        }`}
+                      >
+                        <span className={vendorType === value ? 'text-emerald-600' : 'text-gray-400'}>{icon}</span>
+                        <span className="font-bold text-sm">{label}</span>
+                        <span className="text-xs text-gray-400 leading-snug">{desc}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
                 {/* Vendor Name */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
@@ -260,42 +371,47 @@ export default function Contact() {
                   </div>
                 </div>
 
-                {/* Category + Open Hours */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {/* Category Picker — shows after vendor type is chosen */}
+                {vendorType && (
                   <div>
-                    <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-2">
-                      Food Category *
+                    <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-3">
+                      {vendorType === 'food' ? 'Food Category' : 'Service Category'} *
                     </label>
-                    <select
-                      name="category"
-                      value={form.category}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white"
-                    >
-                      <option value="">Select a category</option>
-                      {foodCategories.map((c) => (
-                        <option key={c} value={c}>
-                          {c}
-                        </option>
+                    <div className="flex flex-wrap gap-2">
+                      {vendorCategories[vendorType].map(({ value, label }) => (
+                        <button
+                          key={value}
+                          type="button"
+                          onClick={() => { setForm((f) => ({ ...f, category: value })); setCategoryError(''); }}
+                          className={`px-4 py-2 rounded-xl border-2 text-sm font-medium transition-all ${
+                            form.category === value
+                              ? 'border-emerald-500 bg-emerald-50 text-emerald-700'
+                              : 'border-gray-200 text-gray-500 hover:border-emerald-300 hover:text-emerald-600'
+                          }`}
+                        >
+                          {label}
+                        </button>
                       ))}
-                    </select>
+                    </div>
+                    {categoryError && <p className="text-xs text-red-500 mt-2">{categoryError}</p>}
                   </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-2">
-                      <Clock size={11} className="inline mr-1" />
-                      Opening Hours *
-                    </label>
-                    <input
-                      type="text"
-                      name="openHours"
-                      value={form.openHours}
-                      onChange={handleChange}
-                      required
-                      placeholder="e.g. Mon–Sat: 7am – 8pm"
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                    />
-                  </div>
+                )}
+
+                {/* Open Hours */}
+                <div>
+                  <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-2">
+                    <Clock size={11} className="inline mr-1" />
+                    Opening Hours *
+                  </label>
+                  <input
+                    type="text"
+                    name="openHours"
+                    value={form.openHours}
+                    onChange={handleChange}
+                    required
+                    placeholder="e.g. Mon–Sat: 7am – 8pm"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  />
                 </div>
 
                 {/* Delivery */}
@@ -360,11 +476,18 @@ export default function Contact() {
                   />
                 </div>
 
+                {sendError && (
+                  <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-100 rounded-xl text-xs text-red-600">
+                    <AlertCircle size={14} />
+                    {sendError}
+                  </div>
+                )}
                 <button
                   type="submit"
-                  className="w-full py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-base rounded-2xl transition-colors shadow-sm mt-2"
+                  disabled={sending}
+                  className="w-full py-4 bg-emerald-600 hover:bg-emerald-700 disabled:bg-emerald-400 text-white font-bold text-base rounded-2xl transition-colors shadow-sm mt-2"
                 >
-                  Submit Listing Request →
+                  {sending ? 'Submitting…' : 'Submit Listing Request →'}
                 </button>
                 <p className="text-xs text-gray-400 text-center">
                   By submitting, you agree to allow UCC Radar to display your vendor information on the platform. Listing is free and requires approval.

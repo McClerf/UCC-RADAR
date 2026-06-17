@@ -6,6 +6,7 @@ import Vendors from './pages/Vendors';
 import VendorDetails from './pages/VendorDetails';
 import About from './pages/About';
 import Contact from './pages/Contact';
+import Admin from './pages/Admin';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/vendors/:id" element={<VendorDetails />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/admin" element={<Admin />} />
         </Routes>
       </main>
       <Footer />

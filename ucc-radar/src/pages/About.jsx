@@ -34,7 +34,7 @@ const values = [
   {
     icon: <Store size={22} />,
     title: 'Vendor Growth',
-    desc: 'We empower local food vendors with a free digital presence, helping them reach more students and grow their businesses.',
+    desc: 'We empower food vendors and student service providers with a free digital presence, helping them reach more students and grow.',
     color: 'bg-purple-50 text-purple-600',
   },
 ];
@@ -52,16 +52,16 @@ const faqs = [
     a: 'Absolutely. UCC Radar is 100% free for students and visitors. No sign-up, no hidden charges.',
   },
   {
-    q: 'How do I order food from a vendor?',
-    a: "UCC Radar is a discovery platform. Click the WhatsApp button on any vendor card to chat directly with the vendor and place your order — it's that simple.",
+    q: 'How do I contact a vendor?',
+    a: "UCC Radar is a discovery platform. Click the WhatsApp button on any vendor card to chat directly with them — whether you're ordering food or booking a service.",
   },
   {
-    q: 'Are the prices on the menu accurate?',
-    a: 'We work with each vendor to display up-to-date price ranges. Prices may vary slightly based on portion size or daily availability. Always confirm with the vendor via WhatsApp.',
+    q: 'Are the prices and service details accurate?',
+    a: 'We work with each vendor to display up-to-date information. Details may vary slightly, so always confirm directly with the vendor via WhatsApp.',
   },
   {
-    q: 'Which vendors offer campus delivery?',
-    a: 'Vendors with a green "Delivery" badge on their card offer campus delivery. You can also filter by delivery on the Vendors page.',
+    q: 'Which food vendors offer campus delivery?',
+    a: 'Vendors with a green "Delivery" badge offer campus delivery. You can also filter by delivery on the Vendors page.',
   },
   {
     q: 'I\'m a vendor. How do I get listed?',
@@ -81,10 +81,10 @@ export default function About() {
           </span>
           <h1 className="text-4xl sm:text-5xl font-black mb-5 leading-tight">
             Connecting UCC Students<br />
-            <span className="text-amber-400">with Great Food</span>
+            <span className="text-amber-400">with Campus Vendors</span>
           </h1>
           <p className="text-lg text-emerald-100 max-w-xl mx-auto leading-relaxed">
-            UCCRadar is a student-built directory that makes finding, exploring, and connecting with food vendors on the University of Cape Coast campus effortless.
+            UCCRadar is a student-built directory that makes finding food vendors and student services on the University of Cape Coast campus effortless — all in one place.
           </p>
         </div>
       </div>
@@ -115,7 +115,7 @@ export default function About() {
             </div>
             <h2 className="text-2xl font-black text-gray-900 mb-4">Our Mission</h2>
             <p className="text-gray-600 leading-relaxed">
-              To eliminate the daily uncertainty of "where do I eat today?" on the UCC campus. We provide a single, reliable, always-updated directory of every food vendor — with real menus, honest prices, and a direct line to the vendor. No guesswork. No wasted trips. Just good food, found fast.
+              To make campus life simpler for every UCC student — whether you're looking for a meal, a haircut, a printout, or a tutor. We provide a single, reliable directory of food vendors and student services, with real details and a direct line to whoever you need. No guesswork. No wasted trips. Just what you need, found fast.
             </p>
           </div>
           <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
@@ -124,7 +124,7 @@ export default function About() {
             </div>
             <h2 className="text-2xl font-black text-gray-900 mb-4">Our Vision</h2>
             <p className="text-gray-600 leading-relaxed">
-              To become the most trusted campus food discovery platform in Ghana — a tool that every UCC student uses daily and that every campus vendor considers essential to their business. We envision a campus where no student ever goes hungry for lack of information, and no vendor loses a customer for lack of visibility.
+              To become the most trusted campus discovery platform in Ghana — a tool that every UCC student uses daily, and that every food vendor and service provider considers essential to their business. We envision a campus where no student struggles to find what they need, and no vendor loses a customer for lack of visibility.
             </p>
           </div>
         </div>
@@ -181,9 +181,9 @@ export default function About() {
       {/* CTA */}
       <div className="bg-emerald-700 py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-black text-white mb-4">Ready to Explore Campus Food?</h2>
+          <h2 className="text-3xl font-black text-white mb-4">Ready to Explore Campus Vendors?</h2>
           <p className="text-emerald-100 mb-8 max-w-xl mx-auto">
-            Browse all 12+ vendors, read menus, compare prices, and connect in seconds.
+            Food, services, and everything in between — browse all campus vendors and connect in seconds.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link

@@ -8,11 +8,12 @@ const quickLinks = [
   { to: '/contact', label: 'List Your Vendor' },
 ];
 
-const foodCategories = [
-  { to: '/vendors?category=local', label: 'Local Dishes' },
-  { to: '/vendors?category=continental', label: 'Continental' },
-  { to: '/vendors?category=fast-food', label: 'Fast Food' },
-  { to: '/vendors?category=drinks', label: 'Drinks & Juices' },
+const categories = [
+  { to: '/vendors?tab=food&sub=local', label: 'Local Dishes' },
+  { to: '/vendors?tab=food&sub=fast_food', label: 'Fast Food' },
+  { to: '/vendors?tab=student&sub=printing', label: 'Printing & Stationery' },
+  { to: '/vendors?tab=student&sub=beauty', label: 'Hair & Beauty' },
+  { to: '/vendors?tab=student&sub=tech', label: 'Tech Services' },
 ];
 
 export default function Footer() {
@@ -32,7 +33,7 @@ export default function Footer() {
               </div>
             </Link>
             <p className="text-sm text-gray-400 leading-relaxed mb-5">
-              Your go-to guide for discovering the best food vendors on the University of Cape Coast campus.
+              Your go-to guide for discovering food vendors and student services on the University of Cape Coast campus.
             </p>
             <div className="flex flex-col gap-2 text-sm">
               <span className="flex items-center gap-2 text-gray-400">
@@ -40,11 +41,11 @@ export default function Footer() {
                 University of Cape Coast, Ghana
               </span>
               <a
-                href="mailto:hello@uccradar.com"
+                href="mailto:joshuamcclerf@gmail.com"
                 className="flex items-center gap-2 text-gray-400 hover:text-emerald-400 transition-colors"
               >
                 <Mail size={14} className="text-emerald-500 shrink-0" />
-                hello@uccradar.com
+                joshuamcclerf@gmail.com
               </a>
             </div>
           </div>
@@ -68,13 +69,13 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Food Categories */}
+          {/* Categories */}
           <div>
             <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">
               Categories
             </h4>
             <ul className="flex flex-col gap-2.5">
-              {foodCategories.map(({ to, label }) => (
+              {categories.map(({ to, label }) => (
                 <li key={to}>
                   <Link
                     to={to}
@@ -93,7 +94,7 @@ export default function Footer() {
               For Vendors
             </h4>
             <p className="text-sm text-gray-400 mb-4 leading-relaxed">
-              Food vendor on UCC campus? Get listed today and reach thousands of hungry students.
+              A vendor or service provider on UCC campus? Get listed today and reach thousands of students.
             </p>
             <Link
               to="/contact"

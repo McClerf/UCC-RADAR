@@ -19,38 +19,47 @@ export const vendors = [
       {
         name: "Espresso",
         description:
-          "Rich, bold single-origin espresso shot pulled to perfection — the purest way to start your day on campus.",
+          "Bold single espresso shot — the fastest way to wake up before a 7 AM lecture.",
         priceMin: 10,
         priceMax: 18,
         image:
           "https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=400&q=80",
       },
       {
+        name: "Nescafé with Milk",
+        description:
+          "Classic instant coffee with full-cream milk — warm, simple, and exactly what most students want in the morning.",
+        priceMin: 8,
+        priceMax: 12,
+        image:
+          "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&q=80",
+      },
+      {
         name: "Fresh Mango Juice",
         description:
-          "Pure cold-pressed juice made from ripe Ghanaian mangoes — naturally sweet, chilled, and absolutely refreshing.",
+          "Cold-pressed juice from ripe Ghanaian mangoes — naturally sweet and completely refreshing on a hot afternoon.",
         priceMin: 15,
         priceMax: 25,
         image:
-          "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&q=80",
+          "https://i.pinimg.com/736x/21/d7/b5/21d7b561bbdd039b5dc78c7e68c5872b.jpg",
+      },
+      {
+        name: "Sobolo",
+        description:
+          "Chilled hibiscus flower drink brewed with ginger and spices — a local favourite served icy cold.",
+        priceMin: 8,
+        priceMax: 15,
+        image:
+          "https://i.pinimg.com/1200x/fa/4a/8e/fa4a8ec95b0a9b3b41e1038b12850bfc.jpg",
       },
       {
         name: "Tropical Smoothie",
         description:
-          "A blended mix of banana, pineapple, and pawpaw with a splash of ginger for a natural energy lift.",
+          "Blended banana, pineapple, and pawpaw with a hit of ginger — a natural energy lift in a cup.",
         priceMin: 20,
         priceMax: 35,
         image:
-          "https://images.unsplash.com/photo-1502741338009-cac2772e18bc?w=400&q=80",
-      },
-      {
-        name: "Coffee & Snack Combo",
-        description:
-          "Your choice of coffee paired with a freshly baked pastry or sandwich — the perfect quick campus meal.",
-        priceMin: 25,
-        priceMax: 45,
-        image:
-          "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&q=80",
+          "https://i.pinimg.com/1200x/6a/03/9a/6a039a0a80a4fd97093f62e2346fae15.jpg",
       },
     ],
     delivery: false,
@@ -67,7 +76,7 @@ export const vendors = [
     description:
       "Luban Workshop Restaurant is a hidden gem on the UCC campus, bringing genuine Chinese culinary tradition to Cape Coast. Part of the broader Luban Workshop cultural and skills initiative, the restaurant offers a menu of authentic stir-fry dishes, noodle soups, and rice plates prepared by cooks trained in Chinese techniques. It's a welcome departure from the usual campus fare and a chance to experience real Chinese flavours without leaving the university grounds. Note: the restaurant operates weekdays only.",
     image:
-      "https://lh3.googleusercontent.com/place-photos/AJRVUZMOoDGujglCua5SsmLLX1wOBdU9futmt4TDO5s0UIfpXXXUNgdRKTfG47OLDAUIUKmIX_LtXnXEA3JTFCfwnjfsaD83rDM2ewy-DPJ4HoCjHvNNhbaEuGkWaZ8d60DdooqqC-uEGdADQse4iuTmc50BJg=s4800-w800-h600",
+      "https://i.pinimg.com/1200x/17/ca/fa/17cafa761a45884608741eccdf67e3e4.jpg",
     flyer:
       "https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?w=800&q=80",
     location: "On campus",
@@ -81,7 +90,7 @@ export const vendors = [
       {
         name: "Egg Fried Rice",
         description:
-          "Wok-tossed jasmine rice with beaten eggs, spring onions, soy sauce, and a hint of sesame oil — a Chinese staple.",
+          "Wok-tossed jasmine rice with beaten eggs, spring onions, and soy sauce — a proper Chinese staple.",
         priceMin: 35,
         priceMax: 55,
         image:
@@ -90,29 +99,38 @@ export const vendors = [
       {
         name: "Stir-Fried Noodles",
         description:
-          "Silky wheat noodles tossed in a savory soy-garlic sauce with vegetables and your choice of chicken or beef.",
+          "Wheat noodles tossed in a savory soy-garlic sauce with vegetables and your choice of chicken or beef.",
         priceMin: 40,
         priceMax: 60,
         image:
-          "https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=400&q=80",
+          "https://i.pinimg.com/736x/5b/de/28/5bde28abbd2dd17fb2b576aaa376e42a.jpg",
       },
       {
         name: "Sweet & Sour Chicken",
         description:
-          "Crispy battered chicken pieces glazed in a tangy sweet-and-sour sauce, served with steamed rice.",
+          "Crispy chicken pieces glazed in a tangy sweet-and-sour sauce, served with steamed rice.",
         priceMin: 45,
         priceMax: 70,
         image:
-          "https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=400&q=80",
+          "https://i.pinimg.com/736x/c6/be/49/c6be49d7d7a42cbff7688da456381dad.jpg",
       },
       {
-        name: "Vegetable Spring Rolls",
+        name: "Steamed Dumplings",
         description:
-          "Golden fried rolls filled with seasoned cabbage, carrots, and glass noodles, served with a sweet chilli dip.",
-        priceMin: 20,
-        priceMax: 35,
+          "Soft steamed dumplings filled with seasoned pork and cabbage, served with a soy dipping sauce.",
+        priceMin: 25,
+        priceMax: 40,
         image:
-          "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=400&q=80",
+          "https://i.pinimg.com/736x/fd/90/70/fd907013f89e9943d0e49b8ae1375ab3.jpg",
+      },
+      {
+        name: "Kung Pao Chicken",
+        description:
+          "Diced chicken stir-fried with peanuts, dried chillies, and Sichuan pepper in a bold, spicy sauce.",
+        priceMin: 45,
+        priceMax: 65,
+        image:
+          "https://i.pinimg.com/1200x/40/da/45/40da452cf325a222a1de755c9971dc44.jpg",
       },
     ],
     delivery: false,
@@ -143,7 +161,7 @@ export const vendors = [
       {
         name: "Classic Beef Burger",
         description:
-          "Juicy beef patty in a toasted brioche bun with lettuce, tomato, pickles, and our smoky special sauce.",
+          "Juicy beef patty in a toasted brioche bun with lettuce, tomato, pickles, and smoky special sauce.",
         priceMin: 40,
         priceMax: 65,
         image:
@@ -152,7 +170,7 @@ export const vendors = [
       {
         name: "Crispy Fried Chicken",
         description:
-          "Overnight-marinated chicken pieces coated in a seasoned crispy crust and fried golden — perfectly juicy inside.",
+          "Overnight-marinated chicken coated in a seasoned crispy crust — fried golden and juicy inside.",
         priceMin: 35,
         priceMax: 60,
         image:
@@ -161,7 +179,7 @@ export const vendors = [
       {
         name: "Chips & Chicken",
         description:
-          "A generous portion of seasoned crispy fries alongside two pieces of fried chicken — the ultimate combo.",
+          "Seasoned crispy fries alongside two pieces of fried chicken — the most ordered combo on the menu.",
         priceMin: 45,
         priceMax: 70,
         image:
@@ -170,11 +188,20 @@ export const vendors = [
       {
         name: "Chicken Shawarma",
         description:
-          "Spiced grilled chicken strips wrapped in warm flatbread with garlic sauce, vegetables, and chilli.",
+          "Spiced grilled chicken strips wrapped in warm flatbread with garlic sauce, fresh vegetables, and chilli.",
         priceMin: 30,
         priceMax: 50,
         image:
           "https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=400&q=80",
+      },
+      {
+        name: "Loaded Fries",
+        description:
+          "Thick-cut fries piled with shredded chicken, creamy sauce, and a drizzle of chilli — a proper cheat meal.",
+        priceMin: 30,
+        priceMax: 45,
+        image:
+          "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=80",
       },
     ],
     delivery: true,
@@ -191,7 +218,7 @@ export const vendors = [
     description:
       "Oseikrom Fast Food is the one place near UCC that never closes. Whether it's a late-night study craving or an early morning hunger before the campus kitchens open, Oseikrom is there 24 hours a day. The menu centres on hearty Ghanaian staples — waakye, jollof, fried rice, and warming soups — all at prices that respect the student budget. The no-frills setup keeps things simple and efficient, which is exactly what you need at 2 AM.",
     image:
-      "https://www.google.com/imgres?q=oseikrom%20fast%20food%20cape%20coast&imgurl=https%3A%2F%2Flookaside.instagram.com%2Fseo%2Fgoogle_widget%2Fcrawler%2F%3Fmedia_id%3D3657101898562259964&imgrefurl=https%3A%2F%2Fwww.instagram.com%2Foseikrom_avenue%2F&docid=SU1_RXFslCDSRM&tbnid=fDz3Id_H0NKFCM&vet=12ahUKEwjfrMLmhY2VAxU3YEEAHeRMAUYQnPAOegQIRRAA..i&w=640&h=1136&hcb=2&ved=2ahUKEwjfrMLmhY2VAxU3YEEAHeRMAUYQnPAOegQIRRAA",
+      "https://i.pinimg.com/736x/b6/34/81/b6348151e6180cfedf53bc08b5b21cc1.jpg",
     flyer:
       "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=800&q=80",
     location: "Ayensu Rd, Amamoma",
@@ -201,41 +228,24 @@ export const vendors = [
     whatsapp: null,
     rating: { rate: 2.9, count: 9 },
     menu: [
-      {
-        name: "Waakye",
-        description:
-          "Classic Ghanaian rice-and-beans dish served with tomato stew, gari, spaghetti, and your choice of protein.",
-        priceMin: 18,
-        priceMax: 35,
-        image:
-          "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=400&q=80",
-      },
+     
       {
         name: "Jollof Rice & Chicken",
         description:
-          "Seasoned tomato jollof rice with a piece of fried or grilled chicken — a dependable Ghanaian classic.",
+          "Seasoned tomato jollof rice with a piece of fried or grilled chicken — reliable and filling at 2 AM.",
         priceMin: 25,
         priceMax: 40,
         image:
-          "https://images.unsplash.com/photo-1574484284002-952d92456975?w=400&q=80",
+          "https://i.pinimg.com/736x/b2/9a/ad/b29aad1bdf54cdcb62b3a11c792f1c97.jpg",
       },
       {
-        name: "Fried Rice",
+        name: "Fried Rice and Chicken",
         description:
-          "Stir-fried rice with vegetables and egg, served with fried chicken or fish on the side.",
-        priceMin: 25,
-        priceMax: 40,
+          "Fermented corn kenkey served with fried whole fish and a fresh chilli-and-onion pepper sauce.",
+        priceMin: 20,
+        priceMax: 35,
         image:
-          "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=400&q=80",
-      },
-      {
-        name: "Light Soup & Fufu",
-        description:
-          "Smooth pounded fufu served with a clear, spiced light soup with your choice of chicken, beef, or fish.",
-        priceMin: 30,
-        priceMax: 48,
-        image:
-          "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80",
+          "https://i.pinimg.com/736x/72/ad/79/72ad79dd22944e086e469c4d73e7c3d5.jpg",
       },
     ],
     delivery: false,
@@ -265,38 +275,20 @@ export const vendors = [
       {
         name: "Jollof Rice & Chicken",
         description:
-          "Smoky, perfectly seasoned jollof rice served with a generous piece of fried or grilled chicken.",
+          "Smoky, well-seasoned jollof rice with a generous piece of fried or grilled chicken on the side.",
         priceMin: 28,
         priceMax: 45,
         image:
-          "https://images.unsplash.com/photo-1574484284002-952d92456975?w=400&q=80",
+          "https://i.pinimg.com/736x/d7/e5/bb/d7e5bbd3a51a24e7dd4b5b09c9346d50.jpg",
       },
       {
-        name: "Fried Chicken & Chips",
+        name: "Fried & Chicken",
         description:
-          "Crispy seasoned fried chicken pieces with golden fries — a fast-food staple done right.",
+          "Crispy seasoned fried chicken with golden fries — straightforward, filling, and consistently good.",
         priceMin: 35,
         priceMax: 55,
         image:
-          "https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=400&q=80",
-      },
-      {
-        name: "Meat Pie",
-        description:
-          "Freshly baked golden pastry shells filled with spiced minced meat — a satisfying on-the-go snack.",
-        priceMin: 8,
-        priceMax: 15,
-        image:
-          "https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=400&q=80",
-      },
-      {
-        name: "Fried Rice Combo",
-        description:
-          "Stir-fried rice with vegetables and egg, served with a drink and a side of fried plantain.",
-        priceMin: 35,
-        priceMax: 55,
-        image:
-          "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=400&q=80",
+          "https://i.pinimg.com/736x/72/ad/79/72ad79dd22944e086e469c4d73e7c3d5.jpg",
       },
     ],
     delivery: false,
@@ -313,7 +305,7 @@ export const vendors = [
     description:
       "Chef Akwasi's Fast Food is a neighbourhood staple on Ayensu Road, known for no-fuss, flavour-forward Ghanaian home cooking. Chef Akwasi keeps the menu tight and the quality consistent — each dish is prepared with the kind of care you'd expect from someone who genuinely loves to cook. Fufu, banku, and rice dishes are the backbone of the menu, each paired with soups and stews made fresh from scratch. It's the kind of place where the food tastes like it came from someone's kitchen because, in many ways, it did.",
     image:
-      "https://lh3.googleusercontent.com/place-photos/AJRVUZOpf4DwBVxgMFBVev1aCJEa-Qk4fxVpQUqQFroHTV2SA4T5xsmJIzAvlybBn5V9UfkoOG5HegwlzUIbVMTlw6TFKgwD9cK9Yr_3t7R4SJLyzINqYldLHP1CaN4zmmGGi6qNmTLkgM1IP33DJaA=s4800-w800-h600",
+      "https://i.pinimg.com/736x/55/c4/90/55c4901c2bd941111f8293b46da3ca85.jpg",
     flyer:
       "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80",
     location: "Ayensu Rd",
@@ -326,38 +318,56 @@ export const vendors = [
       {
         name: "Fufu & Palm Nut Soup",
         description:
-          "Silky pounded fufu served in a rich, aromatic palm nut soup with tender goat or chicken pieces.",
+          "Silky pounded fufu in a rich, aromatic palm nut soup with tender goat or chicken — cooked fresh daily.",
         priceMin: 30,
         priceMax: 50,
         image:
-          "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80",
+          "https://i.pinimg.com/736x/db/7c/41/db7c412682d991ee23bd03b63789be21.jpg",
       },
       {
         name: "Banku & Tilapia",
         description:
-          "Fermented corn and cassava dough served with perfectly fried whole tilapia and a fiery pepper sauce.",
+          "Fermented corn and cassava dough with a whole fried tilapia and a fiery pepper-and-onion sauce.",
         priceMin: 35,
         priceMax: 55,
         image:
-          "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&q=80",
+          "https://i.pinimg.com/736x/4f/6b/4a/4f6b4a8f585b6689008afe561f074c77.jpg",
+      },
+      {
+        name: "Kenkey & Fried Fish",
+        description:
+          "Wrapped fermented corn kenkey served with crispy fried fish and a fresh chilli pepper sauce.",
+        priceMin: 22,
+        priceMax: 38,
+        image:
+          "https://i.pinimg.com/736x/20/6b/9f/206b9f9d3a3744589217946ff04b2db1.jpg",
       },
       {
         name: "Rice & Stew",
         description:
-          "Fluffy boiled rice paired with a rich tomato and onion stew with a choice of chicken, beef, or fish.",
+          "Boiled rice with a rich tomato and onion stew — chicken, beef, or fish, your choice.",
         priceMin: 22,
         priceMax: 38,
         image:
-          "https://images.unsplash.com/photo-1574484284002-952d92456975?w=400&q=80",
+          "https://i.pinimg.com/1200x/c1/db/b7/c1dbb79f10bc258a9b23bc33a284eda8.jpg",
       },
       {
         name: "Waakye",
         description:
-          "Akwasi's hearty waakye — rice and beans served with stew, gari, and your choice of protein.",
+          "Akwasi's hearty rice-and-beans with stew, gari, and your choice of protein — home-style and filling.",
         priceMin: 18,
         priceMax: 32,
         image:
-          "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=400&q=80",
+          "https://i.pinimg.com/736x/b8/97/d2/b897d28dd3eea7ae0a5352bc8a25c1df.jpg",
+      },
+      {
+        name: "Omotuo & Groundnut Soup",
+        description:
+          "Soft rice balls served in a thick, nutty groundnut soup with chicken or goat — a comforting local classic.",
+        priceMin: 28,
+        priceMax: 45,
+        image:
+          "https://i.pinimg.com/736x/ec/e1/a2/ece1a2636805c6f7ced3ef5277c86a73.jpg",
       },
     ],
     delivery: false,
@@ -374,7 +384,7 @@ export const vendors = [
     description:
       "Taste N Tell is a firm favourite among students who want a proper sit-down meal without trekking off campus. Located inside UCC's Amamoma area, the restaurant offers a broad menu that runs from Ghanaian classics to grilled meats, pasta, and fresh salads. It's open six days a week with extended evening hours, making it suitable for everything from a lunch break to a relaxed weekend dinner. With a 4.5 star rating and a welcoming ambience, Taste N Tell consistently delivers on its name.",
     image:
-      "https://lh3.googleusercontent.com/place-photos/AJRVUZP6AaPCV3Az6YkTJra8z6tYktXHmxaQi1vZZpmrGhfhgHJxpmW2dyOcOjSePYi0Hp7iI1nyvAqnRhIoZkcwLfebEkMtDCw39tZ4UzKaSdbeOhEj0fTGMQNkzIrEWafLm9uPKEwWnWVXuNYUnA=s4800-w578-h600",
+      "https://i.pinimg.com/736x/90/16/ea/9016ea84e9987f233529827e19c72b30.jpg",
     flyer:
       "https://images.unsplash.com/photo-1498654896293-37aacf113fd9?w=800&q=80",
     location: "Inside UCC, Amamoma",
@@ -388,20 +398,29 @@ export const vendors = [
       {
         name: "Grilled Chicken & Rice",
         description:
-          "Herb-marinated whole chicken thighs grilled to golden perfection, served with jollof or fried rice.",
+          "Herb-marinated chicken thighs grilled to golden perfection, served with jollof or fried rice and a side salad.",
         priceMin: 45,
         priceMax: 70,
         image:
-          "https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=400&q=80",
+          "https://i.pinimg.com/1200x/ea/30/80/ea308047cb58f0310c6afa5ecdf450b9.jpg",
       },
       {
-        name: "Pasta Bolognese",
+        name: "Jollof Rice & Fish",
         description:
-          "Al dente pasta tossed in a slow-cooked minced beef and tomato ragu, finished with parmesan.",
-        priceMin: 40,
-        priceMax: 60,
+          "Well-seasoned jollof rice paired with grilled or fried fish — a reliable and satisfying plate.",
+        priceMin: 30,
+        priceMax: 48,
         image:
-          "https://images.unsplash.com/photo-1498654896293-37aacf113fd9?w=400&q=80",
+          "https://i.pinimg.com/736x/38/c8/a5/38c8a5400845f1b3e1eaeaed4be752f6.jpg",
+      },
+      {
+        name: "Grilled Tilapia & Banku",
+        description:
+          "Charcoal-grilled whole tilapia served with fermented banku and a side of fresh pepper sauce.",
+        priceMin: 45,
+        priceMax: 65,
+        image:
+          "https://i.pinimg.com/1200x/9b/ee/49/9bee49f327c62a5e844b34d201b28b5f.jpg",
       },
       {
         name: "Beef Burger",
@@ -410,22 +429,31 @@ export const vendors = [
         priceMin: 40,
         priceMax: 65,
         image:
-          "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80",
+          "https://i.pinimg.com/736x/eb/cb/c6/ebcbc6aaa9deca9d6efc1efc93b66945.jpg",
       },
       {
-        name: "Jollof Rice & Fish",
+        name: "Chicken Shawarma",
         description:
-          "Taste N Tell's well-seasoned jollof rice paired with grilled or fried fish and fresh salad.",
+          "Spiced grilled chicken wrapped in flatbread with garlic sauce, vegetables, and a kick of chilli.",
         priceMin: 30,
-        priceMax: 48,
+        priceMax: 50,
         image:
-          "https://images.unsplash.com/photo-1574484284002-952d92456975?w=400&q=80",
+          "https://i.pinimg.com/1200x/30/9b/7a/309b7ac676e7ed2a3f0f1b1a91bd657a.jpg",
+      },
+      {
+        name: "Kelewele",
+        description:
+          "Spiced fried plantain cubes — a crispy, sweet-and-hot Ghanaian snack served as a side or on its own.",
+        priceMin: 12,
+        priceMax: 20,
+        image:
+          "https://i.pinimg.com/736x/14/71/c0/1471c0840f9d675a982e1074a26c09c8.jpg",
       },
     ],
     delivery: true,
     deliveryFee: "GHS 5",
     openHours: "Mon – Fri: 9:00 AM – 5:00 PM | Sat: 9:00 AM – 10:00 PM | Sun: 10:30 AM – 10:00 PM",
-    category: "restaurant",
+    category: "fast_food",
     tags: ["grilled", "pasta", "burger", "jollof", "all-day"],
     featured: true,
   },
@@ -436,7 +464,7 @@ export const vendors = [
     description:
       "University Kitchen, known locally as Restaurant 124, is the heart of on-campus dining at UCC. Operated by the university itself, it provides affordable, filling Ghanaian meals to students, staff, and visitors six days a week. The kitchen rotates daily specials of local dishes — rice, soups, stews, and traditional swallows — ensuring variety throughout the week. While the setting is functional rather than fancy, the food is honest and the prices are among the most student-friendly on campus.",
     image:
-      "https://lh3.googleusercontent.com/place-photos/AJRVUZPLJ2IVT8grz7tuUhhloM3v6BVDvxkqM_P_B0hOc-7W7q6ieZKo0pLa38lc8yfTelfAd2yaA4nclIylV4cCriU7FeoXpxG_LGBWzMwcziE-R9KqvAjguaJ97zoUmc0tpUbnKVvGDlg92oaXeQ=s4800-w800-h600",
+      "https://i.pinimg.com/736x/dd/f3/51/ddf351e095815fbb5bd1d8127748f68e.jpg",
     flyer:
       "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=800&q=80",
     location: "Near Central Mosque, on campus",
@@ -449,38 +477,56 @@ export const vendors = [
       {
         name: "Daily Rice Dish",
         description:
-          "A rotating daily special — jollof, fried, or plain rice served with the day's stew and protein of choice.",
+          "Rotating daily special — jollof, fried, or plain rice with the day's stew and protein of choice. Always affordable.",
         priceMin: 20,
         priceMax: 35,
         image:
-          "https://images.unsplash.com/photo-1574484284002-952d92456975?w=400&q=80",
+          "https://i.pinimg.com/1200x/77/5d/ed/775dedfe963a45dac6f91d0b7e7324a6.jpg",
       },
       {
         name: "Waakye Plate",
         description:
-          "Classic waakye with tomato stew, spaghetti, gari, and your choice of chicken, beef, or boiled egg.",
+          "Classic campus waakye — rice and beans with tomato stew, spaghetti, gari, and your choice of protein.",
         priceMin: 18,
         priceMax: 32,
         image:
-          "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=400&q=80",
+          "https://i.pinimg.com/736x/b8/97/d2/b897d28dd3eea7ae0a5352bc8a25c1df.jpg",
       },
       {
-        name: "Banku & Soup",
+        name: "Banku & Okra Soup",
         description:
-          "Freshly made fermented corn dough served with light or okra soup and your choice of fish or meat.",
+          "Freshly made fermented corn dough served with thick okra soup and your choice of fish or meat.",
         priceMin: 25,
         priceMax: 40,
         image:
-          "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&q=80",
+          "https://i.pinimg.com/1200x/3a/72/9e/3a729e752da2236c98de63f9363b59a5.jpg",
       },
       {
         name: "Fufu & Groundnut Soup",
         description:
-          "Pounded fufu immersed in a thick, nutty groundnut soup with chicken or goat meat.",
+          "Pounded fufu in a thick, nutty groundnut soup with chicken or goat — the canteen's most popular dish.",
         priceMin: 28,
         priceMax: 45,
         image:
-          "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80",
+          "https://i.pinimg.com/736x/94/7e/29/947e2991852967f85a57b1c4aebd36f5.jpg",
+      },
+      {
+        name: "Kenkey & Sardines",
+        description:
+          "Traditional corn kenkey served with canned sardines in tomato sauce and fresh pepper — a student budget staple.",
+        priceMin: 15,
+        priceMax: 25,
+        image:
+          "https://i.pinimg.com/1200x/38/7b/2d/387b2d88896c199a6f99d6f193307742.jpg",
+      },
+      {
+        name: "Yam & Palava Sauce",
+        description:
+          "Boiled white yam served with a rich green cocoyam-leaf palava sauce with fish or smoked herrings.",
+        priceMin: 20,
+        priceMax: 32,
+        image:
+          "https://i.pinimg.com/736x/8c/fd/57/8cfd5774c8a74ff429c769e208c641eb.jpg",
       },
     ],
     delivery: false,
@@ -514,25 +560,25 @@ export const vendors = [
         priceMin: 35,
         priceMax: 55,
         image:
-          "https://images.unsplash.com/photo-1574484284002-952d92456975?w=400&q=80",
-      },
-      {
-        name: "Continental Plate",
-        description:
-          "Mashed potato or rice with a choice of beef, chicken, or fish in a rich tomato-herb sauce.",
-        priceMin: 40,
-        priceMax: 65,
-        image:
-          "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&q=80",
+          "https://i.pinimg.com/736x/66/3c/ff/663cffbfc6be8ad0060d70a19fbc2191.jpg",
       },
       {
         name: "Grilled Tilapia & Banku",
         description:
-          "Whole tilapia grilled over charcoal with fermented banku and a side of fresh pepper sauce.",
+          "Whole tilapia grilled over charcoal served with fermented banku and a fresh pepper sauce.",
         priceMin: 45,
         priceMax: 70,
         image:
-          "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&q=80",
+          "https://i.pinimg.com/736x/50/7f/57/507f57621e252763dc4d38e6aa52f7dc.jpg",
+      },
+      {
+        name: "Omotuo & Groundnut Soup",
+        description:
+          "Soft rice balls in a thick, nutty groundnut soup with chicken or goat — a hearty mid-day meal.",
+        priceMin: 32,
+        priceMax: 50,
+        image:
+          "https://i.pinimg.com/1200x/d2/e6/07/d2e6079f75daddfa97ecb06690b5cd7d.jpg",
       },
       {
         name: "Club Sandwich",
@@ -541,7 +587,16 @@ export const vendors = [
         priceMin: 25,
         priceMax: 40,
         image:
-          "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400&q=80",
+          "https://i.pinimg.com/736x/e0/47/99/e04799d20c55495c16b54d625c05c897.jpg",
+      },
+      {
+        name: "Fufu & Grilled Fish",
+        description:
+          "Spiced fried plantain cubes alongside a piece of charcoal-grilled fish — a local pairing that works perfectly.",
+        priceMin: 30,
+        priceMax: 48,
+        image:
+          "https://i.pinimg.com/736x/e7/7a/6b/e77a6b3b83abe41d71be8ec85aa198aa.jpg",
       },
     ],
     delivery: false,
@@ -575,34 +630,43 @@ export const vendors = [
         priceMin: 50,
         priceMax: 80,
         image:
-          "https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=400&q=80",
+          "https://i.pinimg.com/736x/3e/0b/9d/3e0b9d2de12e2115105cd3a7b38cbb7f.jpg",
       },
       {
         name: "Grilled Pork Chops",
         description:
-          "Thick-cut pork chops marinated in garlic and herbs, grilled over open flame and served with yam or plantain.",
+          "Thick-cut pork chops marinated in garlic and herbs, chargrilled over open flame and served with yam or plantain.",
         priceMin: 55,
         priceMax: 85,
         image:
-          "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80",
+          "https://i.pinimg.com/736x/db/4a/a8/db4aa8bf5eaf7912a5c5cfb491d7e352.jpg",
       },
       {
         name: "Pork Stew & Yam",
         description:
-          "Tender chunks of pork simmered in a rich tomato and onion stew, served with boiled yam or cocoyam.",
+          "Tender pork chunks simmered in a rich tomato-onion stew, served with boiled yam or cocoyam.",
         priceMin: 45,
         priceMax: 70,
         image:
-          "https://images.unsplash.com/photo-1574484284002-952d92456975?w=400&q=80",
+          "https://i.pinimg.com/1200x/57/c3/24/57c3245fbf34aa6ab1b01537a48f5677.jpg",
       },
       {
         name: "Pork Kebab Skewers",
         description:
-          "Spiced pork cubes threaded on skewers and chargrilled, served with chimichurri sauce and fresh salad.",
+          "Spiced pork cubes threaded on skewers and chargrilled — smoky, juicy, and hard to stop at one round.",
         priceMin: 40,
         priceMax: 65,
         image:
-          "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&q=80",
+          "https://i.pinimg.com/1200x/d2/5e/8d/d25e8dffbabcefa52acc161d8f8925bd.jpg",
+      },
+      {
+        name: "Pork & Kenkey",
+        description:
+          "Grilled pork pieces served alongside traditional corn kenkey and a fresh chilli pepper sauce — a local favourite.",
+        priceMin: 45,
+        priceMax: 70,
+        image:
+          "https://i.pinimg.com/736x/f6/d4/e1/f6d4e150b77f117fce05544f1a407c7e.jpg",
       },
     ],
     delivery: false,
@@ -649,22 +713,31 @@ export const vendors = [
           "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80",
       },
       {
+        name: "Hot & Crispy Wings",
+        description:
+          "Juicy chicken wings coated in KFC's Hot & Crispy seasoning — served as a 5 or 10 piece.",
+        priceMin: 50,
+        priceMax: 90,
+        image:
+          "https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=400&q=80",
+      },
+      {
         name: "Twister Wrap",
         description:
-          "Warm flour tortilla filled with crispy chicken strips, lettuce, tomato, and creamy Caesar dressing.",
+          "Warm flour tortilla filled with crispy chicken strips, lettuce, and creamy Caesar dressing.",
         priceMin: 40,
         priceMax: 60,
         image:
           "https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=400&q=80",
       },
       {
-        name: "Family Feast",
+        name: "Snack Box",
         description:
-          "A sharing platter of Original Recipe and Hot & Crispy pieces with fries, coleslaw, and drinks for the group.",
-        priceMin: 150,
-        priceMax: 220,
+          "A single piece of Original Recipe chicken with fries and a dip — the perfect solo treat between lectures.",
+        priceMin: 35,
+        priceMax: 55,
         image:
-          "https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=400&q=80",
+          "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=80",
       },
     ],
     delivery: true,
@@ -673,6 +746,428 @@ export const vendors = [
     category: "fast_food",
     tags: ["KFC", "fried chicken", "burger", "fast food", "international"],
     featured: true,
+  },
+
+  // ── STUDENT VENDORS ──────────────────────────────────────────────────────
+  {
+    id: "campus-print-hub",
+    name: "Campus Print Hub",
+    shortDescription: "Fast, affordable printing, binding, and document services on campus.",
+    description:
+      "Campus Print Hub is the one-stop printing spot every UCC student needs. Located just a short walk from the main library, they handle everything from daily assignment printouts and past question copies to fully bound final-year projects. The staff are quick, prices are fair, and the machines are reliable — no mid-print breakdowns when your deadline is in an hour.",
+    image:
+      "https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=800&q=80",
+    flyer:
+      "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800&q=80",
+    location: "Near Main Library, on campus",
+    lat: 5.1182,
+    lng: -1.2868,
+    contact: "+233 55 123 4567",
+    whatsapp: "233551234567",
+    rating: { rate: 4.3, count: 56 },
+    menu: [
+      {
+        name: "A4 Black & White Print",
+        description:
+          "Single or double-sided A4 printout — for assignments, lecture slides, and past questions.",
+        priceMin: 1,
+        priceMax: 2,
+        image:
+          "https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=400&q=80",
+      },
+      {
+        name: "A4 Colour Print",
+        description:
+          "Vibrant full-colour A4 prints for presentations, project covers, and posters.",
+        priceMin: 3,
+        priceMax: 8,
+        image:
+          "https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=400&q=80",
+      },
+      {
+        name: "Project Binding",
+        description:
+          "Spiral or hard-cover binding for final-year projects, dissertations, and thesis reports.",
+        priceMin: 20,
+        priceMax: 60,
+        image:
+          "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&q=80",
+      },
+      {
+        name: "Photocopy",
+        description:
+          "Quick photocopying of notes, past questions, and documents — bulk orders welcomed.",
+        priceMin: 1,
+        priceMax: 2,
+        image:
+          "https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=400&q=80",
+      },
+      {
+        name: "Lamination",
+        description:
+          "A4 or A3 lamination for ID cards, certificates, and important documents.",
+        priceMin: 5,
+        priceMax: 15,
+        image:
+          "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&q=80",
+      },
+      {
+        name: "Passport Photos",
+        description:
+          "Instant passport-size photos printed on the spot — for forms, IDs, and applications.",
+        priceMin: 8,
+        priceMax: 15,
+        image:
+          "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80",
+      },
+    ],
+    delivery: true,
+    deliveryFee: "GHS 2",
+    openHours: "Mon – Fri: 7:30 AM – 8:00 PM | Sat: 9:00 AM – 5:00 PM | Sun: Closed",
+    category: "printing",
+    tags: ["printing", "binding", "lamination", "photocopy", "stationery", "documents"],
+    featured: false,
+  },
+  {
+    id: "glam-corner-beauty",
+    name: "Glam Corner Beauty Studio",
+    shortDescription: "Professional hair braiding, locs, and beauty treatments near the hostels.",
+    description:
+      "Glam Corner Beauty Studio has earned a loyal following among female students at UCC for consistently good hair and beauty work at honest prices. From protective braids and locs maintenance to natural hair treatments and makeup for campus events, the stylists here take real pride in their craft. Walk-ins are welcome but appointments are recommended during busy periods.",
+    image:
+      "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=80",
+    flyer:
+      "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&q=80",
+    location: "Near Female Hostels, on campus",
+    lat: 5.1148,
+    lng: -1.2882,
+    contact: "+233 54 987 6543",
+    whatsapp: "233549876543",
+    rating: { rate: 4.6, count: 38 },
+    menu: [
+      {
+        name: "Hair Braiding",
+        description:
+          "Cornrows, box braids, Ghana weaving, and more — neat, long-lasting protective styles.",
+        priceMin: 60,
+        priceMax: 150,
+        image:
+          "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400&q=80",
+      },
+      {
+        name: "Locs Maintenance",
+        description:
+          "Retwisting, interlocking, and styling of dreadlocs — keeping your locs neat and healthy.",
+        priceMin: 50,
+        priceMax: 100,
+        image:
+          "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400&q=80",
+      },
+      {
+        name: "Natural Hair Treatment",
+        description:
+          "Deep conditioning, hot oil treatments, and moisturising routines for natural hair care.",
+        priceMin: 40,
+        priceMax: 80,
+        image:
+          "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400&q=80",
+      },
+      {
+        name: "Makeup (Events)",
+        description:
+          "Full-face makeup for graduations, dinners, parties, and special campus events.",
+        priceMin: 80,
+        priceMax: 200,
+        image:
+          "https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=400&q=80",
+      },
+      {
+        name: "Eyebrow Threading & Shaping",
+        description:
+          "Precise eyebrow threading, shaping, and tinting for a clean, defined look.",
+        priceMin: 15,
+        priceMax: 30,
+        image:
+          "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400&q=80",
+      },
+    ],
+    delivery: false,
+    deliveryFee: null,
+    openHours: "Mon – Sat: 8:00 AM – 8:00 PM | Sun: By Appointment",
+    category: "beauty",
+    tags: ["braiding", "locs", "natural hair", "makeup", "beauty", "hair"],
+    featured: false,
+  },
+  {
+    id: "fademaster-barbershop",
+    name: "FadeMaster Barbershop",
+    shortDescription: "Sharp fades, clean cuts, and beard trims at the heart of UCC campus.",
+    description:
+      "FadeMaster Barbershop is the campus barber UCC guys keep coming back to. Known for precise skin fades, sharp line-ups, and expert beard work, the barbers here understand the styles students actually want. Quick service, a relaxed vibe, and prices that suit a student budget make this the most popular barbershop on campus.",
+    image:
+      "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=800&q=80",
+    flyer:
+      "https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=800&q=80",
+    location: "Near Male Hostels, on campus",
+    lat: 5.1155,
+    lng: -1.2890,
+    contact: "+233 24 456 7890",
+    whatsapp: "233244567890",
+    rating: { rate: 4.4, count: 72 },
+    menu: [
+      {
+        name: "Haircut & Line-Up",
+        description:
+          "Full haircut with a clean edge-up and line-up — any style, from low cuts to high tops.",
+        priceMin: 20,
+        priceMax: 35,
+        image:
+          "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=400&q=80",
+      },
+      {
+        name: "Skin Fade",
+        description:
+          "Precision skin or bald fade — seamless gradient from skin to your chosen length.",
+        priceMin: 25,
+        priceMax: 40,
+        image:
+          "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=400&q=80",
+      },
+      {
+        name: "Beard Trim & Shape",
+        description:
+          "Expert beard trimming, shaping, and lining for a clean, groomed finish.",
+        priceMin: 15,
+        priceMax: 25,
+        image:
+          "https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=400&q=80",
+      },
+      {
+        name: "Hair Dye",
+        description:
+          "Single-colour or highlight dyeing service — bleach and toner available on request.",
+        priceMin: 40,
+        priceMax: 80,
+        image:
+          "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=400&q=80",
+      },
+    ],
+    delivery: false,
+    deliveryFee: null,
+    openHours: "Mon – Sat: 8:00 AM – 9:00 PM | Sun: 10:00 AM – 6:00 PM",
+    category: "beauty",
+    tags: ["barbershop", "haircut", "fade", "beard", "grooming"],
+    featured: false,
+  },
+  {
+    id: "techfix-ucc",
+    name: "TechFix UCC",
+    shortDescription: "Reliable laptop and phone repairs at student-friendly prices on campus.",
+    description:
+      "TechFix UCC is the campus go-to for students dealing with broken screens, slow laptops, software issues, or lost data. The technicians are experienced, transparent about pricing before any work begins, and fast enough to get most jobs done same-day or next-day. Whether it's a cracked phone screen before exams or a laptop that won't boot, TechFix has you covered.",
+    image:
+      "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=800&q=80",
+    flyer:
+      "https://images.unsplash.com/photo-1588508065123-287b28e013da?w=800&q=80",
+    location: "Near Engineering Block, on campus",
+    lat: 5.1195,
+    lng: -1.2858,
+    contact: "+233 20 111 2233",
+    whatsapp: "233201112233",
+    rating: { rate: 4.2, count: 29 },
+    menu: [
+      {
+        name: "Laptop Diagnosis & Repair",
+        description:
+          "Full diagnostic and repair for hardware or software faults — quote given before any work starts.",
+        priceMin: 30,
+        priceMax: 150,
+        image:
+          "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400&q=80",
+      },
+      {
+        name: "Phone Screen Replacement",
+        description:
+          "Quality screen replacements for most Android and iPhone models — done same day.",
+        priceMin: 80,
+        priceMax: 250,
+        image:
+          "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=400&q=80",
+      },
+      {
+        name: "Software Installation",
+        description:
+          "Windows, antivirus, Microsoft Office, AutoCAD, and other academic software installed and licensed.",
+        priceMin: 20,
+        priceMax: 60,
+        image:
+          "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400&q=80",
+      },
+      {
+        name: "Virus & Malware Removal",
+        description:
+          "Full system scan and clean to remove viruses and spyware slowing your laptop down.",
+        priceMin: 25,
+        priceMax: 50,
+        image:
+          "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400&q=80",
+      },
+      {
+        name: "Data Recovery",
+        description:
+          "Recovery of lost or deleted files from laptops, phones, and external drives — no fix, no fee.",
+        priceMin: 50,
+        priceMax: 120,
+        image:
+          "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400&q=80",
+      },
+    ],
+    delivery: false,
+    deliveryFee: null,
+    openHours: "Mon – Fri: 9:00 AM – 7:00 PM | Sat: 10:00 AM – 5:00 PM | Sun: Closed",
+    category: "tech",
+    tags: ["laptop repair", "phone repair", "software", "tech", "data recovery"],
+    featured: false,
+  },
+  {
+    id: "campus-threads",
+    name: "Campus Threads",
+    shortDescription: "Custom T-shirts, embroidery, and alterations for UCC students and groups.",
+    description:
+      "Campus Threads is the place to go when you want something personalised, tailored, or unique. Popular with student clubs, hall committees, and departments looking for custom merch, they also handle individual alterations, tie-dye pieces, and curated accessories. Fast turnaround on bulk orders and a free design consultation for groups who aren't sure where to start.",
+    image:
+      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=800&q=80",
+    flyer:
+      "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=800&q=80",
+    location: "Amamoma, near campus",
+    lat: 5.1122,
+    lng: -1.2938,
+    contact: "+233 59 334 4556",
+    whatsapp: "233593344556",
+    rating: { rate: 4.5, count: 17 },
+    menu: [
+      {
+        name: "Custom Printed T-Shirt",
+        description:
+          "Design your own tee — perfect for hall events, club merch, and departmental wear. Minimum 5 pieces.",
+        priceMin: 35,
+        priceMax: 65,
+        image:
+          "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&q=80",
+      },
+      {
+        name: "Embroidery",
+        description:
+          "Logo or text embroidered onto shirts, caps, bags, or jackets — sharp, durable, and professional.",
+        priceMin: 20,
+        priceMax: 50,
+        image:
+          "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=400&q=80",
+      },
+      {
+        name: "Clothing Alterations",
+        description:
+          "Hemming, resizing, zipper replacement, and general repairs — bring in any garment.",
+        priceMin: 15,
+        priceMax: 60,
+        image:
+          "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=400&q=80",
+      },
+      {
+        name: "Tie-Dye Pieces",
+        description:
+          "Handcrafted tie-dye shirts and accessories — each one unique, vibrant, and made to order.",
+        priceMin: 40,
+        priceMax: 80,
+        image:
+          "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=400&q=80",
+      },
+      {
+        name: "Accessories & Jewelry",
+        description:
+          "Curated bracelets, anklets, and beaded accessories — Ghanaian and contemporary styles.",
+        priceMin: 10,
+        priceMax: 45,
+        image:
+          "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=400&q=80",
+      },
+    ],
+    delivery: true,
+    deliveryFee: "GHS 5",
+    openHours: "Mon – Sat: 9:00 AM – 7:00 PM | Sun: Closed",
+    category: "clothing",
+    tags: ["custom t-shirts", "embroidery", "alterations", "tie-dye", "accessories", "merch"],
+    featured: false,
+  },
+  {
+    id: "studypro-tutoring",
+    name: "StudyPro Tutoring",
+    shortDescription: "One-on-one and group tutoring for UCC courses across key departments.",
+    description:
+      "StudyPro Tutoring connects UCC students with experienced peer tutors and recent graduates who know the university curriculum inside out. Whether you're struggling with calculus, need help structuring your thesis, or want to sharpen your programming skills before an exam, StudyPro can pair you with the right person. Sessions available on campus, in halls, or online via WhatsApp or Zoom.",
+    image:
+      "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&q=80",
+    flyer:
+      "https://images.unsplash.com/photo-1456406644174-8ddd4cd52a06?w=800&q=80",
+    location: "On campus (hostel & library sessions available)",
+    lat: 5.1170,
+    lng: -1.2875,
+    contact: "+233 26 778 9900",
+    whatsapp: "233267789900",
+    rating: { rate: 4.7, count: 23 },
+    menu: [
+      {
+        name: "Mathematics & Statistics",
+        description:
+          "Algebra, calculus, probability, and stats tutoring — tailored to your UCC course level and exam schedule.",
+        priceMin: 40,
+        priceMax: 80,
+        image:
+          "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=400&q=80",
+      },
+      {
+        name: "Programming & Coding Help",
+        description:
+          "Python, Java, C++, and web development — debugging, assignments, and project walkthroughs.",
+        priceMin: 50,
+        priceMax: 100,
+        image:
+          "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400&q=80",
+      },
+      {
+        name: "Essay & Report Writing",
+        description:
+          "Structuring, editing, and refining essays, lab reports, and research papers — APA & Harvard referencing.",
+        priceMin: 30,
+        priceMax: 80,
+        image:
+          "https://images.unsplash.com/photo-1456406644174-8ddd4cd52a06?w=400&q=80",
+      },
+      {
+        name: "Exam Preparation",
+        description:
+          "Intensive revision sessions using past questions and course outlines — any department, any level.",
+        priceMin: 50,
+        priceMax: 100,
+        image:
+          "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=400&q=80",
+      },
+      {
+        name: "French & Language Support",
+        description:
+          "French language tutoring and support for other language courses offered at UCC.",
+        priceMin: 40,
+        priceMax: 70,
+        image:
+          "https://images.unsplash.com/photo-1456406644174-8ddd4cd52a06?w=400&q=80",
+      },
+    ],
+    delivery: false,
+    deliveryFee: null,
+    openHours: "Mon – Sat: 8:00 AM – 9:00 PM | Sun: 2:00 PM – 8:00 PM",
+    category: "tutoring",
+    tags: ["tutoring", "maths", "programming", "essay", "exam prep", "academic"],
+    featured: false,
   },
 ];
 
@@ -686,3 +1181,70 @@ export const categories = [
 ];
 
 export const featuredVendors = vendors.filter((v) => v.featured);
+
+const categoryDefaultImages = {
+  local:      'https://images.unsplash.com/photo-1567364816519-cbc9c4ffe1eb?w=800',
+  restaurant: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800',
+  fast_food:  'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800',
+  cafe:       'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800',
+  chinese:    'https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800',
+  printing:   'https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=800',
+  beauty:     'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800',
+  tech:       'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800',
+  clothing:   'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800',
+  tutoring:   'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800',
+};
+
+export function getPendingVendors() {
+  try { return JSON.parse(localStorage.getItem('pending_vendors')) || []; }
+  catch { return []; }
+}
+
+export function getApprovedVendors() {
+  try { return JSON.parse(localStorage.getItem('approved_vendors')) || []; }
+  catch { return []; }
+}
+
+export function saveVendorAsPending(formData) {
+  const existing = getPendingVendors();
+  const img = categoryDefaultImages[formData.category] || categoryDefaultImages.local;
+  const newVendor = {
+    id: `submitted-${Date.now()}`,
+    name: formData.vendorName,
+    shortDescription: formData.description.slice(0, 120),
+    description: formData.description,
+    image: img,
+    flyer: img,
+    location: formData.location,
+    lat: 5.1175,
+    lng: -1.2878,
+    contact: formData.phone,
+    whatsapp: formData.whatsapp.replace(/[\s+\-()]/g, ''),
+    email: formData.email,
+    openHours: formData.openHours,
+    delivery: formData.delivery === 'Yes, I offer delivery',
+    deliveryFee: formData.delivery === 'Yes, I offer delivery' ? 'Contact vendor' : null,
+    category: formData.category,
+    rating: { rate: 0, count: 0 },
+    tags: [],
+    menu: [],
+    featured: false,
+  };
+  localStorage.setItem('pending_vendors', JSON.stringify([...existing, newVendor]));
+  return newVendor;
+}
+
+export function approveVendor(id) {
+  const pending = getPendingVendors();
+  const vendor = pending.find((v) => v.id === id);
+  if (!vendor) return false;
+  const approved = getApprovedVendors();
+  localStorage.setItem('pending_vendors', JSON.stringify(pending.filter((v) => v.id !== id)));
+  localStorage.setItem('approved_vendors', JSON.stringify([...approved, vendor]));
+  return true;
+}
+
+export function rejectVendor(id) {
+  const pending = getPendingVendors();
+  localStorage.setItem('pending_vendors', JSON.stringify(pending.filter((v) => v.id !== id)));
+}

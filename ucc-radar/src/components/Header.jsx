@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { Menu, X, Radar, UtensilsCrossed } from 'lucide-react';
+import { Menu, X, Radar } from 'lucide-react';
 
 const navLinks = [
   { to: '/', label: 'Home' },
@@ -35,7 +35,7 @@ export default function Header() {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
             <div className="w-9 h-9 bg-emerald-600 rounded-xl flex items-center justify-center shadow-sm group-hover:bg-emerald-700 transition-colors">
-              <UtensilsCrossed size={18} className="text-white" />
+              <Radar size={18} className="text-white" />
             </div>
             <div className="flex items-baseline gap-0.5">
               <span className="text-xl font-black text-emerald-700 tracking-tight">UCC</span>

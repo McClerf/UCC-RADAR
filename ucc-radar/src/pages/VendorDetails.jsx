@@ -1,4 +1,5 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import {
   ArrowLeft,
   MapPin,
@@ -10,22 +11,38 @@ import {
   Tag,
   ChevronRight,
   AlertCircle,
+  Send,
+  UserCircle2,
 } from 'lucide-react';
-import { vendors } from '../data/vendors';
+import { vendors, getApprovedVendors } from '../data/vendors';
 
 const categoryLabel = {
-  local: 'Local Dishes',
-  continental: 'Continental',
-  'fast-food': 'Fast Food',
-  drinks: 'Drinks & Juices',
+  local:      'Local Dishes',
+  restaurant: 'Restaurant',
+  fast_food:  'Fast Food',
+  cafe:       'Café & Drinks',
+  chinese:    'Chinese',
+  printing:   'Printing & Stationery',
+  beauty:     'Hair & Beauty',
+  tech:       'Tech Services',
+  clothing:   'Clothing & Accessories',
+  tutoring:   'Tutoring & Academic',
 };
 
 const categoryColor = {
-  local: 'bg-amber-100 text-amber-700',
-  continental: 'bg-blue-100 text-blue-700',
-  'fast-food': 'bg-orange-100 text-orange-700',
-  drinks: 'bg-teal-100 text-teal-700',
+  local:      'bg-amber-100 text-amber-700',
+  restaurant: 'bg-blue-100 text-blue-700',
+  fast_food:  'bg-orange-100 text-orange-700',
+  cafe:       'bg-teal-100 text-teal-700',
+  chinese:    'bg-red-100 text-red-700',
+  printing:   'bg-purple-100 text-purple-700',
+  beauty:     'bg-pink-100 text-pink-700',
+  tech:       'bg-sky-100 text-sky-700',
+  clothing:   'bg-indigo-100 text-indigo-700',
+  tutoring:   'bg-violet-100 text-violet-700',
 };
+
+const foodCategories = new Set(['local', 'restaurant', 'fast_food', 'cafe', 'chinese']);
 
 function StarRating({ rate, count }) {
   return (
@@ -51,10 +68,102 @@ function StarRating({ rate, count }) {
   );
 }
 
+function CommentsSection({ vendorId }) {
+  const storageKey = `comments_${vendorId}`;
+  const [comments, setComments] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem(storageKey)) || [];
+    } catch {
+      return [];
+    }
+  });
+  const [name, setName] = useState('');
+  const [text, setText] = useState('');
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    localStorage.setItem(storageKey, JSON.stringify(comments));
+  }, [comments, storageKey]);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (!name.trim() || !text.trim()) {
+      setError('Please fill in both fields.');
+      return;
+    }
+    setError('');
+    setComments((prev) => [
+      {
+        id: Date.now(),
+        name: name.trim(),
+        text: text.trim(),
+        date: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }),
+      },
+      ...prev,
+    ]);
+    setName('');
+    setText('');
+  }
+
+  return (
+    <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+      <h2 className="text-lg font-black text-gray-900 mb-5">Comments</h2>
+
+      {/* Post form */}
+      <form onSubmit={handleSubmit} className="flex flex-col gap-3 mb-6">
+        <input
+          type="text"
+          placeholder="Your name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="w-full text-sm border border-gray-200 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-400 placeholder:text-gray-400"
+        />
+        <textarea
+          placeholder="Leave a comment…"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          rows={3}
+          className="w-full text-sm border border-gray-200 rounded-xl px-4 py-2.5 resize-none focus:outline-none focus:ring-2 focus:ring-emerald-400 placeholder:text-gray-400"
+        />
+        {error && <p className="text-xs text-red-500">{error}</p>}
+        <button
+          type="submit"
+          className="flex items-center justify-center gap-2 w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm rounded-xl transition-colors"
+        >
+          <Send size={14} />
+          Post Comment
+        </button>
+      </form>
+
+      {/* Comments list */}
+      {comments.length === 0 ? (
+        <p className="text-sm text-gray-400 text-center py-4">No comments yet. Be the first!</p>
+      ) : (
+        <div className="flex flex-col gap-4">
+          {comments.map((c) => (
+            <div key={c.id} className="flex gap-3">
+              <div className="shrink-0 mt-0.5">
+                <UserCircle2 size={32} className="text-gray-300" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-sm font-bold text-gray-800">{c.name}</span>
+                  <span className="text-xs text-gray-400">{c.date}</span>
+                </div>
+                <p className="text-sm text-gray-600 leading-relaxed break-words">{c.text}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function VendorDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const vendor = vendors.find((v) => v.id === id);
+  const vendor = [...vendors, ...getApprovedVendors()].find((v) => v.id === id);
 
   if (!vendor) {
     return (
@@ -89,8 +198,8 @@ export default function VendorDetails() {
     tags,
   } = vendor;
 
-  const minPrice = Math.min(...menu.map((m) => m.priceMin));
-  const maxPrice = Math.max(...menu.map((m) => m.priceMax));
+  const minPrice = menu && menu.length > 0 ? Math.min(...menu.map((m) => m.priceMin)) : null;
+  const maxPrice = menu && menu.length > 0 ? Math.max(...menu.map((m) => m.priceMax)) : null;
 
   return (
     <div className="pt-16 bg-gray-50 min-h-screen">
@@ -160,39 +269,49 @@ export default function VendorDetails() {
             {/* Menu Board */}
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-black text-gray-900">Menu</h2>
-                <span className="text-sm text-gray-400 bg-gray-50 px-3 py-1 rounded-full">
-                  GHS {minPrice} – {maxPrice}
-                </span>
+                <h2 className="text-xl font-black text-gray-900">
+                  {foodCategories.has(category) ? 'Menu' : 'Services & Pricing'}
+                </h2>
+                {minPrice !== null && (
+                  <span className="text-sm text-gray-400 bg-gray-50 px-3 py-1 rounded-full">
+                    GHS {minPrice} – {maxPrice}
+                  </span>
+                )}
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                {menu.map((item, idx) => (
-                  <div
-                    key={idx}
-                    className="flex gap-4 p-4 rounded-xl border border-gray-100 hover:border-emerald-200 hover:shadow-sm transition-all duration-200"
-                  >
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      className="w-20 h-20 rounded-xl object-cover shrink-0"
-                    />
-                    <div className="flex flex-col justify-between min-w-0">
-                      <div>
-                        <h3 className="font-bold text-gray-900 text-sm leading-snug mb-1">
-                          {item.name}
-                        </h3>
-                        <p className="text-xs text-gray-500 line-clamp-2 leading-relaxed">
-                          {item.description}
-                        </p>
+              {menu && menu.length > 0 ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  {menu.map((item, idx) => (
+                    <div
+                      key={idx}
+                      className="flex gap-4 p-4 rounded-xl border border-gray-100 hover:border-emerald-200 hover:shadow-sm transition-all duration-200"
+                    >
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="w-20 h-20 rounded-xl object-cover shrink-0"
+                      />
+                      <div className="flex flex-col justify-between min-w-0">
+                        <div>
+                          <h3 className="font-bold text-gray-900 text-sm leading-snug mb-1">
+                            {item.name}
+                          </h3>
+                          <p className="text-xs text-gray-500 line-clamp-2 leading-relaxed">
+                            {item.description}
+                          </p>
+                        </div>
+                        <span className="mt-2 inline-block text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full w-fit">
+                          GHS {item.priceMin} – {item.priceMax}
+                        </span>
                       </div>
-                      <span className="mt-2 inline-block text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full w-fit">
-                        GHS {item.priceMin} – {item.priceMax}
-                      </span>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-sm text-gray-400 text-center py-6">
+                  Detailed {foodCategories.has(category) ? 'menu' : 'service'} information will be added soon. Contact the vendor directly for pricing.
+                </p>
+              )}
             </div>
 
             {/* Flyer / Promo Image */}
@@ -273,15 +392,24 @@ export default function VendorDetails() {
             </div>
 
             {/* Price Range Card */}
-            <div className="bg-emerald-50 border border-emerald-100 rounded-2xl p-5">
-              <p className="text-xs font-semibold text-emerald-600 uppercase tracking-wider mb-1">
-                Price Range
-              </p>
-              <p className="text-2xl font-black text-emerald-800">
-                GHS {minPrice} <span className="text-base font-medium text-emerald-600">to</span> GHS {maxPrice}
-              </p>
-              <p className="text-xs text-emerald-600 mt-1">Prices vary per item and portion size</p>
-            </div>
+            {minPrice !== null ? (
+              <div className="bg-emerald-50 border border-emerald-100 rounded-2xl p-5">
+                <p className="text-xs font-semibold text-emerald-600 uppercase tracking-wider mb-1">
+                  Price Range
+                </p>
+                <p className="text-2xl font-black text-emerald-800">
+                  GHS {minPrice} <span className="text-base font-medium text-emerald-600">to</span> GHS {maxPrice}
+                </p>
+                <p className="text-xs text-emerald-600 mt-1">Prices vary per item and portion size</p>
+              </div>
+            ) : (
+              <div className="bg-gray-50 border border-gray-100 rounded-2xl p-5">
+                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">
+                  Pricing
+                </p>
+                <p className="text-sm text-gray-500">Contact this vendor directly for pricing information.</p>
+              </div>
+            )}
 
             {/* WhatsApp CTA */}
             <a
@@ -302,6 +430,9 @@ export default function VendorDetails() {
               <Phone size={18} />
               Call Vendor
             </a>
+
+            {/* Comments */}
+            <CommentsSection vendorId={vendor.id} />
           </div>
         </div>
 

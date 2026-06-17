@@ -2,10 +2,18 @@ import { Link } from 'react-router-dom';
 import { MapPin, Star, Truck, MessageCircle, ChevronRight } from 'lucide-react';
 
 const categoryStyles = {
-  local: { bg: 'bg-amber-100', text: 'text-amber-700', label: 'Local' },
-  continental: { bg: 'bg-blue-100', text: 'text-blue-700', label: 'Continental' },
-  'fast-food': { bg: 'bg-orange-100', text: 'text-orange-700', label: 'Fast Food' },
-  drinks: { bg: 'bg-teal-100', text: 'text-teal-700', label: 'Drinks' },
+  // Food
+  local:      { bg: 'bg-amber-100',   text: 'text-amber-700',   label: 'Local Dishes' },
+  restaurant: { bg: 'bg-blue-100',    text: 'text-blue-700',    label: 'Restaurant' },
+  fast_food:  { bg: 'bg-orange-100',  text: 'text-orange-700',  label: 'Fast Food' },
+  cafe:       { bg: 'bg-teal-100',    text: 'text-teal-700',    label: 'Café & Drinks' },
+  chinese:    { bg: 'bg-red-100',     text: 'text-red-700',     label: 'Chinese' },
+  // Student
+  printing:   { bg: 'bg-purple-100',  text: 'text-purple-700',  label: 'Printing' },
+  beauty:     { bg: 'bg-pink-100',    text: 'text-pink-700',    label: 'Hair & Beauty' },
+  tech:       { bg: 'bg-sky-100',     text: 'text-sky-700',     label: 'Tech Services' },
+  clothing:   { bg: 'bg-indigo-100',  text: 'text-indigo-700',  label: 'Clothing' },
+  tutoring:   { bg: 'bg-violet-100',  text: 'text-violet-700',  label: 'Tutoring' },
 };
 
 function StarRating({ rate, count }) {
@@ -38,9 +46,9 @@ export default function VendorCard({ vendor }) {
   const { id, name, shortDescription, image, location, rating, delivery, category, menu, whatsapp } =
     vendor;
 
-  const cat = categoryStyles[category] || categoryStyles.local;
-  const minPrice = menu ? Math.min(...menu.map((m) => m.priceMin)) : null;
-  const maxPrice = menu ? Math.max(...menu.map((m) => m.priceMax)) : null;
+  const cat = categoryStyles[category];
+  const minPrice = menu && menu.length > 0 ? Math.min(...menu.map((m) => m.priceMin)) : null;
+  const maxPrice = menu && menu.length > 0 ? Math.max(...menu.map((m) => m.priceMax)) : null;
 
   const handleWhatsApp = (e) => {
     e.preventDefault();
@@ -59,11 +67,13 @@ export default function VendorCard({ vendor }) {
           loading="lazy"
         />
         {/* Category Badge */}
-        <span
-          className={`absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-semibold ${cat.bg} ${cat.text}`}
-        >
-          {cat.label}
-        </span>
+        {cat && (
+          <span
+            className={`absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-semibold ${cat.bg} ${cat.text}`}
+          >
+            {cat.label}
+          </span>
+        )}
         {/* Delivery Badge */}
         {delivery && (
           <span className="absolute top-3 right-3 bg-emerald-600 text-white px-2.5 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
