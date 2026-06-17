@@ -132,11 +132,11 @@ export default function Contact() {
                 Reach out directly and we'll help you get set up as quickly as possible.
               </p>
               <a
-                href="mailto:hello@uccradar.com"
+                href="mailto:joshuaoheneba01@gmail.com"
                 className="flex items-center gap-2 text-sm font-semibold text-white hover:text-emerald-200 transition-colors"
               >
                 <Mail size={14} />
-                hello@uccradar.com
+                joshuaoheneba01@gmail.com
               </a>
             </div>
           </div>

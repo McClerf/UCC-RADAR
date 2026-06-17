@@ -1,720 +1,688 @@
 export const vendors = [
   {
-    id: "oraios",
-    name: "Oraios",
-    shortDescription: "Award-winning jollof and fried rice spot beloved across the UCC campus.",
+    id: "algorithm-coffee-juice",
+    name: "Algorithm Coffee & Juice",
+    shortDescription: "Specialty coffee and freshly squeezed juices at the Senior Clubhouse.",
     description:
-      "Oraios has been serving mouth-watering jollof rice and fried rice to the UCC community since 2015. Renowned for their smoky, perfectly seasoned rice cooked over wood fire and rich tomato-based sauces, every plate is a celebration of flavour. Beyond rice dishes, their grilled chicken and shawarma have earned devoted regulars among students and lecturers alike. Generous portions, student-friendly pricing, and consistent quality keep the queues long and smiles wider.",
+      "Algorithm Coffee & Juice is tucked inside the Senior Clubhouse and has quietly become one of the most beloved spots on campus. Whether you need a strong espresso before a 7 AM lecture or a cold mango juice to survive the afternoon heat, Algorithm delivers with speed and consistency. Their smoothie range is crafted from seasonal local fruits, and the baristas take real pride in every cup. The relaxed atmosphere and long opening hours make it the go-to refuelling stop from morning through to the evening.",
     image:
-      "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80",
+      "https://lh3.googleusercontent.com/place-photos/AJRVUZOR5NUxDBG_f7CfFQLjmiWmL5wYw2t7NE7W-UT5cfiYSEaDtdi5f_r17_XvMlmLGHLl8R5uKImxdIa9OsLYXQuh1t9EjWAx0iu4WSFR8lqcavwOfjgyYY44ZWjIpM1LfAOYeF9gOQkOuE14=s4800-w800-h600",
     flyer:
-      "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&q=80",
-    location: "Opposite the Main Gate of UCC, near the Cape Coast bus stop",
-    contact: "+233 24 123 4567",
-    whatsapp: "233241234567",
-    rating: { rate: 4.5, count: 152 },
+      "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&q=80",
+    location: "Senior Clubhouse, on campus",
+    lat: 5.1171655,
+    lng: -1.2883156,
+    contact: "+233 26 129 6569",
+    whatsapp: "233261296569",
+    rating: { rate: 4.1, count: 244 },
     menu: [
       {
-        name: "Jollof Rice",
+        name: "Espresso",
         description:
-          "Smoky, perfectly seasoned jollof rice slow-cooked in rich tomato sauce, served with your choice of chicken, beef, or fish.",
+          "Rich, bold single-origin espresso shot pulled to perfection — the purest way to start your day on campus.",
+        priceMin: 10,
+        priceMax: 18,
+        image:
+          "https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=400&q=80",
+      },
+      {
+        name: "Fresh Mango Juice",
+        description:
+          "Pure cold-pressed juice made from ripe Ghanaian mangoes — naturally sweet, chilled, and absolutely refreshing.",
+        priceMin: 15,
+        priceMax: 25,
+        image:
+          "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&q=80",
+      },
+      {
+        name: "Tropical Smoothie",
+        description:
+          "A blended mix of banana, pineapple, and pawpaw with a splash of ginger for a natural energy lift.",
+        priceMin: 20,
+        priceMax: 35,
+        image:
+          "https://images.unsplash.com/photo-1502741338009-cac2772e18bc?w=400&q=80",
+      },
+      {
+        name: "Coffee & Snack Combo",
+        description:
+          "Your choice of coffee paired with a freshly baked pastry or sandwich — the perfect quick campus meal.",
+        priceMin: 25,
+        priceMax: 45,
+        image:
+          "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&q=80",
+      },
+    ],
+    delivery: false,
+    deliveryFee: null,
+    openHours: "Mon – Sat: 7:30 AM – 10:00 PM | Sun: 2:00 PM – 10:00 PM",
+    category: "cafe",
+    tags: ["coffee", "juice", "smoothie", "espresso", "drinks"],
+    featured: true,
+  },
+  {
+    id: "luban-workshop",
+    name: "Luban Workshop Restaurant",
+    shortDescription: "Authentic Chinese cuisine served on campus — a rare and satisfying find.",
+    description:
+      "Luban Workshop Restaurant is a hidden gem on the UCC campus, bringing genuine Chinese culinary tradition to Cape Coast. Part of the broader Luban Workshop cultural and skills initiative, the restaurant offers a menu of authentic stir-fry dishes, noodle soups, and rice plates prepared by cooks trained in Chinese techniques. It's a welcome departure from the usual campus fare and a chance to experience real Chinese flavours without leaving the university grounds. Note: the restaurant operates weekdays only.",
+    image:
+      "https://lh3.googleusercontent.com/place-photos/AJRVUZMOoDGujglCua5SsmLLX1wOBdU9futmt4TDO5s0UIfpXXXUNgdRKTfG47OLDAUIUKmIX_LtXnXEA3JTFCfwnjfsaD83rDM2ewy-DPJ4HoCjHvNNhbaEuGkWaZ8d60DdooqqC-uEGdADQse4iuTmc50BJg=s4800-w800-h600",
+    flyer:
+      "https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?w=800&q=80",
+    location: "On campus",
+    lat: 5.1173705,
+    lng: -1.285364,
+    contact: "+233 20 543 8455",
+    whatsapp: "233205438455",
+    website: "https://lubanrestaurant.com/",
+    rating: { rate: 5.0, count: 1 },
+    menu: [
+      {
+        name: "Egg Fried Rice",
+        description:
+          "Wok-tossed jasmine rice with beaten eggs, spring onions, soy sauce, and a hint of sesame oil — a Chinese staple.",
+        priceMin: 35,
+        priceMax: 55,
+        image:
+          "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=400&q=80",
+      },
+      {
+        name: "Stir-Fried Noodles",
+        description:
+          "Silky wheat noodles tossed in a savory soy-garlic sauce with vegetables and your choice of chicken or beef.",
+        priceMin: 40,
+        priceMax: 60,
+        image:
+          "https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=400&q=80",
+      },
+      {
+        name: "Sweet & Sour Chicken",
+        description:
+          "Crispy battered chicken pieces glazed in a tangy sweet-and-sour sauce, served with steamed rice.",
+        priceMin: 45,
+        priceMax: 70,
+        image:
+          "https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=400&q=80",
+      },
+      {
+        name: "Vegetable Spring Rolls",
+        description:
+          "Golden fried rolls filled with seasoned cabbage, carrots, and glass noodles, served with a sweet chilli dip.",
+        priceMin: 20,
+        priceMax: 35,
+        image:
+          "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=400&q=80",
+      },
+    ],
+    delivery: false,
+    deliveryFee: null,
+    openHours: "Mon – Fri: 11:00 AM – 5:30 PM | Weekends: Closed",
+    category: "chinese",
+    tags: ["chinese", "noodles", "fried rice", "stir fry", "international"],
+    featured: true,
+  },
+  {
+    id: "mega-bite",
+    name: "Mega Bite",
+    shortDescription: "Seriously satisfying burgers, chicken, and fast-food favourites near campus.",
+    description:
+      "Mega Bite lives up to its name — portions are generous, flavours are bold, and the food comes out fast. Located on School Bus Road, it's a short walk from campus and a reliable option when you want something filling without the wait. Their fried chicken is marinated overnight for depth of flavour, and the burgers are stacked with fresh toppings and house-made sauces. A lively spot with a strong local following, Mega Bite is the spot to hit when hunger calls.",
+    image:
+      "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&q=80",
+    flyer:
+      "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&q=80",
+    location: "School Bus Rd",
+    lat: 5.1137033,
+    lng: -1.2914627,
+    contact: "+233 55 788 9478",
+    whatsapp: "233557889478",
+    website: "https://www.megabitefoodsgh.com/",
+    rating: { rate: 5.0, count: 1 },
+    menu: [
+      {
+        name: "Classic Beef Burger",
+        description:
+          "Juicy beef patty in a toasted brioche bun with lettuce, tomato, pickles, and our smoky special sauce.",
+        priceMin: 40,
+        priceMax: 65,
+        image:
+          "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80",
+      },
+      {
+        name: "Crispy Fried Chicken",
+        description:
+          "Overnight-marinated chicken pieces coated in a seasoned crispy crust and fried golden — perfectly juicy inside.",
+        priceMin: 35,
+        priceMax: 60,
+        image:
+          "https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=400&q=80",
+      },
+      {
+        name: "Chips & Chicken",
+        description:
+          "A generous portion of seasoned crispy fries alongside two pieces of fried chicken — the ultimate combo.",
+        priceMin: 45,
+        priceMax: 70,
+        image:
+          "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=80",
+      },
+      {
+        name: "Chicken Shawarma",
+        description:
+          "Spiced grilled chicken strips wrapped in warm flatbread with garlic sauce, vegetables, and chilli.",
         priceMin: 30,
         priceMax: 50,
+        image:
+          "https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=400&q=80",
+      },
+    ],
+    delivery: true,
+    deliveryFee: "GHS 5",
+    openHours: "Mon – Sat: 12:00 PM – 9:00 PM | Sun: Closed",
+    category: "fast_food",
+    tags: ["burger", "fried chicken", "chips", "shawarma", "fast food"],
+    featured: false,
+  },
+  {
+    id: "oseikrom-fast-food",
+    name: "Oseikrom Fast Food",
+    shortDescription: "Round-the-clock local Ghanaian meals just outside campus in Amamoma.",
+    description:
+      "Oseikrom Fast Food is the one place near UCC that never closes. Whether it's a late-night study craving or an early morning hunger before the campus kitchens open, Oseikrom is there 24 hours a day. The menu centres on hearty Ghanaian staples — waakye, jollof, fried rice, and warming soups — all at prices that respect the student budget. The no-frills setup keeps things simple and efficient, which is exactly what you need at 2 AM.",
+    image:
+      "https://www.google.com/imgres?q=oseikrom%20fast%20food%20cape%20coast&imgurl=https%3A%2F%2Flookaside.instagram.com%2Fseo%2Fgoogle_widget%2Fcrawler%2F%3Fmedia_id%3D3657101898562259964&imgrefurl=https%3A%2F%2Fwww.instagram.com%2Foseikrom_avenue%2F&docid=SU1_RXFslCDSRM&tbnid=fDz3Id_H0NKFCM&vet=12ahUKEwjfrMLmhY2VAxU3YEEAHeRMAUYQnPAOegQIRRAA..i&w=640&h=1136&hcb=2&ved=2ahUKEwjfrMLmhY2VAxU3YEEAHeRMAUYQnPAOegQIRRAA",
+    flyer:
+      "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=800&q=80",
+    location: "Ayensu Rd, Amamoma",
+    lat: 5.1139306,
+    lng: -1.2944028,
+    contact: null,
+    whatsapp: null,
+    rating: { rate: 2.9, count: 9 },
+    menu: [
+      {
+        name: "Waakye",
+        description:
+          "Classic Ghanaian rice-and-beans dish served with tomato stew, gari, spaghetti, and your choice of protein.",
+        priceMin: 18,
+        priceMax: 35,
+        image:
+          "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=400&q=80",
+      },
+      {
+        name: "Jollof Rice & Chicken",
+        description:
+          "Seasoned tomato jollof rice with a piece of fried or grilled chicken — a dependable Ghanaian classic.",
+        priceMin: 25,
+        priceMax: 40,
         image:
           "https://images.unsplash.com/photo-1574484284002-952d92456975?w=400&q=80",
       },
       {
         name: "Fried Rice",
         description:
-          "Fluffy fried rice stir-fried with fresh vegetables, eggs, and mixed proteins for a satisfying, colourful meal.",
-        priceMin: 35,
-        priceMax: 55,
+          "Stir-fried rice with vegetables and egg, served with fried chicken or fish on the side.",
+        priceMin: 25,
+        priceMax: 40,
         image:
           "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=400&q=80",
       },
       {
-        name: "Chicken Shawarma",
+        name: "Light Soup & Fufu",
         description:
-          "Tender marinated chicken wrapped in warm flatbread with crunchy vegetables and our signature spicy sauce.",
+          "Smooth pounded fufu served with a clear, spiced light soup with your choice of chicken, beef, or fish.",
         priceMin: 30,
-        priceMax: 45,
-        image:
-          "https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=400&q=80",
-      },
-      {
-        name: "Grilled Chicken",
-        description:
-          "Half or whole chicken marinated in aromatic herbs and charcoal-grilled to juicy perfection.",
-        priceMin: 45,
-        priceMax: 80,
-        image:
-          "https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=400&q=80",
-      },
-    ],
-    delivery: true,
-    deliveryFee: "GHS 5",
-    openHours: "Mon – Sat: 7:00 AM – 9:00 PM",
-    category: "continental",
-    tags: ["jollof", "fried rice", "shawarma", "grilled chicken"],
-    featured: true,
-  },
-  {
-    id: "kofis-kitchen",
-    name: "Kofi's Kitchen",
-    shortDescription: "Wholesome Ghanaian home-cooking at prices every student can afford.",
-    description:
-      "Kofi's Kitchen is the campus go-to for authentic, affordable Ghanaian home cooking. Operating since 2012, Kofi and his team prepare everything fresh each morning — from waakye wrapped in local leaves to banku paired with perfectly fried tilapia. The warm, welcoming atmosphere mirrors the food: honest, hearty, and full of soul. Students on tight budgets will find full, balanced meals without breaking the bank.",
-    image:
-      "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=800&q=80",
-    flyer:
-      "https://images.unsplash.com/photo-1498654896293-37aacf113fd9?w=800&q=80",
-    location: "Near the Student Hostel, next to Balme Library",
-    contact: "+233 20 987 6543",
-    whatsapp: "233209876543",
-    rating: { rate: 4.2, count: 210 },
-    menu: [
-      {
-        name: "Waakye",
-        description:
-          "Classic Ghanaian rice and beans dish served with spaghetti, gari, boiled egg, stew, and a choice of fish or meat.",
-        priceMin: 20,
-        priceMax: 40,
-        image:
-          "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=400&q=80",
-      },
-      {
-        name: "Banku & Tilapia",
-        description:
-          "Fermented corn and cassava dough served with whole fried tilapia and spiced pepper sauce — a true Ghanaian classic.",
-        priceMin: 35,
-        priceMax: 55,
-        image:
-          "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&q=80",
-      },
-      {
-        name: "Jollof Rice",
-        description:
-          "Home-style jollof rice made with fresh tomatoes and seasoned to perfection, served with a generous portion of stew.",
-        priceMin: 25,
-        priceMax: 40,
-        image:
-          "https://images.unsplash.com/photo-1574484284002-952d92456975?w=400&q=80",
-      },
-      {
-        name: "Fufu & Light Soup",
-        description:
-          "Pounded fufu in a light but deeply flavoured palm-nut soup with your choice of goat meat, chicken, or fish.",
-        priceMin: 30,
-        priceMax: 50,
-        image:
-          "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80",
-      },
-    ],
-    delivery: true,
-    deliveryFee: "GHS 3",
-    openHours: "Mon – Sun: 6:30 AM – 8:00 PM",
-    category: "local",
-    tags: ["waakye", "banku", "fufu", "jollof", "tilapia"],
-    featured: true,
-  },
-  {
-    id: "mamas-delight",
-    name: "Mama's Delight",
-    shortDescription: "Family-run gem serving cherished traditional Ghanaian recipes with love.",
-    description:
-      "Mama's Delight is a family-run business that has become a campus institution. Mama Abena and her daughters bring generations of culinary tradition to every dish, from their celebrated kontomire stew to the perfectly balanced ampesi they serve alongside it. Every recipe carries a story — passed down, refined, and prepared with genuine care. If you're looking for food that tastes like home, Mama's Delight is where you belong.",
-    image:
-      "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80",
-    flyer:
-      "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=800&q=80",
-    location: "Close to the Main Campus Cafeteria, opposite the Arts Faculty",
-    contact: "+233 55 555 1234",
-    whatsapp: "233555551234",
-    rating: { rate: 4.7, count: 183 },
-    menu: [
-      {
-        name: "Kontomire Stew & Ampesi",
-        description:
-          "Rich cocoyam leaf stew served with boiled plantain and yam — a nutritious Ghanaian staple made fresh daily.",
-        priceMin: 25,
-        priceMax: 40,
-        image:
-          "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=400&q=80",
-      },
-      {
-        name: "Red Red",
-        description:
-          "Spiced black-eyed bean stew simmered in palm oil, served with fried ripe plantain (kelewele) and gari.",
-        priceMin: 20,
-        priceMax: 35,
-        image:
-          "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=400&q=80",
-      },
-      {
-        name: "Omotuo & Palm Nut Soup",
-        description:
-          "Soft rice balls nestled in a rich, aromatic palm nut soup with tender pieces of goat or chicken.",
-        priceMin: 30,
-        priceMax: 50,
-        image:
-          "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80",
-      },
-      {
-        name: "Jollof Rice & Chicken",
-        description:
-          "Mama's special jollof — slow-cooked in clay pot with whole tomatoes, peppers, and garden-fresh seasoning.",
-        priceMin: 32,
         priceMax: 48,
-        image:
-          "https://images.unsplash.com/photo-1574484284002-952d92456975?w=400&q=80",
-      },
-    ],
-    delivery: true,
-    deliveryFee: "GHS 4",
-    openHours: "Mon – Sat: 7:00 AM – 8:30 PM",
-    category: "local",
-    tags: ["kontomire", "ampesi", "red red", "omotuo", "palm nut soup"],
-    featured: true,
-  },
-  {
-    id: "the-grill-spot",
-    name: "The Grill Spot",
-    shortDescription: "Premium charcoal-grilled meats and gourmet burgers cooked to order.",
-    description:
-      "The Grill Spot brings the sizzle and aroma of premium BBQ to the UCC campus. Using only fresh, locally sourced meats marinated in house-crafted spice blends, every item is cooked to order over natural charcoal. Their signature burgers — stacked with fresh toppings and handmade sauces — have earned a cult following. Whether it's a casual lunch or a special evening treat, The Grill Spot delivers an elevated dining experience without the premium price tag.",
-    image:
-      "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&q=80",
-    flyer:
-      "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&q=80",
-    location: "Behind the Science Block, near the Faculty of Engineering Car Park",
-    contact: "+233 27 456 7890",
-    whatsapp: "233274567890",
-    rating: { rate: 4.3, count: 97 },
-    menu: [
-      {
-        name: "Signature Beef Burger",
-        description:
-          "Double smash patty burger with aged cheddar, caramelised onions, lettuce, tomato, and our secret smoky sauce.",
-        priceMin: 45,
-        priceMax: 70,
-        image:
-          "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80",
-      },
-      {
-        name: "BBQ Chicken Wings",
-        description:
-          "Juicy, fall-off-the-bone chicken wings basted in our tangy BBQ glaze and served with cool dipping sauce.",
-        priceMin: 35,
-        priceMax: 60,
-        image:
-          "https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=400&q=80",
-      },
-      {
-        name: "Grilled Tilapia Platter",
-        description:
-          "Whole tilapia expertly seasoned with herbs and lemon, grilled over charcoal and served with chips and salad.",
-        priceMin: 50,
-        priceMax: 80,
-        image:
-          "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&q=80",
-      },
-      {
-        name: "Mixed Grill Platter",
-        description:
-          "An indulgent platter featuring grilled beef skewers, chicken thighs, and spicy sausages with grilled vegetables.",
-        priceMin: 70,
-        priceMax: 100,
         image:
           "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80",
       },
     ],
     delivery: false,
     deliveryFee: null,
-    openHours: "Tue – Sun: 11:00 AM – 10:00 PM",
-    category: "continental",
-    tags: ["burger", "grilled", "BBQ", "wings", "steak"],
-    featured: true,
+    openHours: "Open 24 Hours",
+    category: "fast_food",
+    tags: ["waakye", "jollof", "24 hours", "local", "late night"],
+    featured: false,
   },
   {
-    id: "accra-bites",
-    name: "Accra Bites",
-    shortDescription: "Quick, tasty street-food favourites and snacks for busy campus life.",
+    id: "oraios-fast-foods",
+    name: "Oraios Fast Foods",
+    shortDescription: "Popular fast-food joint on Amamoma Chief's Palace Road with a loyal following.",
     description:
-      "Accra Bites brings the lively energy of Accra's street-food culture right to UCC campus. Fast, flavourful, and perfectly portioned for students on the move, their menu spans crispy kelewele, spiced meat pies, crunchy spring rolls, and hot-pressed sandwiches. Everything is made in small batches so it's always fresh. Whether you have five minutes between lectures or want a satisfying evening snack, Accra Bites has you covered.",
+      "Oraios Fast Foods has earned a strong reputation in the Amamoma area through consistently good food and fair pricing. Their menu blends Ghanaian staples with fast-food favourites, making it versatile enough for any craving. The fried chicken is crispy and well-seasoned, the jollof rice is reliably smoky, and the portions are always satisfying. With a rating of 4.4 and a growing base of regulars, Oraios is proof that quality and affordability can absolutely go hand in hand.",
     image:
-      "https://images.unsplash.com/photo-1552566626-52f8b828add9?w=800&q=80",
+      "https://lh3.googleusercontent.com/place-photos/AJRVUZOEC9hbZIQTi53W0bFhjkejIBo9esAKiBz9naZ5ttQa55IptkaNqdoqmAm16ZIZJa69DVSLInVi0kjM_Nl5bOx2vs17ecr0WBOh2coqkMUa8hkWOx1dqLKOe4dbydYzaHKV-ZdnmYRx8qr_Ulc=s4800-w800-h600",
     flyer:
-      "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&q=80",
-    location: "Opposite the Faculty of Social Sciences, near the Students' Union",
-    contact: "+233 50 234 5678",
-    whatsapp: "233502345678",
-    rating: { rate: 4.0, count: 134 },
+      "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&q=80",
+    location: "Amamoma Chief's Palace Rd",
+    lat: 5.1120206,
+    lng: -1.2943746,
+    contact: "+233 25 737 6415",
+    whatsapp: "233257376415",
+    rating: { rate: 4.4, count: 28 },
     menu: [
       {
-        name: "Kelewele",
+        name: "Jollof Rice & Chicken",
         description:
-          "Spiced, deep-fried ripe plantain cubes seasoned with ginger, pepper, and cloves — the ultimate Ghanaian street snack.",
-        priceMin: 10,
-        priceMax: 20,
+          "Smoky, perfectly seasoned jollof rice served with a generous piece of fried or grilled chicken.",
+        priceMin: 28,
+        priceMax: 45,
         image:
-          "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=80",
+          "https://images.unsplash.com/photo-1574484284002-952d92456975?w=400&q=80",
+      },
+      {
+        name: "Fried Chicken & Chips",
+        description:
+          "Crispy seasoned fried chicken pieces with golden fries — a fast-food staple done right.",
+        priceMin: 35,
+        priceMax: 55,
+        image:
+          "https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=400&q=80",
       },
       {
         name: "Meat Pie",
         description:
-          "Golden, flaky pastry shells filled with savoury spiced minced meat and vegetables, baked fresh throughout the day.",
+          "Freshly baked golden pastry shells filled with spiced minced meat — a satisfying on-the-go snack.",
         priceMin: 8,
         priceMax: 15,
         image:
           "https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=400&q=80",
       },
       {
-        name: "Spring Rolls",
+        name: "Fried Rice Combo",
         description:
-          "Crispy fried spring rolls packed with seasoned chicken, carrots, and cabbage, served with sweet chilli dipping sauce.",
-        priceMin: 15,
-        priceMax: 25,
+          "Stir-fried rice with vegetables and egg, served with a drink and a side of fried plantain.",
+        priceMin: 35,
+        priceMax: 55,
         image:
-          "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=400&q=80",
-      },
-      {
-        name: "Club Sandwich",
-        description:
-          "Triple-layered toasted sandwich with grilled chicken, crispy bacon, fresh lettuce, tomato, and creamy mayo.",
-        priceMin: 25,
-        priceMax: 40,
-        image:
-          "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400&q=80",
-      },
-    ],
-    delivery: true,
-    deliveryFee: "GHS 4",
-    openHours: "Mon – Sun: 8:00 AM – 10:00 PM",
-    category: "fast-food",
-    tags: ["kelewele", "meat pie", "spring rolls", "sandwich", "snacks"],
-    featured: true,
-  },
-  {
-    id: "green-garden",
-    name: "Green Garden",
-    shortDescription: "Fresh smoothie bowls, salads, and herbal drinks for a healthier you.",
-    description:
-      "Green Garden is UCC's answer to wholesome, plant-forward eating. Founded by a nutrition graduate in 2020, the café specialises in vibrant smoothie bowls, nutrient-dense salads, freshly blended juices, and calming herbal teas. Every ingredient is sourced from local farms and prepared without artificial additives. Green Garden proves that eating clean on campus doesn't have to be bland or expensive — it can be a genuinely joyful experience.",
-    image:
-      "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800&q=80",
-    flyer:
-      "https://images.unsplash.com/photo-1610970881699-44a5587cabec?w=800&q=80",
-    location: "Near the Botanical Gardens, opposite the Science Block",
-    contact: "+233 24 777 8899",
-    whatsapp: "233247778899",
-    rating: { rate: 4.6, count: 88 },
-    menu: [
-      {
-        name: "Tropical Smoothie Bowl",
-        description:
-          "A thick blend of mango, banana, and pineapple topped with granola, fresh fruits, coconut flakes, and chia seeds.",
-        priceMin: 25,
-        priceMax: 40,
-        image:
-          "https://images.unsplash.com/photo-1502741338009-cac2772e18bc?w=400&q=80",
-      },
-      {
-        name: "Garden Fresh Salad",
-        description:
-          "Crisp lettuce, cherry tomatoes, cucumber, avocado, and feta tossed in a lemon-herb vinaigrette.",
-        priceMin: 20,
-        priceMax: 35,
-        image:
-          "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=400&q=80",
-      },
-      {
-        name: "Sobolo (Zobo)",
-        description:
-          "Refreshing chilled hibiscus flower drink infused with ginger, cloves, and a hint of pineapple juice.",
-        priceMin: 8,
-        priceMax: 15,
-        image:
-          "https://images.unsplash.com/photo-1610970881699-44a5587cabec?w=400&q=80",
-      },
-      {
-        name: "Avocado Toast",
-        description:
-          "Toasted whole-grain bread topped with smashed ripe avocado, poached egg, chilli flakes, and a squeeze of lime.",
-        priceMin: 25,
-        priceMax: 40,
-        image:
-          "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400&q=80",
+          "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=400&q=80",
       },
     ],
     delivery: false,
     deliveryFee: null,
-    openHours: "Mon – Fri: 7:00 AM – 6:00 PM | Sat: 8:00 AM – 4:00 PM",
-    category: "drinks",
-    tags: ["smoothie", "salad", "healthy", "juices", "sobolo"],
+    openHours: "Mon – Sat: 11:00 AM – 9:00 PM | Sun: Closed",
+    category: "fast_food",
+    tags: ["jollof", "fried chicken", "chips", "meat pie", "fast food"],
     featured: false,
   },
   {
-    id: "campus-shawarma",
-    name: "Campus Shawarma",
-    shortDescription: "Authentic Middle-Eastern-style shawarma and wraps made fresh to order.",
+    id: "chef-akwasi",
+    name: "Chef Akwasi's Fast Food",
+    shortDescription: "Honest, home-style Ghanaian cooking on Ayensu Road.",
     description:
-      "Campus Shawarma brings the bold, spiced flavours of the Middle East to the heart of UCC. Their shawarma meat is slow-roasted on a vertical spit, sliced thin, and stuffed into warm flatbreads with crisp vegetables, pickles, and house-made garlic sauce. Each wrap is assembled to order, ensuring maximum freshness. A firm favourite for late-night study sessions, Campus Shawarma is open later than most campus vendors.",
+      "Chef Akwasi's Fast Food is a neighbourhood staple on Ayensu Road, known for no-fuss, flavour-forward Ghanaian home cooking. Chef Akwasi keeps the menu tight and the quality consistent — each dish is prepared with the kind of care you'd expect from someone who genuinely loves to cook. Fufu, banku, and rice dishes are the backbone of the menu, each paired with soups and stews made fresh from scratch. It's the kind of place where the food tastes like it came from someone's kitchen because, in many ways, it did.",
     image:
-      "https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=800&q=80",
-    flyer:
-      "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&q=80",
-    location: "Near the Student Union Building, main campus",
-    contact: "+233 26 333 4455",
-    whatsapp: "233263334455",
-    rating: { rate: 4.4, count: 119 },
-    menu: [
-      {
-        name: "Chicken Shawarma",
-        description:
-          "Slow-roasted spiced chicken shaved and wrapped in flatbread with garlic sauce, pickles, tomatoes, and cabbage.",
-        priceMin: 30,
-        priceMax: 50,
-        image:
-          "https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=400&q=80",
-      },
-      {
-        name: "Beef Shawarma",
-        description:
-          "Tender marinated beef strips wrapped in warm flatbread with tahini, fresh veggies, and chilli sauce.",
-        priceMin: 35,
-        priceMax: 55,
-        image:
-          "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&q=80",
-      },
-      {
-        name: "Shawarma Meal Deal",
-        description:
-          "Your choice of shawarma + a portion of seasoned fries + a chilled soft drink — the best value combo on campus.",
-        priceMin: 50,
-        priceMax: 70,
-        image:
-          "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=80",
-      },
-      {
-        name: "Loaded Chicken Wrap",
-        description:
-          "Grilled chicken strips, coleslaw, pepper sauce, and crispy onions rolled in a flour tortilla and pressed golden.",
-        priceMin: 28,
-        priceMax: 45,
-        image:
-          "https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=400&q=80",
-      },
-    ],
-    delivery: true,
-    deliveryFee: "GHS 5",
-    openHours: "Mon – Sun: 10:00 AM – 11:00 PM",
-    category: "continental",
-    tags: ["shawarma", "wrap", "grilled", "chicken", "beef"],
-    featured: false,
-  },
-  {
-    id: "auntie-amas",
-    name: "Auntie Ama's",
-    shortDescription: "Legendary traditional Ghanaian dishes — banku, fufu, and kenkey done right.",
-    description:
-      "Auntie Ama's is a campus legend. For over a decade, Auntie Ama has been waking before dawn to ferment, pound, and prepare the finest banku, fufu, and kenkey on campus. Her soups are made from scratch using whole spices and garden-fresh vegetables, achieving depths of flavour that are impossible to replicate with shortcuts. Students, alumni, and even faculty come back time and again for that unmistakable taste of authentic Ghanaian tradition.",
-    image:
-      "https://images.unsplash.com/photo-1574484284002-952d92456975?w=800&q=80",
+      "https://lh3.googleusercontent.com/place-photos/AJRVUZOpf4DwBVxgMFBVev1aCJEa-Qk4fxVpQUqQFroHTV2SA4T5xsmJIzAvlybBn5V9UfkoOG5HegwlzUIbVMTlw6TFKgwD9cK9Yr_3t7R4SJLyzINqYldLHP1CaN4zmmGGi6qNmTLkgM1IP33DJaA=s4800-w800-h600",
     flyer:
       "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80",
-    location: "Castle Gate Area, near the UCC main entrance roundabout",
-    contact: "+233 24 900 1122",
-    whatsapp: "233249001122",
-    rating: { rate: 4.8, count: 241 },
+    location: "Ayensu Rd",
+    lat: 5.1141458,
+    lng: -1.2933909,
+    contact: "+233 54 277 0351",
+    whatsapp: "233542770351",
+    rating: { rate: 3.7, count: 3 },
     menu: [
       {
-        name: "Banku & Okra Stew",
+        name: "Fufu & Palm Nut Soup",
         description:
-          "Smooth, fermented corn-cassava dough served with rich okra stew and your choice of fish, crab, or meat.",
+          "Silky pounded fufu served in a rich, aromatic palm nut soup with tender goat or chicken pieces.",
         priceMin: 30,
         priceMax: 50,
-        image:
-          "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&q=80",
-      },
-      {
-        name: "Fufu & Groundnut Soup",
-        description:
-          "Silky pounded fufu immersed in a thick, nutty groundnut soup with tender chicken and garden eggs.",
-        priceMin: 35,
-        priceMax: 55,
         image:
           "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80",
       },
       {
-        name: "Kenkey & Fried Fish",
+        name: "Banku & Tilapia",
         description:
-          "Fermented corn dumpling served with perfectly fried whole fish and a fiery fresh pepper sauce.",
-        priceMin: 25,
-        priceMax: 40,
+          "Fermented corn and cassava dough served with perfectly fried whole tilapia and a fiery pepper sauce.",
+        priceMin: 35,
+        priceMax: 55,
+        image:
+          "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&q=80",
+      },
+      {
+        name: "Rice & Stew",
+        description:
+          "Fluffy boiled rice paired with a rich tomato and onion stew with a choice of chicken, beef, or fish.",
+        priceMin: 22,
+        priceMax: 38,
         image:
           "https://images.unsplash.com/photo-1574484284002-952d92456975?w=400&q=80",
       },
       {
-        name: "Tuo Zaafi (TZ)",
+        name: "Waakye",
         description:
-          "Northern Ghanaian millet porridge served with a robust ayoyo leaf soup — hearty and deeply satisfying.",
-        priceMin: 25,
-        priceMax: 45,
+          "Akwasi's hearty waakye — rice and beans served with stew, gari, and your choice of protein.",
+        priceMin: 18,
+        priceMax: 32,
         image:
           "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=400&q=80",
       },
     ],
     delivery: false,
     deliveryFee: null,
-    openHours: "Mon – Sun: 6:00 AM – 3:00 PM",
+    openHours: "Hours Not Listed — call ahead",
     category: "local",
-    tags: ["banku", "fufu", "kenkey", "traditional", "soup"],
+    tags: ["fufu", "banku", "waakye", "local", "home-style"],
     featured: false,
   },
   {
-    id: "spice-route",
-    name: "Spice Route",
-    shortDescription: "Continental fusion cuisine blending African and international flavours.",
+    id: "taste-n-tell",
+    name: "Taste N Tell",
+    shortDescription: "A welcoming restaurant inside UCC Amamoma with a varied all-day menu.",
     description:
-      "Spice Route takes diners on a flavour journey across continents — merging West African spices with continental cooking techniques to create dishes that are excitingly fresh yet deeply familiar. Their pasta dishes infuse local peppers and smoked fish into classic Italian frames, while their stir-fry plates bring a West African twist to Asian cooking. The result is a menu that rewards adventurous palates and offers something genuinely different from typical campus fare.",
+      "Taste N Tell is a firm favourite among students who want a proper sit-down meal without trekking off campus. Located inside UCC's Amamoma area, the restaurant offers a broad menu that runs from Ghanaian classics to grilled meats, pasta, and fresh salads. It's open six days a week with extended evening hours, making it suitable for everything from a lunch break to a relaxed weekend dinner. With a 4.5 star rating and a welcoming ambience, Taste N Tell consistently delivers on its name.",
     image:
-      "https://images.unsplash.com/photo-1498654896293-37aacf113fd9?w=800&q=80",
+      "https://lh3.googleusercontent.com/place-photos/AJRVUZP6AaPCV3Az6YkTJra8z6tYktXHmxaQi1vZZpmrGhfhgHJxpmW2dyOcOjSePYi0Hp7iI1nyvAqnRhIoZkcwLfebEkMtDCw39tZ4UzKaSdbeOhEj0fTGMQNkzIrEWafLm9uPKEwWnWVXuNYUnA=s4800-w578-h600",
     flyer:
-      "https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=800&q=80",
-    location: "New Campus, opposite the Faculty of Education",
-    contact: "+233 57 444 5566",
-    whatsapp: "233574445566",
-    rating: { rate: 4.1, count: 76 },
+      "https://images.unsplash.com/photo-1498654896293-37aacf113fd9?w=800&q=80",
+    location: "Inside UCC, Amamoma",
+    lat: 5.1113754,
+    lng: -1.2936998,
+    contact: "+233 50 672 8272",
+    whatsapp: "233506728272",
+    instagram: "taste_n_tell___",
+    rating: { rate: 4.5, count: 11 },
     menu: [
       {
-        name: "Smoked Fish Pasta",
+        name: "Grilled Chicken & Rice",
         description:
-          "Al dente spaghetti tossed with locally smoked fish, cherry tomatoes, capers, and a kick of shito chilli oil.",
+          "Herb-marinated whole chicken thighs grilled to golden perfection, served with jollof or fried rice.",
+        priceMin: 45,
+        priceMax: 70,
+        image:
+          "https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=400&q=80",
+      },
+      {
+        name: "Pasta Bolognese",
+        description:
+          "Al dente pasta tossed in a slow-cooked minced beef and tomato ragu, finished with parmesan.",
         priceMin: 40,
         priceMax: 60,
         image:
           "https://images.unsplash.com/photo-1498654896293-37aacf113fd9?w=400&q=80",
       },
       {
-        name: "West African Stir Fry",
+        name: "Beef Burger",
         description:
-          "Wok-tossed rice noodles with chicken, garden vegetables, and a bold suya-spiced peanut sauce.",
-        priceMin: 35,
-        priceMax: 55,
+          "Thick beef patty in a toasted bun with lettuce, tomato, cheese, and house-made burger sauce.",
+        priceMin: 40,
+        priceMax: 65,
         image:
-          "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=400&q=80",
+          "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80",
       },
       {
-        name: "Pepper Chicken Gratin",
+        name: "Jollof Rice & Fish",
         description:
-          "Oven-baked chicken thighs in a creamy pepper sauce topped with melted cheese — comfort food reimagined.",
-        priceMin: 50,
-        priceMax: 75,
-        image:
-          "https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=400&q=80",
-      },
-      {
-        name: "Fusion Rice Bowl",
-        description:
-          "Steamed basmati rice crowned with a medley of stewed black-eyed beans, plantain, and coconut curry sauce.",
+          "Taste N Tell's well-seasoned jollof rice paired with grilled or fried fish and fresh salad.",
         priceMin: 30,
-        priceMax: 50,
+        priceMax: 48,
         image:
           "https://images.unsplash.com/photo-1574484284002-952d92456975?w=400&q=80",
       },
     ],
     delivery: true,
-    deliveryFee: "GHS 6",
-    openHours: "Mon – Sat: 11:00 AM – 9:00 PM",
-    category: "continental",
-    tags: ["pasta", "fusion", "stir fry", "continental", "creative"],
-    featured: false,
+    deliveryFee: "GHS 5",
+    openHours: "Mon – Fri: 9:00 AM – 5:00 PM | Sat: 9:00 AM – 10:00 PM | Sun: 10:30 AM – 10:00 PM",
+    category: "restaurant",
+    tags: ["grilled", "pasta", "burger", "jollof", "all-day"],
+    featured: true,
   },
   {
-    id: "the-juice-bar",
-    name: "The Juice Bar",
-    shortDescription: "100% fresh-squeezed juices, power smoothies, and chilled sobolo blends.",
+    id: "university-kitchen",
+    name: "University Kitchen / Restaurant (124)",
+    shortDescription: "The campus's own canteen — affordable Ghanaian meals near the Central Mosque.",
     description:
-      "The Juice Bar is the refreshment hub of UCC campus. Every glass is squeezed or blended to order from seasonal fruits sourced directly from local farmers' markets. Their power smoothie range is specially designed for students — packed with energy-boosting ingredients to fuel long study sessions. The signature sobolo blends come in original, pineapple-ginger, and baobab flavours, each bursting with antioxidants and natural goodness.",
+      "University Kitchen, known locally as Restaurant 124, is the heart of on-campus dining at UCC. Operated by the university itself, it provides affordable, filling Ghanaian meals to students, staff, and visitors six days a week. The kitchen rotates daily specials of local dishes — rice, soups, stews, and traditional swallows — ensuring variety throughout the week. While the setting is functional rather than fancy, the food is honest and the prices are among the most student-friendly on campus.",
     image:
-      "https://images.unsplash.com/photo-1610970881699-44a5587cabec?w=800&q=80",
+      "https://lh3.googleusercontent.com/place-photos/AJRVUZPLJ2IVT8grz7tuUhhloM3v6BVDvxkqM_P_B0hOc-7W7q6ieZKo0pLa38lc8yfTelfAd2yaA4nclIylV4cCriU7FeoXpxG_LGBWzMwcziE-R9KqvAjguaJ97zoUmc0tpUbnKVvGDlg92oaXeQ=s4800-w800-h600",
     flyer:
-      "https://images.unsplash.com/photo-1502741338009-cac2772e18bc?w=800&q=80",
-    location: "University Square, near the ATM kiosks and admin block",
-    contact: "+233 23 111 2233",
-    whatsapp: "233231112233",
-    rating: { rate: 4.5, count: 108 },
+      "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=800&q=80",
+    location: "Near Central Mosque, on campus",
+    lat: 5.1287897,
+    lng: -1.2852428,
+    contact: null,
+    whatsapp: null,
+    rating: { rate: 3.5, count: 93 },
     menu: [
       {
-        name: "Fresh Orange Juice",
+        name: "Daily Rice Dish",
         description:
-          "Pure, pulpy fresh-squeezed orange juice with no added sugar or preservatives — nature at its best.",
-        priceMin: 10,
-        priceMax: 20,
-        image:
-          "https://images.unsplash.com/photo-1610970881699-44a5587cabec?w=400&q=80",
-      },
-      {
-        name: "Power Smoothie",
-        description:
-          "A nutrient-packed blend of banana, spinach, almond milk, oats, and honey to fuel your study sessions.",
+          "A rotating daily special — jollof, fried, or plain rice served with the day's stew and protein of choice.",
         priceMin: 20,
         priceMax: 35,
         image:
-          "https://images.unsplash.com/photo-1502741338009-cac2772e18bc?w=400&q=80",
+          "https://images.unsplash.com/photo-1574484284002-952d92456975?w=400&q=80",
       },
       {
-        name: "Baobab Sobolo",
+        name: "Waakye Plate",
         description:
-          "Chilled hibiscus drink enriched with baobab powder, ginger, and a touch of honey — tangy, nutritious, refreshing.",
-        priceMin: 10,
-        priceMax: 18,
-        image:
-          "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&q=80",
-      },
-      {
-        name: "Tropical Fruit Blend",
-        description:
-          "A vibrant mix of watermelon, pineapple, mango, and mint — the ultimate thirst-quencher on a hot Cape Coast day.",
-        priceMin: 15,
-        priceMax: 28,
-        image:
-          "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=80",
-      },
-    ],
-    delivery: true,
-    deliveryFee: "GHS 3",
-    openHours: "Mon – Sun: 7:00 AM – 8:00 PM",
-    category: "drinks",
-    tags: ["juice", "smoothie", "sobolo", "healthy", "fresh"],
-    featured: false,
-  },
-  {
-    id: "waakye-palace",
-    name: "Waakye Palace",
-    shortDescription: "Cape Coast's finest waakye — loaded, flavourful, and irresistibly satisfying.",
-    description:
-      "Waakye Palace is the undisputed king of waakye on the UCC campus. Their signature dish is a masterpiece of layers — perfectly cooked rice and beans, smooth gari, spaghetti, a boiled egg, and your choice of stew, all crowned with a generous portion of protein. The 'Royal Waakye' loaded platter has become something of a campus legend and regularly sells out before noon. Come early, or be prepared to wait — and agree that it was absolutely worth it.",
-    image:
-      "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=800&q=80",
-    flyer:
-      "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=800&q=80",
-    location: "Off-campus, near the UCC Roundabout, Cape Coast",
-    contact: "+233 54 678 9900",
-    whatsapp: "233546789900",
-    rating: { rate: 4.6, count: 195 },
-    menu: [
-      {
-        name: "Royal Waakye",
-        description:
-          "The legendary loaded platter — waakye, spaghetti, gari, boiled egg, tomato stew, and grilled tilapia or chicken.",
-        priceMin: 30,
-        priceMax: 55,
+          "Classic waakye with tomato stew, spaghetti, gari, and your choice of chicken, beef, or boiled egg.",
+        priceMin: 18,
+        priceMax: 32,
         image:
           "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=400&q=80",
       },
       {
-        name: "Simple Waakye",
+        name: "Banku & Soup",
         description:
-          "Classic waakye with tomato stew, gari, and your choice of an egg or a single piece of fried fish.",
-        priceMin: 18,
-        priceMax: 30,
-        image:
-          "https://images.unsplash.com/photo-1574484284002-952d92456975?w=400&q=80",
-      },
-      {
-        name: "Gari Fotor",
-        description:
-          "Cassava flour soaked and mixed with beans, palm oil, and onions — a humble but intensely satisfying dish.",
-        priceMin: 15,
-        priceMax: 25,
-        image:
-          "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80",
-      },
-      {
-        name: "Rice & Tomato Stew",
-        description:
-          "Fluffy boiled rice paired with a rich tomato-based stew and a choice of grilled chicken, beef, or fish.",
-        priceMin: 20,
-        priceMax: 38,
+          "Freshly made fermented corn dough served with light or okra soup and your choice of fish or meat.",
+        priceMin: 25,
+        priceMax: 40,
         image:
           "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&q=80",
+      },
+      {
+        name: "Fufu & Groundnut Soup",
+        description:
+          "Pounded fufu immersed in a thick, nutty groundnut soup with chicken or goat meat.",
+        priceMin: 28,
+        priceMax: 45,
+        image:
+          "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80",
       },
     ],
     delivery: false,
     deliveryFee: null,
-    openHours: "Mon – Sat: 6:00 AM – 1:00 PM",
+    openHours: "Mon – Sat: 8:00 AM – Late | Sun: Closed",
     category: "local",
-    tags: ["waakye", "rice", "beans", "traditional", "loaded"],
+    tags: ["waakye", "fufu", "banku", "campus canteen", "affordable"],
     featured: false,
   },
   {
-    id: "pizza-corner",
-    name: "Pizza Corner",
-    shortDescription: "Hand-stretched pizzas and authentic pasta baked fresh in a stone oven.",
+    id: "sasakawa-restaurant",
+    name: "Sasakawa Restaurant",
+    shortDescription: "Well-established campus restaurant near the Admin block with a broad menu.",
     description:
-      "Pizza Corner brings a slice of Italian authenticity to UCC. Their pizzas are hand-stretched, topped generously, and baked in a wood-fired stone oven for that perfect charred crust and bubbling cheese. The pasta is made fresh in-house daily, tossed in sauces ranging from classic marinara to a bold shito-infused arrabiata. Ideal for group dinners, study breaks, or anytime you want something distinctly different from the everyday campus menu.",
+      "Sasakawa Restaurant is one of UCC's most recognised dining establishments, sitting conveniently near the Admin block and drawing a steady crowd of students, lecturers, and administrative staff throughout the day. The menu spans a wide range — from Ghanaian home dishes and grilled proteins to continental plates and light bites — making it a versatile choice for any meal. Sasakawa's longevity on campus is testament to reliable food and a pleasant, shaded seating area that offers a welcome break from the academic day.",
     image:
-      "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&q=80",
+      "https://lh3.googleusercontent.com/place-photos/AJRVUZMaefjd6IR00x8S2bfIaS2lXsQpmtpmFc6Uh2OdncEub6TPL28nMonFQurPfuFwkF9t3NjG6oBkqSOn0ldWHg_m7_rq59NhOBnnZ66PNBYsu4P4go_Io0g8Y8CEyV_5kR1e221xSfu-xaP3TsE=s4800-w800-h600",
     flyer:
-      "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&q=80",
-    location: "Main Campus, near the Post-Graduate Lecture Hall Block",
-    contact: "+233 30 222 3344",
-    whatsapp: "233302223344",
-    rating: { rate: 3.9, count: 63 },
+      "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80",
+    location: "Near Admin block, on campus",
+    lat: 5.1183508,
+    lng: -1.2897315,
+    contact: "+233 20 586 6305",
+    whatsapp: "233205866305",
+    rating: { rate: 3.7, count: 192 },
     menu: [
       {
-        name: "Margherita Pizza",
+        name: "Jollof Rice & Grilled Chicken",
         description:
-          "Classic wood-fired pizza with San Marzano tomato sauce, fresh mozzarella, and fragrant basil leaves.",
-        priceMin: 45,
-        priceMax: 75,
+          "Sasakawa's signature smoky jollof paired with well-seasoned grilled chicken and a side salad.",
+        priceMin: 35,
+        priceMax: 55,
         image:
-          "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&q=80",
+          "https://images.unsplash.com/photo-1574484284002-952d92456975?w=400&q=80",
       },
       {
-        name: "Pepperoni & Pepper Pizza",
+        name: "Continental Plate",
         description:
-          "Loaded pizza with spicy pepperoni, roasted peppers, chilli flakes, and a drizzle of honey for balance.",
-        priceMin: 55,
-        priceMax: 85,
-        image:
-          "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=80",
-      },
-      {
-        name: "Spaghetti Bolognese",
-        description:
-          "Al dente spaghetti tossed in a slow-cooked beef and tomato ragu, finished with parmesan and fresh basil.",
+          "Mashed potato or rice with a choice of beef, chicken, or fish in a rich tomato-herb sauce.",
         priceMin: 40,
         priceMax: 65,
         image:
-          "https://images.unsplash.com/photo-1498654896293-37aacf113fd9?w=400&q=80",
+          "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&q=80",
       },
       {
-        name: "Garlic Bread",
+        name: "Grilled Tilapia & Banku",
         description:
-          "Crusty stone-baked bread rubbed with roasted garlic butter and fresh parsley — the perfect side or starter.",
-        priceMin: 15,
-        priceMax: 25,
+          "Whole tilapia grilled over charcoal with fermented banku and a side of fresh pepper sauce.",
+        priceMin: 45,
+        priceMax: 70,
+        image:
+          "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&q=80",
+      },
+      {
+        name: "Club Sandwich",
+        description:
+          "Triple-decker toasted sandwich with grilled chicken, lettuce, tomato, and a generous spread of mayo.",
+        priceMin: 25,
+        priceMax: 40,
         image:
           "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400&q=80",
       },
     ],
-    delivery: true,
-    deliveryFee: "GHS 7",
-    openHours: "Mon – Sun: 12:00 PM – 10:00 PM",
-    category: "continental",
-    tags: ["pizza", "pasta", "italian", "stone oven", "garlic bread"],
+    delivery: false,
+    deliveryFee: null,
+    openHours: "Mon – Sat: 8:00 AM – 8:00 PM | Sun: Closed",
+    category: "restaurant",
+    tags: ["jollof", "continental", "grilled", "campus", "tilapia"],
+    featured: true,
+  },
+  {
+    id: "golden-cape-cafe",
+    name: "Golden Cape Cafe (Eve's Pork)",
+    shortDescription: "Cape Coast's pork specialist — smoky, slow-cooked, and utterly irresistible.",
+    description:
+      "Golden Cape Cafe, widely known on campus as Eve's Pork, has built a devoted following for one thing above all else: exceptional pork dishes. The pork is slow-cooked, deeply seasoned, and finished over open flame for a smoky char that keeps diners coming back. Whether it's pork belly, ribs, or grilled chops, every cut is handled with skill and served generously. Located on the Cape Coast side, it's a short trip from campus that serious food lovers will agree is absolutely worth it.",
+    image:
+      "https://lh3.googleusercontent.com/place-photos/AJRVUZPabxjLR2EmJrWBTqfcMYrvhVj1r2Vu1Aram_i04RyGwGtv_YywRYAS4Lj7lJDiHCUQhEzerxHrh77MSXaSv9-bFmZbHgjSwGYxevqskRn8IuB7MfwsxplM8th4l0089sxQJVFjoiSiEwKHWw=s4800-w800-h600",
+    flyer:
+      "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80",
+    location: "Cape Coast side",
+    lat: 5.1261892,
+    lng: -1.2776269,
+    contact: "+233 24 331 9396",
+    whatsapp: "233243319396",
+    rating: { rate: 4.3, count: 4 },
+    menu: [
+      {
+        name: "Pork Belly & Rice",
+        description:
+          "Slow-roasted pork belly with crispy crackling, served over steamed rice with a spiced pepper sauce.",
+        priceMin: 50,
+        priceMax: 80,
+        image:
+          "https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=400&q=80",
+      },
+      {
+        name: "Grilled Pork Chops",
+        description:
+          "Thick-cut pork chops marinated in garlic and herbs, grilled over open flame and served with yam or plantain.",
+        priceMin: 55,
+        priceMax: 85,
+        image:
+          "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80",
+      },
+      {
+        name: "Pork Stew & Yam",
+        description:
+          "Tender chunks of pork simmered in a rich tomato and onion stew, served with boiled yam or cocoyam.",
+        priceMin: 45,
+        priceMax: 70,
+        image:
+          "https://images.unsplash.com/photo-1574484284002-952d92456975?w=400&q=80",
+      },
+      {
+        name: "Pork Kebab Skewers",
+        description:
+          "Spiced pork cubes threaded on skewers and chargrilled, served with chimichurri sauce and fresh salad.",
+        priceMin: 40,
+        priceMax: 65,
+        image:
+          "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&q=80",
+      },
+    ],
+    delivery: false,
+    deliveryFee: null,
+    openHours: "Tue – Sun: 12:30 PM – 11:00 PM | Mon: Closed",
+    category: "restaurant",
+    tags: ["pork", "grilled", "slow-cooked", "cape coast", "ribs"],
     featured: false,
+  },
+  {
+    id: "kfc-cape-coast",
+    name: "KFC Cape Coast",
+    shortDescription: "The iconic global chain — Original Recipe chicken just off campus on Takoradi Road.",
+    description:
+      "KFC Cape Coast needs little introduction. Sitting just off the Cape Coast–Takoradi Road, it's the closest international fast-food chain to UCC and a wildly popular choice for students craving that unmistakable Original Recipe crunch. With over 2,000 Google ratings and a 4.6-star average, it consistently delivers the KFC experience — crispy seasoned chicken, hearty burgers, and combo meals — in a clean, air-conditioned setting. Perfect for a treat between lectures or a group outing from campus.",
+    image:
+      "https://lh3.googleusercontent.com/place-photos/AJRVUZMykv5wiFKMJLhixPkV1wjGmEno6KOIQmW8UcDzfY3cDL06OYqqH3oOC8AuYc9gMlREWLcCygPlbNwOuKiiDOh4vFDdoBdSLiCgBdwUCGvfHX37TnPDzFMZefImUhxj6YZtNhCfFZs2eOmHQxk=s4800-w800-h600",
+    flyer:
+      "https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=800&q=80",
+    location: "Cape Coast–Takoradi Rd (off campus)",
+    lat: 5.1206524,
+    lng: -1.2727109,
+    contact: "+233 59 403 1148",
+    whatsapp: "233594031148",
+    website: "https://www.kfc.com.gh/",
+    rating: { rate: 4.6, count: 2241 },
+    menu: [
+      {
+        name: "Original Recipe Bucket",
+        description:
+          "The iconic 6-piece KFC bucket of perfectly seasoned Original Recipe chicken — finger lickin' good.",
+        priceMin: 85,
+        priceMax: 130,
+        image:
+          "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400&q=80",
+      },
+      {
+        name: "Zinger Burger",
+        description:
+          "Spicy crispy chicken fillet in a toasted sesame bun with Zinger sauce, lettuce, and pickles.",
+        priceMin: 45,
+        priceMax: 70,
+        image:
+          "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80",
+      },
+      {
+        name: "Twister Wrap",
+        description:
+          "Warm flour tortilla filled with crispy chicken strips, lettuce, tomato, and creamy Caesar dressing.",
+        priceMin: 40,
+        priceMax: 60,
+        image:
+          "https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=400&q=80",
+      },
+      {
+        name: "Family Feast",
+        description:
+          "A sharing platter of Original Recipe and Hot & Crispy pieces with fries, coleslaw, and drinks for the group.",
+        priceMin: 150,
+        priceMax: 220,
+        image:
+          "https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=400&q=80",
+      },
+    ],
+    delivery: true,
+    deliveryFee: "GHS 10",
+    openHours: "Daily, Hours Vary",
+    category: "fast_food",
+    tags: ["KFC", "fried chicken", "burger", "fast food", "international"],
+    featured: true,
   },
 ];
 
 export const categories = [
   { value: "all", label: "All Vendors" },
   { value: "local", label: "Local Dishes" },
-  { value: "continental", label: "Continental" },
-  { value: "fast-food", label: "Fast Food" },
-  { value: "drinks", label: "Drinks & Juices" },
+  { value: "restaurant", label: "Restaurants" },
+  { value: "fast_food", label: "Fast Food" },
+  { value: "cafe", label: "Cafés & Drinks" },
+  { value: "chinese", label: "Chinese / International" },
 ];
 
 export const featuredVendors = vendors.filter((v) => v.featured);
