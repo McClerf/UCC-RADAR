@@ -38,6 +38,11 @@ export default function Vendors() {
   const [deliveryFilter, setDeliveryFilter] = useState('all');
   const [sortBy, setSortBy] = useState('rating');
   const [showFilters, setShowFilters] = useState(false);
+  const [approvedVendors, setApprovedVendors] = useState([]);
+
+  useEffect(() => {
+    getApprovedVendors().then(setApprovedVendors).catch(() => {});
+  }, []);
 
   function handleTabChange(tab) {
     setActiveTab(tab);
@@ -45,7 +50,7 @@ export default function Vendors() {
   }
 
   const filtered = useMemo(() => {
-    let list = [...vendors, ...getApprovedVendors()];
+    let list = [...vendors, ...approvedVendors];
 
     if (query.trim()) {
       const q = query.toLowerCase();
@@ -82,7 +87,7 @@ export default function Vendors() {
     });
 
     return list;
-  }, [query, activeTab, activeSubcategory, deliveryFilter, sortBy]);
+  }, [query, activeTab, activeSubcategory, deliveryFilter, sortBy, approvedVendors]);
 
   const clearFilters = () => {
     setQuery('');

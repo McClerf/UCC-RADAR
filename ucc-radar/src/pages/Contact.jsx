@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import emailjs from '@emailjs/browser';
 import {
   Store,
   User,
@@ -15,7 +14,6 @@ import {
   AlertCircle,
 } from 'lucide-react';
 import { saveVendorAsPending } from '../data/vendors';
-import { EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, EMAILJS_PUBLIC_KEY } from '../config/emailjs';
 
 const benefits = [
   {
@@ -98,39 +96,13 @@ export default function Contact() {
     setSendError('');
     setSending(true);
 
-    const categoryLabel = {
-      local: 'Local Dishes', restaurant: 'Restaurant', fast_food: 'Fast Food',
-      cafe: 'Cafés & Drinks', chinese: 'Chinese / International',
-      printing: 'Printing & Stationery', beauty: 'Hair & Beauty',
-      tech: 'Tech Services', clothing: 'Clothing & Accessories', tutoring: 'Tutoring & Academic',
-    };
-
     try {
-      await emailjs.send(
-        EMAILJS_SERVICE_ID,
-        EMAILJS_TEMPLATE_ID,
-        {
-          vendor_name:  form.vendorName,
-          owner_name:   form.ownerName,
-          vendor_type:  vendorType === 'food' ? 'Food Vendor' : 'Student Vendor',
-          category:     categoryLabel[form.category] || form.category,
-          phone:        form.phone,
-          whatsapp:     form.whatsapp,
-          email:        form.email || 'Not provided',
-          location:     form.location,
-          open_hours:   form.openHours,
-          delivery:     form.delivery,
-          description:  form.description,
-          message:      form.message || 'None',
-        },
-        EMAILJS_PUBLIC_KEY
-      );
+      await saveVendorAsPending({ ...form, vendorType });
     } catch {
-      // Email failed — still save locally, just warn
-      setSendError('Note: email notification could not be sent, but your request was saved.');
+      setSendError('Could not save your request. Please try again.');
+      setSending(false);
+      return;
     }
-
-    saveVendorAsPending({ ...form, vendorType });
     setSending(false);
     setSubmitted(true);
   };

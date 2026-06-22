@@ -146,7 +146,7 @@ export default function Homepage() {
           className="absolute inset-0 bg-cover bg-center"
           style={{
             backgroundImage:
-              "url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1600&q=80')",
+              "url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1600&q=80')",
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-gray-900/90 via-gray-900/70 to-gray-900/40" />

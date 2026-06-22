@@ -1195,56 +1195,86 @@ const categoryDefaultImages = {
   tutoring:   'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800',
 };
 
-export function getPendingVendors() {
-  try { return JSON.parse(localStorage.getItem('pending_vendors')) || []; }
-  catch { return []; }
-}
+import { supabase } from '../config/supabase';
 
-export function getApprovedVendors() {
-  try { return JSON.parse(localStorage.getItem('approved_vendors')) || []; }
-  catch { return []; }
-}
-
-export function saveVendorAsPending(formData) {
-  const existing = getPendingVendors();
-  const img = categoryDefaultImages[formData.category] || categoryDefaultImages.local;
-  const newVendor = {
-    id: `submitted-${Date.now()}`,
-    name: formData.vendorName,
-    shortDescription: formData.description.slice(0, 120),
-    description: formData.description,
+function rowToVendor(row) {
+  const img = categoryDefaultImages[row.category] || categoryDefaultImages.local;
+  return {
+    id: `submitted-${row.id}`,
+    name: row.name,
+    shortDescription: (row.description || '').slice(0, 120),
+    description: row.description || '',
     image: img,
     flyer: img,
-    location: formData.location,
+    location: row.location || '',
     lat: 5.1175,
     lng: -1.2878,
-    contact: formData.phone,
-    whatsapp: formData.whatsapp.replace(/[\s+\-()]/g, ''),
-    email: formData.email,
-    openHours: formData.openHours,
-    delivery: formData.delivery === 'Yes, I offer delivery',
-    deliveryFee: formData.delivery === 'Yes, I offer delivery' ? 'Contact vendor' : null,
-    category: formData.category,
+    contact: row.phone,
+    whatsapp: (row.whatsapp || '').replace(/[\s+\-()]/g, ''),
+    email: row.email || '',
+    openHours: row.open_hours || '',
+    delivery: row.delivery || false,
+    deliveryFee: row.delivery ? 'Contact vendor' : null,
+    category: row.category,
     rating: { rate: 0, count: 0 },
     tags: [],
     menu: [],
     featured: false,
   };
-  localStorage.setItem('pending_vendors', JSON.stringify([...existing, newVendor]));
-  return newVendor;
 }
 
-export function approveVendor(id) {
-  const pending = getPendingVendors();
-  const vendor = pending.find((v) => v.id === id);
-  if (!vendor) return false;
-  const approved = getApprovedVendors();
-  localStorage.setItem('pending_vendors', JSON.stringify(pending.filter((v) => v.id !== id)));
-  localStorage.setItem('approved_vendors', JSON.stringify([...approved, vendor]));
-  return true;
+export async function saveVendorAsPending(formData) {
+  const { error } = await supabase.from('vendor_submissions').insert({
+    name: formData.vendorName,
+    owner_name: formData.ownerName,
+    vendor_type: formData.vendorType,
+    category: formData.category,
+    phone: formData.phone,
+    whatsapp: formData.whatsapp,
+    email: formData.email || null,
+    location: formData.location,
+    open_hours: formData.openHours,
+    delivery: formData.delivery === 'Yes, I offer delivery',
+    delivery_fee: formData.delivery === 'Yes, I offer delivery' ? 'Contact vendor' : '',
+    description: formData.description,
+    message: formData.message || '',
+    status: 'pending',
+  });
+  if (error) throw error;
 }
 
-export function rejectVendor(id) {
-  const pending = getPendingVendors();
-  localStorage.setItem('pending_vendors', JSON.stringify(pending.filter((v) => v.id !== id)));
+export async function getPendingVendors() {
+  const { data, error } = await supabase
+    .from('vendor_submissions')
+    .select('*')
+    .eq('status', 'pending')
+    .order('created_at', { ascending: false });
+  if (error) throw error;
+  return data || [];
+}
+
+export async function getApprovedVendors() {
+  const { data, error } = await supabase
+    .from('vendor_submissions')
+    .select('*')
+    .eq('status', 'approved')
+    .order('created_at', { ascending: false });
+  if (error) return [];
+  return (data || []).map(rowToVendor);
+}
+
+export async function approveVendor(id) {
+  const { error } = await supabase
+    .from('vendor_submissions')
+    .update({ status: 'approved' })
+    .eq('id', id);
+  if (error) throw error;
+}
+
+export async function rejectVendor(id) {
+  const { error } = await supabase
+    .from('vendor_submissions')
+    .update({ status: 'rejected' })
+    .eq('id', id);
+  if (error) throw error;
 }

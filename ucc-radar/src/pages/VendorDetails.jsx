@@ -163,7 +163,25 @@ function CommentsSection({ vendorId }) {
 export default function VendorDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const vendor = [...vendors, ...getApprovedVendors()].find((v) => v.id === id);
+  const [approvedVendors, setApprovedVendors] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getApprovedVendors()
+      .then(setApprovedVendors)
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
+  const vendor = [...vendors, ...approvedVendors].find((v) => v.id === id);
+
+  if (loading) {
+    return (
+      <div className="pt-16 min-h-screen flex items-center justify-center">
+        <div className="w-8 h-8 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   if (!vendor) {
     return (

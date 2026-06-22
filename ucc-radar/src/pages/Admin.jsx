@@ -86,25 +86,33 @@ export default function Admin() {
   const [pending, setPending]       = useState([]);
   const [approvedCount, setApprovedCount] = useState(0);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     if (password === ADMIN_PASSWORD) {
       setAuth(true);
-      setPending(getPendingVendors());
-      setApprovedCount(getApprovedVendors().length);
+      try {
+        const [pendingData, approvedData] = await Promise.all([
+          getPendingVendors(),
+          getApprovedVendors(),
+        ]);
+        setPending(pendingData);
+        setApprovedCount(approvedData.length);
+      } catch {
+        setPending([]);
+      }
     } else {
       setWrong(true);
     }
   };
 
-  const handleApprove = (id) => {
-    approveVendor(id);
+  const handleApprove = async (id) => {
+    await approveVendor(id);
     setPending((prev) => prev.filter((v) => v.id !== id));
     setApprovedCount((n) => n + 1);
   };
 
-  const handleReject = (id) => {
-    rejectVendor(id);
+  const handleReject = async (id) => {
+    await rejectVendor(id);
     setPending((prev) => prev.filter((v) => v.id !== id));
   };
 
