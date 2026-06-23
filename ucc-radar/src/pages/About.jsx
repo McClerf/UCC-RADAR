@@ -14,8 +14,8 @@ import {
   GraduationCap,
 } from 'lucide-react';
 
-const BG_IMAGE =
-  'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1600&q=80';
+const BG_FOOD    = 'https://images.unsplash.com/photo-1567521464027-f127ff144326?w=900&q=80';
+const BG_CAMPUS  = 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=900&q=80';
 
 const values = [
   {
@@ -79,12 +79,18 @@ const card = 'bg-white/10 backdrop-blur-md rounded-2xl border border-white/15';
 export default function About() {
   return (
     <div className="pt-16 relative min-h-screen">
-      {/* Background */}
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url('${BG_IMAGE}')` }}
-      />
-      <div className="absolute inset-0 bg-[#172554]/87" />
+      {/* Background — left half food, right half campus students */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div
+          className="absolute inset-y-0 left-0 w-1/2 bg-cover bg-center"
+          style={{ backgroundImage: `url('${BG_FOOD}')` }}
+        />
+        <div
+          className="absolute inset-y-0 right-0 w-1/2 bg-cover bg-center"
+          style={{ backgroundImage: `url('${BG_CAMPUS}')` }}
+        />
+      </div>
+      <div className="absolute inset-0 bg-[#172554]/85" />
 
       <div className="relative z-10">
         {/* ─── Hero ─── */}
