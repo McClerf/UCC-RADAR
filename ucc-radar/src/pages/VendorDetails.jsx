@@ -104,14 +104,16 @@ function CommentsSection({ vendorId }) {
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
-  useEffect(() => {
-    supabase
+  async function fetchComments() {
+    const { data } = await supabase
       .from('comments')
       .select('*')
       .eq('vendor_id', vendorId)
-      .order('created_at', { ascending: false })
-      .then(({ data }) => setComments(data || []));
-  }, [vendorId]);
+      .order('created_at', { ascending: false });
+    setComments(data || []);
+  }
+
+  useEffect(() => { fetchComments(); }, [vendorId]);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -119,12 +121,15 @@ function CommentsSection({ vendorId }) {
     if (!rating) { setError('Please select a star rating.'); return; }
     setError('');
     setSubmitting(true);
-    const { data, error: err } = await supabase
+    const { error: err } = await supabase
       .from('comments')
-      .insert({ vendor_id: vendorId, name: name.trim(), text: text.trim(), rating })
-      .select()
-      .single();
-    if (!err && data) setComments((prev) => [data, ...prev]);
+      .insert({ vendor_id: vendorId, name: name.trim(), text: text.trim(), rating });
+    if (err) {
+      setError(`Could not post review: ${err.message}`);
+      setSubmitting(false);
+      return;
+    }
+    await fetchComments();
     setName(''); setText(''); setRating(0);
     setSubmitting(false);
   }
