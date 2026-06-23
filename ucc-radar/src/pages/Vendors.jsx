@@ -123,7 +123,7 @@ export default function Vendors() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search vendors or food types..."
-              className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A8A] focus:border-transparent"
             />
             {query && (
               <button
@@ -140,7 +140,7 @@ export default function Vendors() {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="appearance-none w-full sm:w-48 pl-4 pr-9 py-3 rounded-xl border border-gray-200 bg-white text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 cursor-pointer"
+              className="appearance-none w-full sm:w-48 pl-4 pr-9 py-3 rounded-xl border border-gray-200 bg-white text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#1E3A8A] cursor-pointer"
             >
               {sortOptions.map((opt) => (
                 <option key={opt.value} value={opt.value}>
@@ -169,8 +169,8 @@ export default function Vendors() {
               onClick={() => handleTabChange('all')}
               className={`px-4 py-2 rounded-full text-sm font-medium border transition-all duration-200 ${
                 activeTab === 'all'
-                  ? 'bg-emerald-600 text-white border-emerald-600 shadow-sm'
-                  : 'bg-white text-gray-600 border-gray-200 hover:border-emerald-300 hover:text-emerald-700'
+                  ? 'bg-[#1E3A8A] text-white border-[#1E3A8A] shadow-sm'
+                  : 'bg-white text-gray-600 border-gray-200 hover:border-blue-300 hover:text-[#1E3A8A]'
               }`}
             >
               All Vendors
@@ -179,8 +179,8 @@ export default function Vendors() {
               onClick={() => handleTabChange('food')}
               className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium border transition-all duration-200 ${
                 activeTab === 'food'
-                  ? 'bg-emerald-600 text-white border-emerald-600 shadow-sm'
-                  : 'bg-white text-gray-600 border-gray-200 hover:border-emerald-300 hover:text-emerald-700'
+                  ? 'bg-[#1E3A8A] text-white border-[#1E3A8A] shadow-sm'
+                  : 'bg-white text-gray-600 border-gray-200 hover:border-blue-300 hover:text-[#1E3A8A]'
               }`}
             >
               <UtensilsCrossed size={13} />
@@ -190,8 +190,8 @@ export default function Vendors() {
               onClick={() => handleTabChange('student')}
               className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium border transition-all duration-200 ${
                 activeTab === 'student'
-                  ? 'bg-emerald-600 text-white border-emerald-600 shadow-sm'
-                  : 'bg-white text-gray-600 border-gray-200 hover:border-emerald-300 hover:text-emerald-700'
+                  ? 'bg-[#1E3A8A] text-white border-[#1E3A8A] shadow-sm'
+                  : 'bg-white text-gray-600 border-gray-200 hover:border-blue-300 hover:text-[#1E3A8A]'
               }`}
             >
               <GraduationCap size={13} />
@@ -212,7 +212,7 @@ export default function Vendors() {
                 className={`px-4 py-2 rounded-full text-sm font-medium border transition-all duration-200 ${
                   deliveryFilter === value
                     ? 'bg-emerald-600 text-white border-emerald-600'
-                    : 'bg-white text-gray-600 border-gray-200 hover:border-emerald-300 hover:text-emerald-700'
+                    : 'bg-white text-gray-600 border-gray-200 hover:border-blue-300 hover:text-[#1E3A8A]'
                 }`}
               >
                 {label}
@@ -247,12 +247,12 @@ export default function Vendors() {
               Active filters:
             </span>
             {query && (
-              <span className="flex items-center gap-1 px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-medium rounded-full border border-emerald-200">
+              <span className="flex items-center gap-1 px-3 py-1 bg-blue-50 text-[#1E3A8A] text-xs font-medium rounded-full border border-blue-200">
                 "{query}" <button onClick={() => setQuery('')}><X size={10} /></button>
               </span>
             )}
             {activeTab !== 'all' && (
-              <span className="flex items-center gap-1 px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-medium rounded-full border border-emerald-200">
+              <span className="flex items-center gap-1 px-3 py-1 bg-blue-50 text-[#1E3A8A] text-xs font-medium rounded-full border border-blue-200">
                 {activeTab === 'food' ? 'Food Vendors' : 'Student Vendors'}
                 <button onClick={() => handleTabChange('all')}><X size={10} /></button>
               </span>
@@ -264,7 +264,7 @@ export default function Vendors() {
               </span>
             )}
             {deliveryFilter !== 'all' && (
-              <span className="flex items-center gap-1 px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-medium rounded-full border border-emerald-200">
+              <span className="flex items-center gap-1 px-3 py-1 bg-blue-50 text-[#1E3A8A] text-xs font-medium rounded-full border border-blue-200">
                 {deliveryFilter === 'delivery' ? 'Delivery' : 'Dine-in Only'}
                 <button onClick={() => setDeliveryFilter('all')}><X size={10} /></button>
               </span>
@@ -294,7 +294,7 @@ export default function Vendors() {
             </p>
             <button
               onClick={clearFilters}
-              className="px-6 py-3 bg-emerald-600 text-white font-semibold rounded-xl hover:bg-emerald-700 transition-colors"
+              className="px-6 py-3 bg-[#1E3A8A] text-white font-semibold rounded-xl hover:bg-[#172554] transition-colors"
             >
               Clear Filters
             </button>

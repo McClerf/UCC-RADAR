@@ -132,7 +132,7 @@ export default function Contact() {
               setSendError('');
               setForm({ vendorName: '', ownerName: '', phone: '', whatsapp: '', email: '', location: '', category: '', openHours: '', delivery: '', description: '', message: '' });
             }}
-            className="px-6 py-3 bg-emerald-600 text-white font-semibold rounded-xl hover:bg-emerald-700 transition-colors"
+            className="px-6 py-3 bg-[#1E3A8A] text-white font-semibold rounded-xl hover:bg-[#172554] transition-colors"
           >
             Submit Another Request
           </button>
@@ -144,7 +144,7 @@ export default function Contact() {
   return (
     <div className="pt-16 bg-gray-50">
       {/* Hero */}
-      <div className="bg-gradient-to-br from-emerald-700 to-emerald-900 text-white py-20">
+      <div className="bg-gradient-to-br from-[#1E3A8A] to-[#172554] text-white py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="w-16 h-16 bg-white/15 rounded-2xl flex items-center justify-center mx-auto mb-6">
             <UtensilsCrossed size={28} className="text-white" />
@@ -152,7 +152,7 @@ export default function Contact() {
           <h1 className="text-4xl sm:text-5xl font-black mb-4">
             List Your Vendor
           </h1>
-          <p className="text-emerald-100 text-lg max-w-xl mx-auto leading-relaxed">
+          <p className="text-blue-100 text-lg max-w-xl mx-auto leading-relaxed">
             Join the UCCRadar directory and get your food business in front of thousands of UCC students — for free.
           </p>
         </div>
@@ -167,7 +167,7 @@ export default function Contact() {
               <div className="flex flex-col gap-5">
                 {benefits.map(({ icon, title, desc }) => (
                   <div key={title} className="flex gap-4">
-                    <div className="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600 shrink-0">
+                    <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center text-[#1E3A8A] shrink-0">
                       {icon}
                     </div>
                     <div>
@@ -179,9 +179,9 @@ export default function Contact() {
               </div>
             </div>
 
-            <div className="bg-emerald-600 rounded-2xl p-6 text-white">
+            <div className="bg-[#1E3A8A] rounded-2xl p-6 text-white">
               <h3 className="font-bold text-base mb-2">Have Questions?</h3>
-              <p className="text-sm text-emerald-100 mb-4 leading-relaxed">
+              <p className="text-sm text-blue-100 mb-4 leading-relaxed">
                 Reach out directly and we'll help you get set up as quickly as possible.
               </p>
               <a
@@ -218,11 +218,11 @@ export default function Contact() {
                         onClick={() => handleVendorTypeChange(value)}
                         className={`flex flex-col items-center gap-2 py-5 px-4 rounded-xl border-2 cursor-pointer transition-all text-center ${
                           vendorType === value
-                            ? 'border-emerald-500 bg-emerald-50 text-emerald-700'
-                            : 'border-gray-200 text-gray-500 hover:border-emerald-300'
+                            ? 'border-[#1E3A8A] bg-blue-50 text-[#1E3A8A]'
+                            : 'border-gray-200 text-gray-500 hover:border-blue-300'
                         }`}
                       >
-                        <span className={vendorType === value ? 'text-emerald-600' : 'text-gray-400'}>{icon}</span>
+                        <span className={vendorType === value ? 'text-[#1E3A8A]' : 'text-gray-400'}>{icon}</span>
                         <span className="font-bold text-sm">{label}</span>
                         <span className="text-xs text-gray-400 leading-snug">{desc}</span>
                       </button>
@@ -245,7 +245,7 @@ export default function Contact() {
                         onChange={handleChange}
                         required
                         placeholder="e.g. Mama's Kitchen"
-                        className="w-full pl-9 pr-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                        className="w-full pl-9 pr-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A8A]"
                       />
                     </div>
                   </div>
@@ -262,7 +262,7 @@ export default function Contact() {
                         onChange={handleChange}
                         required
                         placeholder="Owner's name"
-                        className="w-full pl-9 pr-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                        className="w-full pl-9 pr-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A8A]"
                       />
                     </div>
                   </div>
@@ -283,7 +283,7 @@ export default function Contact() {
                         onChange={handleChange}
                         required
                         placeholder="+233 XX XXX XXXX"
-                        className="w-full pl-9 pr-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                        className="w-full pl-9 pr-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A8A]"
                       />
                     </div>
                   </div>
@@ -300,7 +300,7 @@ export default function Contact() {
                         onChange={handleChange}
                         required
                         placeholder="+233 XX XXX XXXX"
-                        className="w-full pl-9 pr-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                        className="w-full pl-9 pr-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A8A]"
                       />
                     </div>
                   </div>
@@ -319,7 +319,7 @@ export default function Contact() {
                       value={form.email}
                       onChange={handleChange}
                       placeholder="your@email.com"
-                      className="w-full pl-9 pr-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                      className="w-full pl-9 pr-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A8A]"
                     />
                   </div>
                 </div>
@@ -338,7 +338,7 @@ export default function Contact() {
                       onChange={handleChange}
                       required
                       placeholder="e.g. Near the student hostel, UCC"
-                      className="w-full pl-9 pr-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                      className="w-full pl-9 pr-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A8A]"
                     />
                   </div>
                 </div>
@@ -357,8 +357,8 @@ export default function Contact() {
                           onClick={() => { setForm((f) => ({ ...f, category: value })); setCategoryError(''); }}
                           className={`px-4 py-2 rounded-xl border-2 text-sm font-medium transition-all ${
                             form.category === value
-                              ? 'border-emerald-500 bg-emerald-50 text-emerald-700'
-                              : 'border-gray-200 text-gray-500 hover:border-emerald-300 hover:text-emerald-600'
+                              ? 'border-[#1E3A8A] bg-blue-50 text-[#1E3A8A]'
+                              : 'border-gray-200 text-gray-500 hover:border-blue-300 hover:text-[#1E3A8A]'
                           }`}
                         >
                           {label}
@@ -382,7 +382,7 @@ export default function Contact() {
                     onChange={handleChange}
                     required
                     placeholder="e.g. Mon–Sat: 7am – 8pm"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A8A]"
                   />
                 </div>
 
@@ -398,8 +398,8 @@ export default function Contact() {
                         key={opt}
                         className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl border-2 cursor-pointer text-sm font-medium transition-colors ${
                           form.delivery === opt
-                            ? 'border-emerald-500 bg-emerald-50 text-emerald-700'
-                            : 'border-gray-200 text-gray-600 hover:border-emerald-300'
+                            ? 'border-[#1E3A8A] bg-blue-50 text-[#1E3A8A]'
+                            : 'border-gray-200 text-gray-600 hover:border-blue-300'
                         }`}
                       >
                         <input
@@ -429,7 +429,7 @@ export default function Contact() {
                     required
                     rows={4}
                     placeholder="Tell students what makes your food special — your signature dishes, what makes you unique, etc."
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 resize-none"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A8A] resize-none"
                   />
                 </div>
 
@@ -444,7 +444,7 @@ export default function Contact() {
                     onChange={handleChange}
                     rows={3}
                     placeholder="Any other information you'd like us to know..."
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 resize-none"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A8A] resize-none"
                   />
                 </div>
 
@@ -457,7 +457,7 @@ export default function Contact() {
                 <button
                   type="submit"
                   disabled={sending}
-                  className="w-full py-4 bg-emerald-600 hover:bg-emerald-700 disabled:bg-emerald-400 text-white font-bold text-base rounded-2xl transition-colors shadow-sm mt-2"
+                  className="w-full py-4 bg-[#1E3A8A] hover:bg-[#172554] disabled:bg-blue-400 text-white font-bold text-base rounded-2xl transition-colors shadow-sm mt-2"
                 >
                   {sending ? 'Submitting…' : 'Submit Listing Request →'}
                 </button>

@@ -77,7 +77,7 @@ export default function VendorCard({ vendor }) {
         )}
         {/* Delivery Badge */}
         {delivery && (
-          <span className="absolute top-3 right-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-2.5 py-1 rounded-full text-xs font-semibold flex items-center gap-1 shadow-sm">
+          <span className="absolute top-3 right-3 bg-gradient-to-r from-amber-500 to-amber-400 text-white px-2.5 py-1 rounded-full text-xs font-semibold flex items-center gap-1 shadow-sm">
             <Truck size={10} />
             Delivery
           </span>
@@ -89,7 +89,7 @@ export default function VendorCard({ vendor }) {
         <div className="flex items-start justify-between gap-2 mb-1.5">
           <h3 className="font-bold text-gray-900 text-base leading-snug">{name}</h3>
           {minPrice && (
-            <span className="shrink-0 text-xs font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">
+            <span className="shrink-0 text-xs font-semibold text-[#1E3A8A] bg-blue-50 px-2 py-0.5 rounded-full">
               GHS {minPrice}+
             </span>
           )}
@@ -102,7 +102,7 @@ export default function VendorCard({ vendor }) {
         </p>
 
         <div className="mt-3 flex items-start gap-1.5 text-xs text-gray-400">
-          <MapPin size={12} className="shrink-0 mt-0.5 text-emerald-500" />
+          <MapPin size={12} className="shrink-0 mt-0.5 text-[#1E3A8A]" />
           <span className="line-clamp-2">{location}</span>
         </div>
 
@@ -117,7 +117,7 @@ export default function VendorCard({ vendor }) {
           </button>
           <Link
             to={`/vendors/${id}`}
-            className="flex-1 flex items-center justify-center gap-1 px-3 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white text-xs font-semibold transition-all shadow-sm hover:shadow-emerald-200 hover:shadow-md"
+            className="flex-1 flex items-center justify-center gap-1 px-3 py-2 rounded-xl bg-gradient-to-r from-[#1E3A8A] to-[#172554] hover:from-[#172554] hover:to-[#0f172a] text-white text-xs font-semibold transition-all shadow-sm hover:shadow-blue-200 hover:shadow-md"
           >
             View Details
             <ChevronRight size={13} />

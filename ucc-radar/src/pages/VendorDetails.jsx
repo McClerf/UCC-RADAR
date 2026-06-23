@@ -175,7 +175,7 @@ function CommentsSection({ vendorId }) {
           placeholder="Your name"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="w-full text-sm border border-gray-200 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-400 placeholder:text-gray-400"
+          className="w-full text-sm border border-gray-200 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1E3A8A] placeholder:text-gray-400"
         />
         <div>
           <p className="text-xs font-semibold text-gray-500 mb-2">Your Rating *</p>
@@ -186,13 +186,13 @@ function CommentsSection({ vendorId }) {
           value={text}
           onChange={(e) => setText(e.target.value)}
           rows={3}
-          className="w-full text-sm border border-gray-200 rounded-xl px-4 py-2.5 resize-none focus:outline-none focus:ring-2 focus:ring-emerald-400 placeholder:text-gray-400"
+          className="w-full text-sm border border-gray-200 rounded-xl px-4 py-2.5 resize-none focus:outline-none focus:ring-2 focus:ring-[#1E3A8A] placeholder:text-gray-400"
         />
         {error && <p className="text-xs text-red-500">{error}</p>}
         <button
           type="submit"
           disabled={submitting}
-          className="flex items-center justify-center gap-2 w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 disabled:bg-emerald-400 text-white font-semibold text-sm rounded-xl transition-colors"
+          className="flex items-center justify-center gap-2 w-full py-2.5 bg-[#1E3A8A] hover:bg-[#172554] disabled:bg-blue-400 text-white font-semibold text-sm rounded-xl transition-colors"
         >
           <Send size={14} />
           {submitting ? 'Posting…' : 'Post Review'}
@@ -225,7 +225,7 @@ function CommentsSection({ vendorId }) {
                       <div className="flex items-center gap-1 shrink-0">
                         <button
                           onClick={() => { setEditingId(c.id); setEditText(c.text); setEditRating(c.rating); setConfirmDeleteId(null); }}
-                          className="p-1.5 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors"
+                          className="p-1.5 text-gray-400 hover:text-[#1E3A8A] hover:bg-blue-50 rounded-lg transition-colors"
                           title="Edit"
                         >
                           <Pencil size={13} />
@@ -248,12 +248,12 @@ function CommentsSection({ vendorId }) {
                         value={editText}
                         onChange={(e) => setEditText(e.target.value)}
                         rows={3}
-                        className="w-full text-sm border border-gray-200 rounded-xl px-4 py-2.5 resize-none focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                        className="w-full text-sm border border-gray-200 rounded-xl px-4 py-2.5 resize-none focus:outline-none focus:ring-2 focus:ring-[#1E3A8A]"
                       />
                       <div className="flex gap-2">
                         <button
                           onClick={() => handleSaveEdit(c.id)}
-                          className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-lg transition-colors"
+                          className="flex items-center gap-1.5 px-3 py-1.5 bg-[#1E3A8A] hover:bg-[#172554] text-white text-xs font-semibold rounded-lg transition-colors"
                         >
                           <Check size={12} /> Save
                         </button>
@@ -310,7 +310,7 @@ export default function VendorDetails() {
   if (loading) {
     return (
       <div className="pt-16 min-h-screen flex items-center justify-center">
-        <div className="w-8 h-8 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin" />
+        <div className="w-8 h-8 border-4 border-[#1E3A8A] border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
@@ -323,7 +323,7 @@ export default function VendorDetails() {
         <p className="text-gray-500">The vendor you're looking for doesn't exist or has been removed.</p>
         <Link
           to="/vendors"
-          className="px-6 py-3 bg-emerald-600 text-white font-semibold rounded-xl hover:bg-emerald-700 transition-colors"
+          className="px-6 py-3 bg-[#1E3A8A] text-white font-semibold rounded-xl hover:bg-[#172554] transition-colors"
         >
           Browse All Vendors
         </Link>
@@ -379,7 +379,7 @@ export default function VendorDetails() {
                 {categoryLabel[category]}
               </span>
               {delivery && (
-                <span className="flex items-center gap-1 bg-emerald-600 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                <span className="flex items-center gap-1 bg-amber-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
                   <Truck size={10} /> Campus Delivery
                 </span>
               )}
@@ -434,7 +434,7 @@ export default function VendorDetails() {
                   {menu.map((item, idx) => (
                     <div
                       key={idx}
-                      className="flex gap-4 p-4 rounded-xl border border-gray-100 hover:border-emerald-200 hover:shadow-sm transition-all duration-200"
+                      className="flex gap-4 p-4 rounded-xl border border-gray-100 hover:border-blue-200 hover:shadow-sm transition-all duration-200"
                     >
                       <img
                         src={item.image}
@@ -450,7 +450,7 @@ export default function VendorDetails() {
                             {item.description}
                           </p>
                         </div>
-                        <span className="mt-2 inline-block text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full w-fit">
+                        <span className="mt-2 inline-block text-xs font-bold text-[#1E3A8A] bg-blue-50 px-2 py-0.5 rounded-full w-fit">
                           GHS {item.priceMin} – {item.priceMax}
                         </span>
                       </div>
@@ -483,8 +483,8 @@ export default function VendorDetails() {
 
               <div className="flex flex-col gap-4">
                 <div className="flex items-start gap-3">
-                  <div className="w-9 h-9 bg-emerald-50 rounded-xl flex items-center justify-center shrink-0">
-                    <MapPin size={16} className="text-emerald-600" />
+                  <div className="w-9 h-9 bg-blue-50 rounded-xl flex items-center justify-center shrink-0">
+                    <MapPin size={16} className="text-[#1E3A8A]" />
                   </div>
                   <div>
                     <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-0.5">
@@ -495,8 +495,8 @@ export default function VendorDetails() {
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <div className="w-9 h-9 bg-emerald-50 rounded-xl flex items-center justify-center shrink-0">
-                    <Clock size={16} className="text-emerald-600" />
+                  <div className="w-9 h-9 bg-blue-50 rounded-xl flex items-center justify-center shrink-0">
+                    <Clock size={16} className="text-[#1E3A8A]" />
                   </div>
                   <div>
                     <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-0.5">
@@ -507,8 +507,8 @@ export default function VendorDetails() {
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <div className="w-9 h-9 bg-emerald-50 rounded-xl flex items-center justify-center shrink-0">
-                    <Phone size={16} className="text-emerald-600" />
+                  <div className="w-9 h-9 bg-blue-50 rounded-xl flex items-center justify-center shrink-0">
+                    <Phone size={16} className="text-[#1E3A8A]" />
                   </div>
                   <div>
                     <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-0.5">
@@ -516,7 +516,7 @@ export default function VendorDetails() {
                     </p>
                     <a
                       href={`tel:${contact}`}
-                      className="text-sm text-emerald-700 font-semibold hover:underline"
+                      className="text-sm text-[#1E3A8A] font-semibold hover:underline"
                     >
                       {contact}
                     </a>
@@ -524,8 +524,8 @@ export default function VendorDetails() {
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <div className="w-9 h-9 bg-emerald-50 rounded-xl flex items-center justify-center shrink-0">
-                    <Truck size={16} className="text-emerald-600" />
+                  <div className="w-9 h-9 bg-blue-50 rounded-xl flex items-center justify-center shrink-0">
+                    <Truck size={16} className="text-[#1E3A8A]" />
                   </div>
                   <div>
                     <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-0.5">
@@ -543,14 +543,14 @@ export default function VendorDetails() {
 
             {/* Price Range Card */}
             {minPrice !== null ? (
-              <div className="bg-emerald-50 border border-emerald-100 rounded-2xl p-5">
-                <p className="text-xs font-semibold text-emerald-600 uppercase tracking-wider mb-1">
+              <div className="bg-blue-50 border border-blue-100 rounded-2xl p-5">
+                <p className="text-xs font-semibold text-[#1E3A8A] uppercase tracking-wider mb-1">
                   Price Range
                 </p>
-                <p className="text-2xl font-black text-emerald-800">
-                  GHS {minPrice} <span className="text-base font-medium text-emerald-600">to</span> GHS {maxPrice}
+                <p className="text-2xl font-black text-[#172554]">
+                  GHS {minPrice} <span className="text-base font-medium text-[#1E3A8A]">to</span> GHS {maxPrice}
                 </p>
-                <p className="text-xs text-emerald-600 mt-1">Prices vary per item and portion size</p>
+                <p className="text-xs text-[#1E3A8A] mt-1">Prices vary per item and portion size</p>
               </div>
             ) : (
               <div className="bg-gray-50 border border-gray-100 rounded-2xl p-5">
@@ -575,7 +575,7 @@ export default function VendorDetails() {
             {/* Call Button */}
             <a
               href={`tel:${contact}`}
-              className="flex items-center justify-center gap-3 w-full py-4 bg-white border-2 border-emerald-600 text-emerald-700 font-bold text-base rounded-2xl hover:bg-emerald-50 transition-colors"
+              className="flex items-center justify-center gap-3 w-full py-4 bg-white border-2 border-[#1E3A8A] text-[#1E3A8A] font-bold text-base rounded-2xl hover:bg-blue-50 transition-colors"
             >
               <Phone size={18} />
               Call Vendor
@@ -590,7 +590,7 @@ export default function VendorDetails() {
         <div className="mt-12 text-center">
           <Link
             to="/vendors"
-            className="inline-flex items-center gap-2 text-emerald-600 font-semibold hover:text-emerald-700 transition-colors"
+            className="inline-flex items-center gap-2 text-[#1E3A8A] font-semibold hover:text-[#172554] transition-colors"
           >
             <ArrowLeft size={16} />
             Browse More Vendors

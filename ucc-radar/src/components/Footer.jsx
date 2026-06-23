@@ -24,7 +24,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="sm:col-span-2 lg:col-span-1">
             <Link to="/" className="flex items-center gap-2 mb-4">
-              <div className="w-9 h-9 bg-emerald-600 rounded-xl flex items-center justify-center">
+              <div className="w-9 h-9 bg-[#1E3A8A] rounded-xl flex items-center justify-center">
                 <UtensilsCrossed size={18} className="text-white" />
               </div>
               <div className="flex items-baseline gap-0.5">
@@ -37,14 +37,14 @@ export default function Footer() {
             </p>
             <div className="flex flex-col gap-2 text-sm">
               <span className="flex items-center gap-2 text-gray-400">
-                <MapPin size={14} className="text-emerald-500 shrink-0" />
+                <MapPin size={14} className="text-amber-400 shrink-0" />
                 University of Cape Coast, Ghana
               </span>
               <a
                 href="mailto:joshuamcclerf@gmail.com"
-                className="flex items-center gap-2 text-gray-400 hover:text-emerald-400 transition-colors"
+                className="flex items-center gap-2 text-gray-400 hover:text-amber-400 transition-colors"
               >
-                <Mail size={14} className="text-emerald-500 shrink-0" />
+                <Mail size={14} className="text-amber-400 shrink-0" />
                 joshuamcclerf@gmail.com
               </a>
             </div>
@@ -60,7 +60,7 @@ export default function Footer() {
                 <li key={to}>
                   <Link
                     to={to}
-                    className="text-sm text-gray-400 hover:text-emerald-400 transition-colors"
+                    className="text-sm text-gray-400 hover:text-amber-400 transition-colors"
                   >
                     {label}
                   </Link>
@@ -79,7 +79,7 @@ export default function Footer() {
                 <li key={to}>
                   <Link
                     to={to}
-                    className="text-sm text-gray-400 hover:text-emerald-400 transition-colors"
+                    className="text-sm text-gray-400 hover:text-amber-400 transition-colors"
                   >
                     {label}
                   </Link>
@@ -98,7 +98,7 @@ export default function Footer() {
             </p>
             <Link
               to="/contact"
-              className="inline-block bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold px-5 py-2.5 rounded-full transition-colors"
+              className="inline-block bg-amber-500 hover:bg-amber-400 text-white text-sm font-semibold px-5 py-2.5 rounded-full transition-colors"
             >
               Get Listed →
             </Link>

@@ -34,12 +34,12 @@ export default function Header() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
-            <div className="w-9 h-9 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center shadow-md group-hover:shadow-emerald-200 group-hover:scale-105 transition-all">
+            <div className="w-9 h-9 bg-[#1E3A8A] rounded-xl flex items-center justify-center shadow-md group-hover:shadow-blue-200 group-hover:scale-105 transition-all">
               <Radar size={18} className="text-white" />
             </div>
             <div className="flex items-baseline gap-0.5">
               <span className="text-xl font-black text-gray-900 tracking-tight">UCC</span>
-              <span className="text-xl font-black bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent tracking-tight">Radar</span>
+              <span className="text-xl font-black bg-gradient-to-r from-[#1E3A8A] to-amber-500 bg-clip-text text-transparent tracking-tight">Radar</span>
             </div>
           </Link>
 
@@ -53,11 +53,11 @@ export default function Header() {
                 className={({ isActive }) =>
                   `px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                     isActive
-                      ? 'bg-emerald-50 text-emerald-700 font-semibold'
-                      : 'text-gray-600 hover:text-emerald-700 hover:bg-gray-50'
+                      ? 'bg-blue-50 text-[#1E3A8A] font-semibold'
+                      : 'text-gray-600 hover:text-[#1E3A8A] hover:bg-gray-50'
                   } ${
                     label === 'List Your Vendor'
-                      ? 'ml-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white px-5 py-2 rounded-full shadow-md hover:shadow-emerald-200 hover:shadow-lg transition-all'
+                      ? 'ml-2 bg-gradient-to-r from-[#1E3A8A] to-[#172554] hover:from-[#172554] hover:to-[#0f172a] text-white px-5 py-2 rounded-full shadow-md hover:shadow-blue-200 hover:shadow-lg transition-all'
                       : ''
                   }`
                 }
@@ -93,11 +93,11 @@ export default function Header() {
               className={({ isActive }) =>
                 `px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
                   isActive
-                    ? 'bg-emerald-50 text-emerald-700 font-semibold'
+                    ? 'bg-blue-50 text-[#1E3A8A] font-semibold'
                     : 'text-gray-700 hover:bg-gray-50'
                 } ${
                   label === 'List Your Vendor'
-                    ? 'mt-1 bg-emerald-600 text-white text-center hover:bg-emerald-700'
+                    ? 'mt-1 bg-[#1E3A8A] text-white text-center hover:bg-[#172554]'
                     : ''
                 }`
               }

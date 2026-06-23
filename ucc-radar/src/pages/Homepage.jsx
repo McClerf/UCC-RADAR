@@ -104,7 +104,7 @@ const steps = [
     step: '01',
     title: 'Browse Vendors',
     desc: 'Explore food vendors and student services on campus. Filter by category, delivery, or price to find exactly what you need.',
-    color: 'bg-emerald-50 text-emerald-600',
+    color: 'bg-blue-50 text-[#1E3A8A]',
   },
   {
     step: '02',
@@ -116,7 +116,7 @@ const steps = [
     step: '03',
     title: 'Connect Instantly',
     desc: 'Tap the WhatsApp button to chat directly with any vendor on your phone — fast, easy, no middleman.',
-    color: 'bg-blue-50 text-blue-600',
+    color: 'bg-blue-50 text-[#1E3A8A]',
   },
 ];
 
@@ -149,11 +149,11 @@ export default function Homepage() {
               "url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1600&q=80')",
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-emerald-950/95 via-slate-900/80 to-teal-900/50" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#172554]/95 via-slate-900/85 to-[#1E3A8A]/70" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 w-full">
           <div className="max-w-2xl">
-            <span className="inline-flex items-center gap-2 bg-emerald-600/20 border border-emerald-500/30 text-emerald-300 text-sm font-medium px-4 py-1.5 rounded-full mb-6">
+            <span className="inline-flex items-center gap-2 bg-amber-500/20 border border-amber-400/40 text-amber-300 text-sm font-medium px-4 py-1.5 rounded-full mb-6">
               <ShieldCheck size={14} />
               Trusted by UCC Students
             </span>
@@ -174,12 +174,12 @@ export default function Homepage() {
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder="Search vendors, food types..."
-                  className="w-full pl-11 pr-4 py-3.5 rounded-xl bg-white text-gray-900 placeholder-gray-400 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-lg"
+                  className="w-full pl-11 pr-4 py-3.5 rounded-xl bg-white text-gray-900 placeholder-gray-400 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#1E3A8A] shadow-lg"
                 />
               </div>
               <button
                 type="submit"
-                className="px-6 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-xl transition-colors shadow-lg shrink-0"
+                className="px-6 py-3.5 bg-amber-500 hover:bg-amber-600 text-white font-semibold rounded-xl transition-colors shadow-lg shrink-0"
               >
                 Search
               </button>
@@ -209,7 +209,7 @@ export default function Homepage() {
       </section>
 
       {/* ─── Stats ─── */}
-      <section className="bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 py-12">
+      <section className="bg-gradient-to-r from-[#1E3A8A] via-[#172554] to-[#1E3A8A] py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {stats.map(({ icon, value, label }) => (
@@ -218,7 +218,7 @@ export default function Homepage() {
                   {icon}
                 </div>
                 <p className="text-3xl font-black text-white">{value}</p>
-                <p className="text-sm text-emerald-100">{label}</p>
+                <p className="text-sm text-blue-200">{label}</p>
               </div>
             ))}
           </div>
@@ -230,7 +230,7 @@ export default function Homepage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl font-black text-gray-900 mb-3">
-              Browse by <span className="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">Category</span>
+              Browse by <span className="bg-gradient-to-r from-[#1E3A8A] to-amber-500 bg-clip-text text-transparent">Category</span>
             </h2>
             <p className="text-gray-500 max-w-xl mx-auto">
               From local Ghanaian dishes to student services — find everything you need on UCC campus.
@@ -295,7 +295,7 @@ export default function Homepage() {
             </div>
             <Link
               to="/vendors"
-              className="flex items-center gap-2 text-emerald-600 font-semibold hover:text-emerald-700 transition-colors shrink-0"
+              className="flex items-center gap-2 text-[#1E3A8A] font-semibold hover:text-[#172554] transition-colors shrink-0"
             >
               View all vendors <ArrowRight size={16} />
             </Link>
@@ -336,15 +336,15 @@ export default function Homepage() {
       </section>
 
       {/* ─── CTA ─── */}
-      <section className="py-20 bg-gradient-to-br from-emerald-700 via-teal-700 to-emerald-900 text-white relative overflow-hidden">
+      <section className="py-20 bg-gradient-to-br from-[#1E3A8A] via-[#172554] to-[#0f172a] text-white relative overflow-hidden">
         <div className="absolute -top-20 -right-20 w-80 h-80 bg-white/5 rounded-full" />
         <div className="absolute -bottom-16 -left-16 w-64 h-64 bg-amber-400/10 rounded-full" />
-        <div className="absolute top-1/2 left-1/3 w-40 h-40 bg-teal-400/10 rounded-full -translate-y-1/2" />
+        <div className="absolute top-1/2 left-1/3 w-40 h-40 bg-amber-400/5 rounded-full -translate-y-1/2" />
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl sm:text-4xl font-black mb-4">
             Ready to Explore All Vendors?
           </h2>
-          <p className="text-emerald-100 mb-8 text-lg max-w-xl mx-auto">
+          <p className="text-blue-100 mb-8 text-lg max-w-xl mx-auto">
             Food, services, and everything in between — the complete campus vendor directory, all in one place.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
