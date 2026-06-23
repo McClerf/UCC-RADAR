@@ -139,18 +139,16 @@ export default function Homepage() {
 
   return (
     <div className="pt-16">
-      {/* ─── Hero ─── */}
-      <section className="relative min-h-[92vh] flex items-center overflow-hidden">
-        {/* Background */}
+      {/* ─── Shared background: Hero → How It Works ─── */}
+      <div className="relative">
         <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage:
-              "url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1600&q=80')",
-          }}
+          className="absolute inset-0 bg-cover bg-center bg-fixed"
+          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1600&q=80')" }}
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-[#172554]/95 via-slate-900/85 to-[#1E3A8A]/70" />
+        <div className="absolute inset-0 bg-[#172554]/87" />
 
+      {/* ─── Hero ─── */}
+      <section className="relative z-10 min-h-[92vh] flex items-center overflow-hidden">
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
 
@@ -299,7 +297,7 @@ export default function Homepage() {
       </section>
 
       {/* ─── Stats ─── */}
-      <section className="bg-gradient-to-r from-[#1E3A8A] via-[#172554] to-[#1E3A8A] py-12">
+      <section className="relative z-10 bg-gradient-to-r from-[#1E3A8A] via-[#172554] to-[#1E3A8A] py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {stats.map(({ icon, value, label }) => (
@@ -314,14 +312,6 @@ export default function Homepage() {
           </div>
         </div>
       </section>
-
-      {/* ─── Shared background: Categories + Featured Vendors + How It Works ─── */}
-      <div className="relative">
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-fixed"
-          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1600&q=80')" }}
-        />
-        <div className="absolute inset-0 bg-[#172554]/88" />
 
         {/* ─── Categories ─── */}
         <section className="relative z-10 py-20">
@@ -432,7 +422,7 @@ export default function Homepage() {
             </div>
           </div>
         </section>
-      </div>
+      </div>{/* end shared background wrapper */}
 
       {/* ─── CTA ─── */}
       <section className="py-20 bg-gradient-to-br from-[#1E3A8A] via-[#172554] to-[#0f172a] text-white relative overflow-hidden">
