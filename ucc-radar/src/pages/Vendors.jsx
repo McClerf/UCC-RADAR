@@ -211,7 +211,7 @@ export default function Vendors() {
                 onClick={() => setDeliveryFilter(value)}
                 className={`px-4 py-2 rounded-full text-sm font-medium border transition-all duration-200 ${
                   deliveryFilter === value
-                    ? 'bg-emerald-600 text-white border-emerald-600'
+                    ? 'bg-[#1E3A8A] text-white border-[#1E3A8A]'
                     : 'bg-white text-gray-600 border-gray-200 hover:border-blue-300 hover:text-[#1E3A8A]'
                 }`}
               >
