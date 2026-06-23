@@ -98,8 +98,8 @@ export default function Contact() {
 
     try {
       await saveVendorAsPending({ ...form, vendorType });
-    } catch {
-      setSendError('Could not save your request. Please try again.');
+    } catch (err) {
+      setSendError(`Could not save your request: ${err?.message || 'Unknown error'}. Please try again.`);
       setSending(false);
       return;
     }

@@ -15,6 +15,7 @@ import {
   UserCircle2,
 } from 'lucide-react';
 import { vendors, getApprovedVendors } from '../data/vendors';
+import { supabase } from '../config/supabase';
 
 const categoryLabel = {
   local:      'Local Dishes',
@@ -68,48 +69,70 @@ function StarRating({ rate, count }) {
   );
 }
 
+function StarPicker({ value, onChange }) {
+  const [hovered, setHovered] = useState(0);
+  return (
+    <div className="flex gap-1">
+      {[1, 2, 3, 4, 5].map((star) => (
+        <button
+          key={star}
+          type="button"
+          onClick={() => onChange(star)}
+          onMouseEnter={() => setHovered(star)}
+          onMouseLeave={() => setHovered(0)}
+          className="transition-transform hover:scale-110"
+        >
+          <Star
+            size={24}
+            className={
+              star <= (hovered || value)
+                ? 'text-amber-400 fill-amber-400'
+                : 'text-gray-300 fill-gray-100'
+            }
+          />
+        </button>
+      ))}
+    </div>
+  );
+}
+
 function CommentsSection({ vendorId }) {
-  const storageKey = `comments_${vendorId}`;
-  const [comments, setComments] = useState(() => {
-    try {
-      return JSON.parse(localStorage.getItem(storageKey)) || [];
-    } catch {
-      return [];
-    }
-  });
+  const [comments, setComments] = useState([]);
   const [name, setName] = useState('');
   const [text, setText] = useState('');
+  const [rating, setRating] = useState(0);
   const [error, setError] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem(storageKey, JSON.stringify(comments));
-  }, [comments, storageKey]);
+    supabase
+      .from('comments')
+      .select('*')
+      .eq('vendor_id', vendorId)
+      .order('created_at', { ascending: false })
+      .then(({ data }) => setComments(data || []));
+  }, [vendorId]);
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    if (!name.trim() || !text.trim()) {
-      setError('Please fill in both fields.');
-      return;
-    }
+    if (!name.trim() || !text.trim()) { setError('Please fill in both fields.'); return; }
+    if (!rating) { setError('Please select a star rating.'); return; }
     setError('');
-    setComments((prev) => [
-      {
-        id: Date.now(),
-        name: name.trim(),
-        text: text.trim(),
-        date: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }),
-      },
-      ...prev,
-    ]);
-    setName('');
-    setText('');
+    setSubmitting(true);
+    const { data, error: err } = await supabase
+      .from('comments')
+      .insert({ vendor_id: vendorId, name: name.trim(), text: text.trim(), rating })
+      .select()
+      .single();
+    if (!err && data) setComments((prev) => [data, ...prev]);
+    setName(''); setText(''); setRating(0);
+    setSubmitting(false);
   }
 
   return (
     <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-      <h2 className="text-lg font-black text-gray-900 mb-5">Comments</h2>
+      <h2 className="text-lg font-black text-gray-900 mb-5">Reviews & Comments</h2>
 
-      {/* Post form */}
       <form onSubmit={handleSubmit} className="flex flex-col gap-3 mb-6">
         <input
           type="text"
@@ -118,6 +141,10 @@ function CommentsSection({ vendorId }) {
           onChange={(e) => setName(e.target.value)}
           className="w-full text-sm border border-gray-200 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-400 placeholder:text-gray-400"
         />
+        <div>
+          <p className="text-xs font-semibold text-gray-500 mb-2">Your Rating *</p>
+          <StarPicker value={rating} onChange={setRating} />
+        </div>
         <textarea
           placeholder="Leave a comment…"
           value={text}
@@ -128,16 +155,16 @@ function CommentsSection({ vendorId }) {
         {error && <p className="text-xs text-red-500">{error}</p>}
         <button
           type="submit"
-          className="flex items-center justify-center gap-2 w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm rounded-xl transition-colors"
+          disabled={submitting}
+          className="flex items-center justify-center gap-2 w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 disabled:bg-emerald-400 text-white font-semibold text-sm rounded-xl transition-colors"
         >
           <Send size={14} />
-          Post Comment
+          {submitting ? 'Posting…' : 'Post Review'}
         </button>
       </form>
 
-      {/* Comments list */}
       {comments.length === 0 ? (
-        <p className="text-sm text-gray-400 text-center py-4">No comments yet. Be the first!</p>
+        <p className="text-sm text-gray-400 text-center py-4">No reviews yet. Be the first!</p>
       ) : (
         <div className="flex flex-col gap-4">
           {comments.map((c) => (
@@ -148,7 +175,14 @@ function CommentsSection({ vendorId }) {
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
                   <span className="text-sm font-bold text-gray-800">{c.name}</span>
-                  <span className="text-xs text-gray-400">{c.date}</span>
+                  <span className="text-xs text-gray-400">
+                    {new Date(c.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+                  </span>
+                </div>
+                <div className="flex gap-0.5 mb-1.5">
+                  {[1, 2, 3, 4, 5].map((s) => (
+                    <Star key={s} size={13} className={s <= c.rating ? 'text-amber-400 fill-amber-400' : 'text-gray-200 fill-gray-100'} />
+                  ))}
                 </div>
                 <p className="text-sm text-gray-600 leading-relaxed break-words">{c.text}</p>
               </div>
