@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { featuredVendors } from '../data/vendors';
 import VendorCard from '../components/VendorCard';
+import TodaysSpecials from '../components/TodaysSpecials';
 
 const foodCategories = [
   {
@@ -312,6 +313,9 @@ export default function Homepage() {
           </div>
         </div>
       </section>
+
+        {/* ─── Today's Specials ─── */}
+        <TodaysSpecials />
 
         {/* ─── Categories ─── */}
         <section className="relative z-10 py-20">
