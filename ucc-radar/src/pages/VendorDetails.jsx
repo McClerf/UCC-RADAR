@@ -10,6 +10,7 @@ import {
   Truck,
   Tag,
   AlertCircle,
+  Share2,
   Send,
   UserCircle2,
   Pencil,
@@ -494,6 +495,20 @@ export default function VendorDetails() {
   const liveRating = useLiveRating(vendor.id);
   const displayRating = liveRating ?? rating;
 
+  const [copied, setCopied] = useState(false);
+  async function handleShare() {
+    const url = window.location.href;
+    if (navigator.share) {
+      try { await navigator.share({ title: name, text: `Check out ${name} on UCC Radar`, url }); } catch {}
+    } else {
+      try {
+        await navigator.clipboard.writeText(url);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      } catch {}
+    }
+  }
+
   const minPrice = menu && menu.length > 0 ? Math.min(...menu.map((m) => m.priceMin)) : null;
   const maxPrice = menu && menu.length > 0 ? Math.max(...menu.map((m) => m.priceMax)) : null;
 
@@ -750,6 +765,28 @@ export default function VendorDetails() {
               <Phone size={18} />
               Call Vendor
             </a>
+
+            {/* Share Button */}
+            <button
+              onClick={handleShare}
+              className={`flex items-center justify-center gap-3 w-full py-3.5 rounded-2xl border-2 font-semibold text-sm transition-all duration-200 ${
+                copied
+                  ? 'border-green-400 bg-green-50 text-green-600'
+                  : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300 hover:bg-gray-50'
+              }`}
+            >
+              {copied ? (
+                <>
+                  <Check size={16} className="text-green-500" />
+                  Link Copied!
+                </>
+              ) : (
+                <>
+                  <Share2 size={16} />
+                  Share this Vendor
+                </>
+              )}
+            </button>
 
             {/* Comments */}
             <CommentsSection vendorId={vendor.id} />
