@@ -1,5 +1,5 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   ArrowLeft,
   MapPin,
@@ -9,7 +9,6 @@ import {
   Star,
   Truck,
   Tag,
-  ChevronRight,
   AlertCircle,
   Send,
   UserCircle2,
@@ -17,6 +16,9 @@ import {
   Trash2,
   Check,
   X,
+  Camera,
+  Images,
+  ZoomIn,
 } from 'lucide-react';
 import { vendors, getApprovedVendors } from '../data/vendors';
 import { supabase } from '../config/supabase';
@@ -116,6 +118,10 @@ function CommentsSection({ vendorId }) {
   const [editText, setEditText] = useState('');
   const [editRating, setEditRating] = useState(0);
   const [confirmDeleteId, setConfirmDeleteId] = useState(null);
+  const [photoFile, setPhotoFile] = useState(null);
+  const [photoPreview, setPhotoPreview] = useState(null);
+  const [lightboxUrl, setLightboxUrl] = useState(null);
+  const fileInputRef = useRef(null);
 
   async function fetchComments() {
     const { data } = await supabase
@@ -128,15 +134,44 @@ function CommentsSection({ vendorId }) {
 
   useEffect(() => { fetchComments(); }, [vendorId]);
 
+  function handlePhotoChange(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    setPhotoFile(file);
+    const reader = new FileReader();
+    reader.onload = (ev) => setPhotoPreview(ev.target.result);
+    reader.readAsDataURL(file);
+  }
+
+  function clearPhoto() {
+    setPhotoFile(null);
+    setPhotoPreview(null);
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  }
+
   async function handleSubmit(e) {
     e.preventDefault();
     if (!name.trim() || !text.trim()) { setError('Please fill in both fields.'); return; }
     if (!rating) { setError('Please select a star rating.'); return; }
     setError('');
     setSubmitting(true);
+
+    let photo_url = null;
+    if (photoFile) {
+      const ext = photoFile.name.split('.').pop().toLowerCase();
+      const path = `${vendorId}/${Date.now()}.${ext}`;
+      const { error: uploadErr } = await supabase.storage
+        .from('review-photos')
+        .upload(path, photoFile, { contentType: photoFile.type });
+      if (!uploadErr) {
+        const { data: urlData } = supabase.storage.from('review-photos').getPublicUrl(path);
+        photo_url = urlData.publicUrl;
+      }
+    }
+
     const { data: inserted, error: err } = await supabase
       .from('comments')
-      .insert({ vendor_id: vendorId, name: name.trim(), text: text.trim(), rating })
+      .insert({ vendor_id: vendorId, name: name.trim(), text: text.trim(), rating, photo_url })
       .select()
       .single();
     if (err) { setError(`Could not post review: ${err.message}`); setSubmitting(false); return; }
@@ -146,7 +181,7 @@ function CommentsSection({ vendorId }) {
       setMyCommentIds(updated);
     }
     await fetchComments();
-    setName(''); setText(''); setRating(0);
+    setName(''); setText(''); setRating(0); clearPhoto();
     setSubmitting(false);
   }
 
@@ -166,130 +201,236 @@ function CommentsSection({ vendorId }) {
     await fetchComments();
   }
 
+  const photoComments = comments.filter((c) => c.photo_url);
+
   return (
-    <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-      <h2 className="text-lg font-black text-gray-900 mb-5">Reviews & Comments</h2>
-
-      <form onSubmit={handleSubmit} className="flex flex-col gap-3 mb-6">
-        <input
-          type="text"
-          placeholder="Your name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="w-full text-sm border border-gray-200 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1E3A8A] placeholder:text-gray-400"
-        />
-        <div>
-          <p className="text-xs font-semibold text-gray-500 mb-2">Your Rating *</p>
-          <StarPicker value={rating} onChange={setRating} />
-        </div>
-        <textarea
-          placeholder="Leave a comment…"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          rows={3}
-          className="w-full text-sm border border-gray-200 rounded-xl px-4 py-2.5 resize-none focus:outline-none focus:ring-2 focus:ring-[#1E3A8A] placeholder:text-gray-400"
-        />
-        {error && <p className="text-xs text-red-500">{error}</p>}
-        <button
-          type="submit"
-          disabled={submitting}
-          className="flex items-center justify-center gap-2 w-full py-2.5 bg-[#1E3A8A] hover:bg-[#172554] disabled:bg-blue-400 text-white font-semibold text-sm rounded-xl transition-colors"
+    <>
+      {/* Lightbox */}
+      {lightboxUrl && (
+        <div
+          className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4"
+          onClick={() => setLightboxUrl(null)}
         >
-          <Send size={14} />
-          {submitting ? 'Posting…' : 'Post Review'}
-        </button>
-      </form>
-
-      {comments.length === 0 ? (
-        <p className="text-sm text-gray-400 text-center py-4">No reviews yet. Be the first!</p>
-      ) : (
-        <div className="flex flex-col gap-4">
-          {comments.map((c) => {
-            const isMine = myCommentIds.includes(c.id);
-            const isEditing = editingId === c.id;
-            const isConfirmingDelete = confirmDeleteId === c.id;
-
-            return (
-              <div key={c.id} className="flex gap-3">
-                <div className="shrink-0 mt-0.5">
-                  <UserCircle2 size={32} className="text-gray-300" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between gap-2 mb-1">
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm font-bold text-gray-800">{c.name}</span>
-                      <span className="text-xs text-gray-400">
-                        {new Date(c.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
-                      </span>
-                    </div>
-                    {isMine && !isEditing && (
-                      <div className="flex items-center gap-1 shrink-0">
-                        <button
-                          onClick={() => { setEditingId(c.id); setEditText(c.text); setEditRating(c.rating); setConfirmDeleteId(null); }}
-                          className="p-1.5 text-gray-400 hover:text-[#1E3A8A] hover:bg-blue-50 rounded-lg transition-colors"
-                          title="Edit"
-                        >
-                          <Pencil size={13} />
-                        </button>
-                        <button
-                          onClick={() => setConfirmDeleteId(c.id)}
-                          className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
-                          title="Delete"
-                        >
-                          <Trash2 size={13} />
-                        </button>
-                      </div>
-                    )}
-                  </div>
-
-                  {isEditing ? (
-                    <div className="flex flex-col gap-2 mt-1">
-                      <StarPicker value={editRating} onChange={setEditRating} />
-                      <textarea
-                        value={editText}
-                        onChange={(e) => setEditText(e.target.value)}
-                        rows={3}
-                        className="w-full text-sm border border-gray-200 rounded-xl px-4 py-2.5 resize-none focus:outline-none focus:ring-2 focus:ring-[#1E3A8A]"
-                      />
-                      <div className="flex gap-2">
-                        <button
-                          onClick={() => handleSaveEdit(c.id)}
-                          className="flex items-center gap-1.5 px-3 py-1.5 bg-[#1E3A8A] hover:bg-[#172554] text-white text-xs font-semibold rounded-lg transition-colors"
-                        >
-                          <Check size={12} /> Save
-                        </button>
-                        <button
-                          onClick={() => setEditingId(null)}
-                          className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-600 text-xs font-semibold rounded-lg transition-colors"
-                        >
-                          <X size={12} /> Cancel
-                        </button>
-                      </div>
-                    </div>
-                  ) : (
-                    <>
-                      <div className="flex gap-0.5 mb-1.5">
-                        {[1, 2, 3, 4, 5].map((s) => (
-                          <Star key={s} size={13} className={s <= c.rating ? 'text-amber-400 fill-amber-400' : 'text-gray-200 fill-gray-100'} />
-                        ))}
-                      </div>
-                      <p className="text-sm text-gray-600 leading-relaxed break-words">{c.text}</p>
-                      {isConfirmingDelete && (
-                        <div className="flex items-center gap-2 mt-2 p-2 bg-red-50 rounded-lg border border-red-100">
-                          <span className="text-xs text-red-600 flex-1">Delete this review?</span>
-                          <button onClick={() => handleDelete(c.id)} className="text-xs font-semibold text-white bg-red-500 hover:bg-red-600 px-2.5 py-1 rounded-md transition-colors">Yes</button>
-                          <button onClick={() => setConfirmDeleteId(null)} className="text-xs font-semibold text-gray-500 hover:text-gray-700 px-2 py-1 rounded-md transition-colors">No</button>
-                        </div>
-                      )}
-                    </>
-                  )}
-                </div>
-              </div>
-            );
-          })}
+          <div className="relative max-w-2xl w-full" onClick={(e) => e.stopPropagation()}>
+            <button
+              onClick={() => setLightboxUrl(null)}
+              className="absolute -top-10 right-0 flex items-center gap-1.5 text-white/60 hover:text-white text-sm transition-colors"
+            >
+              <X size={18} /> Close
+            </button>
+            <img src={lightboxUrl} alt="Review photo" className="w-full rounded-2xl shadow-2xl" />
+          </div>
         </div>
       )}
-    </div>
+
+      <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+        <h2 className="text-lg font-black text-gray-900 mb-5">Reviews & Comments</h2>
+
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3 mb-6">
+          <input
+            type="text"
+            placeholder="Your name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="w-full text-sm border border-gray-200 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1E3A8A] placeholder:text-gray-400"
+          />
+          <div>
+            <p className="text-xs font-semibold text-gray-500 mb-2">Your Rating *</p>
+            <StarPicker value={rating} onChange={setRating} />
+          </div>
+          <textarea
+            placeholder="Leave a comment…"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            rows={3}
+            className="w-full text-sm border border-gray-200 rounded-xl px-4 py-2.5 resize-none focus:outline-none focus:ring-2 focus:ring-[#1E3A8A] placeholder:text-gray-400"
+          />
+
+          {/* Photo picker */}
+          <div>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handlePhotoChange}
+              className="hidden"
+              id="review-photo-upload"
+            />
+            {photoPreview ? (
+              <div className="relative w-fit">
+                <img
+                  src={photoPreview}
+                  alt="Selected photo preview"
+                  className="h-20 w-28 object-cover rounded-xl border border-gray-200"
+                />
+                <button
+                  type="button"
+                  onClick={clearPhoto}
+                  className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center shadow"
+                >
+                  <X size={10} />
+                </button>
+              </div>
+            ) : (
+              <label
+                htmlFor="review-photo-upload"
+                className="inline-flex items-center gap-2 cursor-pointer px-3 py-2 rounded-xl border border-dashed border-gray-300 hover:border-[#1E3A8A] hover:bg-blue-50 transition-colors text-sm text-gray-500 hover:text-[#1E3A8A]"
+              >
+                <Camera size={15} />
+                Add a photo
+                <span className="text-gray-400 text-xs">(optional)</span>
+              </label>
+            )}
+          </div>
+
+          {error && <p className="text-xs text-red-500">{error}</p>}
+          <button
+            type="submit"
+            disabled={submitting}
+            className="flex items-center justify-center gap-2 w-full py-2.5 bg-[#1E3A8A] hover:bg-[#172554] disabled:bg-blue-400 text-white font-semibold text-sm rounded-xl transition-colors"
+          >
+            <Send size={14} />
+            {submitting ? 'Posting…' : 'Post Review'}
+          </button>
+        </form>
+
+        {/* Photo Wall */}
+        {photoComments.length > 0 && (
+          <div className="mb-6 pb-6 border-b border-gray-100">
+            <div className="flex items-center gap-2 mb-3">
+              <Images size={15} className="text-gray-400" />
+              <span className="text-sm font-bold text-gray-700">Student Photos</span>
+              <span className="text-xs text-gray-400 font-medium">({photoComments.length})</span>
+            </div>
+            <div className="flex gap-2.5 overflow-x-auto pb-1" style={{ scrollbarWidth: 'none' }}>
+              {photoComments.map((c) => (
+                <button
+                  key={c.id}
+                  type="button"
+                  onClick={() => setLightboxUrl(c.photo_url)}
+                  className="shrink-0 relative group rounded-xl overflow-hidden border border-gray-100 hover:border-blue-300 transition-all"
+                >
+                  <img
+                    src={c.photo_url}
+                    alt={`Photo by ${c.name}`}
+                    className="w-24 h-24 sm:w-28 sm:h-28 object-cover"
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/25 flex items-center justify-center transition-all">
+                    <ZoomIn size={18} className="text-white opacity-0 group-hover:opacity-100 transition-opacity drop-shadow" />
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {comments.length === 0 ? (
+          <p className="text-sm text-gray-400 text-center py-4">No reviews yet. Be the first!</p>
+        ) : (
+          <div className="flex flex-col gap-4">
+            {comments.map((c) => {
+              const isMine = myCommentIds.includes(c.id);
+              const isEditing = editingId === c.id;
+              const isConfirmingDelete = confirmDeleteId === c.id;
+
+              return (
+                <div key={c.id} className="flex gap-3">
+                  <div className="shrink-0 mt-0.5">
+                    <UserCircle2 size={32} className="text-gray-300" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between gap-2 mb-1">
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-bold text-gray-800">{c.name}</span>
+                        <span className="text-xs text-gray-400">
+                          {new Date(c.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+                        </span>
+                      </div>
+                      {isMine && !isEditing && (
+                        <div className="flex items-center gap-1 shrink-0">
+                          <button
+                            onClick={() => { setEditingId(c.id); setEditText(c.text); setEditRating(c.rating); setConfirmDeleteId(null); }}
+                            className="p-1.5 text-gray-400 hover:text-[#1E3A8A] hover:bg-blue-50 rounded-lg transition-colors"
+                            title="Edit"
+                          >
+                            <Pencil size={13} />
+                          </button>
+                          <button
+                            onClick={() => setConfirmDeleteId(c.id)}
+                            className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                            title="Delete"
+                          >
+                            <Trash2 size={13} />
+                          </button>
+                        </div>
+                      )}
+                    </div>
+
+                    {isEditing ? (
+                      <div className="flex flex-col gap-2 mt-1">
+                        <StarPicker value={editRating} onChange={setEditRating} />
+                        <textarea
+                          value={editText}
+                          onChange={(e) => setEditText(e.target.value)}
+                          rows={3}
+                          className="w-full text-sm border border-gray-200 rounded-xl px-4 py-2.5 resize-none focus:outline-none focus:ring-2 focus:ring-[#1E3A8A]"
+                        />
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => handleSaveEdit(c.id)}
+                            className="flex items-center gap-1.5 px-3 py-1.5 bg-[#1E3A8A] hover:bg-[#172554] text-white text-xs font-semibold rounded-lg transition-colors"
+                          >
+                            <Check size={12} /> Save
+                          </button>
+                          <button
+                            onClick={() => setEditingId(null)}
+                            className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-600 text-xs font-semibold rounded-lg transition-colors"
+                          >
+                            <X size={12} /> Cancel
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <>
+                        <div className="flex gap-0.5 mb-1.5">
+                          {[1, 2, 3, 4, 5].map((s) => (
+                            <Star key={s} size={13} className={s <= c.rating ? 'text-amber-400 fill-amber-400' : 'text-gray-200 fill-gray-100'} />
+                          ))}
+                        </div>
+                        <p className="text-sm text-gray-600 leading-relaxed break-words">{c.text}</p>
+                        {c.photo_url && (
+                          <button
+                            type="button"
+                            onClick={() => setLightboxUrl(c.photo_url)}
+                            className="mt-3 block w-full group relative rounded-xl overflow-hidden border border-gray-100 hover:border-blue-200 transition-all"
+                          >
+                            <img
+                              src={c.photo_url}
+                              alt="Review photo"
+                              className="w-full max-h-48 object-cover"
+                            />
+                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/15 flex items-center justify-center transition-all">
+                              <ZoomIn size={20} className="text-white opacity-0 group-hover:opacity-100 transition-opacity drop-shadow" />
+                            </div>
+                          </button>
+                        )}
+                        {isConfirmingDelete && (
+                          <div className="flex items-center gap-2 mt-2 p-2 bg-red-50 rounded-lg border border-red-100">
+                            <span className="text-xs text-red-600 flex-1">Delete this review?</span>
+                            <button onClick={() => handleDelete(c.id)} className="text-xs font-semibold text-white bg-red-500 hover:bg-red-600 px-2.5 py-1 rounded-md transition-colors">Yes</button>
+                            <button onClick={() => setConfirmDeleteId(null)} className="text-xs font-semibold text-gray-500 hover:text-gray-700 px-2 py-1 rounded-md transition-colors">No</button>
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+    </>
   );
 }
 
