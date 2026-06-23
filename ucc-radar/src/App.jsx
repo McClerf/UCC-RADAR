@@ -5,6 +5,7 @@ import Homepage from './pages/Homepage';
 import Vendors from './pages/Vendors';
 import VendorDetails from './pages/VendorDetails';
 import SavedVendors from './pages/SavedVendors';
+import CampusMap from './pages/CampusMap';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import Admin from './pages/Admin';
@@ -21,6 +22,7 @@ function App() {
             <Route path="/vendors" element={<Vendors />} />
             <Route path="/vendors/:id" element={<VendorDetails />} />
             <Route path="/saved" element={<SavedVendors />} />
+            <Route path="/map" element={<CampusMap />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/admin" element={<Admin />} />

@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { Menu, X, Radar, Heart } from 'lucide-react';
+import { Menu, X, Radar, Heart, MapPin } from 'lucide-react';
 import { useSavedVendors } from '../context/SavedVendorsContext';
 
 const navLinks = [
   { to: '/', label: 'Home' },
   { to: '/vendors', label: 'Vendors' },
+  { to: '/map', label: 'Map' },
   { to: '/about', label: 'About' },
   { to: '/contact', label: 'List Your Vendor' },
 ];
