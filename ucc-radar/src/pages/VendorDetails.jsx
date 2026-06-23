@@ -165,10 +165,13 @@ function CommentsSection({ vendorId }) {
       const { error: uploadErr } = await supabase.storage
         .from('review-photos')
         .upload(path, photoFile, { contentType: photoFile.type });
-      if (!uploadErr) {
-        const { data: urlData } = supabase.storage.from('review-photos').getPublicUrl(path);
-        photo_url = urlData.publicUrl;
+      if (uploadErr) {
+        setError('Photo upload failed — please remove the photo and try again, or contact support.');
+        setSubmitting(false);
+        return;
       }
+      const { data: urlData } = supabase.storage.from('review-photos').getPublicUrl(path);
+      photo_url = urlData.publicUrl;
     }
 
     const { data: inserted, error: err } = await supabase
