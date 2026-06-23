@@ -11,6 +11,7 @@ import Contact from './pages/Contact';
 import Admin from './pages/Admin';
 import { SavedVendorsProvider } from './context/SavedVendorsContext';
 import { RatingsProvider } from './context/RatingsContext';
+import BottomNav from './components/BottomNav';
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
     <SavedVendorsProvider>
       <div className="min-h-screen flex flex-col bg-gray-50">
         <Header />
-        <main className="flex-1">
+        <main className="flex-1 pb-16 md:pb-0">
           <Routes>
             <Route path="/" element={<Homepage />} />
             <Route path="/vendors" element={<Vendors />} />
@@ -31,6 +32,7 @@ function App() {
           </Routes>
         </main>
         <Footer />
+        <BottomNav />
       </div>
     </SavedVendorsProvider>
     </RatingsProvider>
