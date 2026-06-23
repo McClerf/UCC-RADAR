@@ -57,26 +57,27 @@ export default function VendorCard({ vendor }) {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col">
+    <div className="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 flex flex-col group">
       {/* Image */}
       <div className="relative h-48 overflow-hidden">
         <img
           src={image}
           alt={name}
-          className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
           loading="lazy"
         />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
         {/* Category Badge */}
         {cat && (
           <span
-            className={`absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-semibold ${cat.bg} ${cat.text}`}
+            className={`absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-semibold ${cat.bg} ${cat.text} shadow-sm`}
           >
             {cat.label}
           </span>
         )}
         {/* Delivery Badge */}
         {delivery && (
-          <span className="absolute top-3 right-3 bg-emerald-600 text-white px-2.5 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
+          <span className="absolute top-3 right-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-2.5 py-1 rounded-full text-xs font-semibold flex items-center gap-1 shadow-sm">
             <Truck size={10} />
             Delivery
           </span>
@@ -116,7 +117,7 @@ export default function VendorCard({ vendor }) {
           </button>
           <Link
             to={`/vendors/${id}`}
-            className="flex-1 flex items-center justify-center gap-1 px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold transition-colors"
+            className="flex-1 flex items-center justify-center gap-1 px-3 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white text-xs font-semibold transition-all shadow-sm hover:shadow-emerald-200 hover:shadow-md"
           >
             View Details
             <ChevronRight size={13} />

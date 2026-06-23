@@ -149,7 +149,7 @@ export default function Homepage() {
               "url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1600&q=80')",
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-gray-900/90 via-gray-900/70 to-gray-900/40" />
+        <div className="absolute inset-0 bg-gradient-to-br from-emerald-950/95 via-slate-900/80 to-teal-900/50" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 w-full">
           <div className="max-w-2xl">
@@ -159,7 +159,7 @@ export default function Homepage() {
             </span>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight mb-6">
               Discover the Best
-              <span className="block text-amber-400">Vendors on Campus</span>
+              <span className="block bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent">Vendors on Campus</span>
             </h1>
             <p className="text-lg text-gray-300 mb-10 leading-relaxed max-w-xl">
               From smoky jollof rice to printing services and hair salons — find every food and student vendor at the University of Cape Coast in one place. Explore, connect, and get things done on campus.
@@ -209,16 +209,16 @@ export default function Homepage() {
       </section>
 
       {/* ─── Stats ─── */}
-      <section className="bg-emerald-700 py-10">
+      <section className="bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {stats.map(({ icon, value, label }) => (
-              <div key={label} className="flex flex-col items-center text-center gap-2">
-                <div className="w-10 h-10 bg-white/15 rounded-xl flex items-center justify-center text-white">
+              <div key={label} className="flex flex-col items-center text-center gap-2 bg-white/10 backdrop-blur-sm rounded-2xl p-5 border border-white/20 hover:bg-white/20 transition-colors">
+                <div className="w-11 h-11 bg-white/20 rounded-xl flex items-center justify-center text-white">
                   {icon}
                 </div>
                 <p className="text-3xl font-black text-white">{value}</p>
-                <p className="text-sm text-emerald-200">{label}</p>
+                <p className="text-sm text-emerald-100">{label}</p>
               </div>
             ))}
           </div>
@@ -230,7 +230,7 @@ export default function Homepage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl font-black text-gray-900 mb-3">
-              Browse by Category
+              Browse by <span className="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">Category</span>
             </h2>
             <p className="text-gray-500 max-w-xl mx-auto">
               From local Ghanaian dishes to student services — find everything you need on UCC campus.
@@ -336,8 +336,11 @@ export default function Homepage() {
       </section>
 
       {/* ─── CTA ─── */}
-      <section className="py-20 bg-gradient-to-br from-emerald-700 to-emerald-900 text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <section className="py-20 bg-gradient-to-br from-emerald-700 via-teal-700 to-emerald-900 text-white relative overflow-hidden">
+        <div className="absolute -top-20 -right-20 w-80 h-80 bg-white/5 rounded-full" />
+        <div className="absolute -bottom-16 -left-16 w-64 h-64 bg-amber-400/10 rounded-full" />
+        <div className="absolute top-1/2 left-1/3 w-40 h-40 bg-teal-400/10 rounded-full -translate-y-1/2" />
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl sm:text-4xl font-black mb-4">
             Ready to Explore All Vendors?
           </h2>
@@ -358,6 +361,7 @@ export default function Homepage() {
               List Your Vendor
             </Link>
           </div>
+        </div>
         </div>
       </section>
     </div>

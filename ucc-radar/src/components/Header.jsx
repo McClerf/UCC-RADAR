@@ -27,19 +27,19 @@ export default function Header() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'bg-white shadow-md' : 'bg-white/95 backdrop-blur-md'
+        scrolled ? 'bg-white shadow-lg border-b border-gray-100' : 'bg-white/90 backdrop-blur-md'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
-            <div className="w-9 h-9 bg-emerald-600 rounded-xl flex items-center justify-center shadow-sm group-hover:bg-emerald-700 transition-colors">
+            <div className="w-9 h-9 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center shadow-md group-hover:shadow-emerald-200 group-hover:scale-105 transition-all">
               <Radar size={18} className="text-white" />
             </div>
             <div className="flex items-baseline gap-0.5">
-              <span className="text-xl font-black text-emerald-700 tracking-tight">UCC</span>
-              <span className="text-xl font-black text-amber-500 tracking-tight">Radar</span>
+              <span className="text-xl font-black text-gray-900 tracking-tight">UCC</span>
+              <span className="text-xl font-black bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent tracking-tight">Radar</span>
             </div>
           </Link>
 
@@ -57,7 +57,7 @@ export default function Header() {
                       : 'text-gray-600 hover:text-emerald-700 hover:bg-gray-50'
                   } ${
                     label === 'List Your Vendor'
-                      ? 'ml-2 bg-emerald-600 text-white hover:bg-emerald-700 hover:text-white px-5 py-2 rounded-full shadow-sm'
+                      ? 'ml-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white px-5 py-2 rounded-full shadow-md hover:shadow-emerald-200 hover:shadow-lg transition-all'
                       : ''
                   }`
                 }
