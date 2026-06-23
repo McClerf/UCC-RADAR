@@ -315,115 +315,124 @@ export default function Homepage() {
         </div>
       </section>
 
-      {/* ─── Categories ─── */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-black text-gray-900 mb-3">
-              Browse by <span className="bg-gradient-to-r from-[#1E3A8A] to-amber-500 bg-clip-text text-transparent">Category</span>
-            </h2>
-            <p className="text-gray-500 max-w-xl mx-auto">
-              From local Ghanaian dishes to student services — find everything you need on UCC campus.
-            </p>
-          </div>
+      {/* ─── Shared background: Categories + Featured Vendors + How It Works ─── */}
+      <div className="relative">
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-fixed"
+          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1600&q=80')" }}
+        />
+        <div className="absolute inset-0 bg-[#172554]/88" />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {/* Food Vendors card */}
-            <Link
-              to="/vendors?tab=food"
-              className="group relative overflow-hidden rounded-3xl border-2 border-amber-100 bg-gradient-to-br from-amber-50 to-orange-50 p-8 hover:shadow-lg hover:border-amber-300 transition-all duration-300"
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-11 h-11 bg-amber-100 rounded-2xl flex items-center justify-center group-hover:bg-amber-200 transition-colors">
-                  <UtensilsCrossed size={20} className="text-amber-600" />
-                </div>
-                <h3 className="text-xl font-black text-gray-900">Food Vendors</h3>
-              </div>
-              <p className="text-gray-500 text-sm leading-relaxed mb-5">
-                Local dishes, restaurants, fast food, cafés, and international cuisine — every meal craving on campus, covered.
-              </p>
-              <span className="inline-flex items-center gap-1.5 text-amber-600 text-sm font-semibold group-hover:gap-2.5 transition-all">
-                Explore food <ArrowRight size={14} />
-              </span>
-              <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-amber-100/60 rounded-full" />
-              <div className="absolute -bottom-8 -right-0 w-16 h-16 bg-orange-100/60 rounded-full" />
-            </Link>
-
-            {/* Student Vendors card */}
-            <Link
-              to="/vendors?tab=student"
-              className="group relative overflow-hidden rounded-3xl border-2 border-purple-100 bg-gradient-to-br from-purple-50 to-violet-50 p-8 hover:shadow-lg hover:border-purple-300 transition-all duration-300"
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-11 h-11 bg-purple-100 rounded-2xl flex items-center justify-center group-hover:bg-purple-200 transition-colors">
-                  <GraduationCap size={20} className="text-purple-600" />
-                </div>
-                <h3 className="text-xl font-black text-gray-900">Student Vendors</h3>
-              </div>
-              <p className="text-gray-500 text-sm leading-relaxed mb-5">
-                Printing, hair & beauty, tech repairs, clothing, and tutoring — everything a UCC student needs, right on campus.
-              </p>
-              <span className="inline-flex items-center gap-1.5 text-purple-600 text-sm font-semibold group-hover:gap-2.5 transition-all">
-                Explore services <ArrowRight size={14} />
-              </span>
-              <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-purple-100/60 rounded-full" />
-              <div className="absolute -bottom-8 -right-0 w-16 h-16 bg-violet-100/60 rounded-full" />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── Featured Vendors ─── */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-12 gap-4">
-            <div>
-              <h2 className="text-3xl sm:text-4xl font-black text-gray-900 mb-2">
-                Featured Vendors
+        {/* ─── Categories ─── */}
+        <section className="relative z-10 py-20">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl sm:text-4xl font-black text-white mb-3">
+                Browse by <span className="bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent">Category</span>
               </h2>
-              <p className="text-gray-500">Top-rated spots handpicked for quality and value.</p>
+              <p className="text-white/60 max-w-xl mx-auto">
+                From local Ghanaian dishes to student services — find everything you need on UCC campus.
+              </p>
             </div>
-            <Link
-              to="/vendors"
-              className="flex items-center gap-2 text-[#1E3A8A] font-semibold hover:text-[#172554] transition-colors shrink-0"
-            >
-              View all vendors <ArrowRight size={16} />
-            </Link>
-          </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {featuredVendors.map((vendor) => (
-              <VendorCard key={vendor.id} vendor={vendor} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── How It Works ─── */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-14">
-            <h2 className="text-3xl sm:text-4xl font-black text-gray-900 mb-3">How It Works</h2>
-            <p className="text-gray-500 max-w-xl mx-auto">
-              Whether you're grabbing a meal or getting a service done — it starts here.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {steps.map(({ step, title, desc, color }) => (
-              <div key={step} className="relative flex flex-col items-center text-center">
-                <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${color} mb-5`}>
-                  <span className="text-xl font-black">{step}</span>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {/* Food Vendors card */}
+              <Link
+                to="/vendors?tab=food"
+                className="group relative overflow-hidden rounded-3xl border border-amber-400/30 bg-amber-500/15 backdrop-blur-md p-8 hover:bg-amber-500/25 hover:border-amber-400/50 transition-all duration-300"
+              >
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-11 h-11 bg-amber-500/30 rounded-2xl flex items-center justify-center group-hover:bg-amber-500/40 transition-colors border border-amber-400/30">
+                    <UtensilsCrossed size={20} className="text-amber-400" />
+                  </div>
+                  <h3 className="text-xl font-black text-white">Food Vendors</h3>
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">{title}</h3>
-                <p className="text-sm text-gray-500 leading-relaxed max-w-xs">{desc}</p>
-                {step !== '03' && (
-                  <div className="hidden md:block absolute top-7 left-[calc(50%+2rem)] w-[calc(100%-4rem)] h-px border-t-2 border-dashed border-gray-200" />
-                )}
-              </div>
-            ))}
+                <p className="text-white/60 text-sm leading-relaxed mb-5">
+                  Local dishes, restaurants, fast food, cafés, and international cuisine — every meal craving on campus, covered.
+                </p>
+                <span className="inline-flex items-center gap-1.5 text-amber-400 text-sm font-semibold group-hover:gap-2.5 transition-all">
+                  Explore food <ArrowRight size={14} />
+                </span>
+                <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-amber-400/10 rounded-full" />
+                <div className="absolute -bottom-8 -right-0 w-16 h-16 bg-orange-400/10 rounded-full" />
+              </Link>
+
+              {/* Student Vendors card */}
+              <Link
+                to="/vendors?tab=student"
+                className="group relative overflow-hidden rounded-3xl border border-purple-400/30 bg-purple-500/15 backdrop-blur-md p-8 hover:bg-purple-500/25 hover:border-purple-400/50 transition-all duration-300"
+              >
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-11 h-11 bg-purple-500/30 rounded-2xl flex items-center justify-center group-hover:bg-purple-500/40 transition-colors border border-purple-400/30">
+                    <GraduationCap size={20} className="text-purple-300" />
+                  </div>
+                  <h3 className="text-xl font-black text-white">Student Vendors</h3>
+                </div>
+                <p className="text-white/60 text-sm leading-relaxed mb-5">
+                  Printing, hair & beauty, tech repairs, clothing, and tutoring — everything a UCC student needs, right on campus.
+                </p>
+                <span className="inline-flex items-center gap-1.5 text-purple-300 text-sm font-semibold group-hover:gap-2.5 transition-all">
+                  Explore services <ArrowRight size={14} />
+                </span>
+                <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-purple-400/10 rounded-full" />
+                <div className="absolute -bottom-8 -right-0 w-16 h-16 bg-violet-400/10 rounded-full" />
+              </Link>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+
+        {/* ─── Featured Vendors ─── */}
+        <section className="relative z-10 py-20">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-12 gap-4">
+              <div>
+                <h2 className="text-3xl sm:text-4xl font-black text-white mb-2">
+                  Featured Vendors
+                </h2>
+                <p className="text-white/55">Top-rated spots handpicked for quality and value.</p>
+              </div>
+              <Link
+                to="/vendors"
+                className="flex items-center gap-2 text-amber-400 font-semibold hover:text-amber-300 transition-colors shrink-0"
+              >
+                View all vendors <ArrowRight size={16} />
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {featuredVendors.map((vendor) => (
+                <VendorCard key={vendor.id} vendor={vendor} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ─── How It Works ─── */}
+        <section className="relative z-10 py-20">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-14">
+              <h2 className="text-3xl sm:text-4xl font-black text-white mb-3">How It Works</h2>
+              <p className="text-white/60 max-w-xl mx-auto">
+                Whether you're grabbing a meal or getting a service done — it starts here.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {steps.map(({ step, title, desc }) => (
+                <div key={step} className="relative flex flex-col items-center text-center">
+                  <div className="w-14 h-14 rounded-2xl flex items-center justify-center bg-white/10 border border-white/20 backdrop-blur-sm mb-5">
+                    <span className="text-xl font-black text-amber-400">{step}</span>
+                  </div>
+                  <h3 className="text-lg font-bold text-white mb-2">{title}</h3>
+                  <p className="text-sm text-white/55 leading-relaxed max-w-xs">{desc}</p>
+                  {step !== '03' && (
+                    <div className="hidden md:block absolute top-7 left-[calc(50%+2rem)] w-[calc(100%-4rem)] h-px border-t-2 border-dashed border-white/20" />
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      </div>
 
       {/* ─── CTA ─── */}
       <section className="py-20 bg-gradient-to-br from-[#1E3A8A] via-[#172554] to-[#0f172a] text-white relative overflow-hidden">
