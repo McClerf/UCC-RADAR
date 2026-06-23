@@ -212,7 +212,7 @@ export default function Homepage() {
             {/* ── Food card (main, centre) ── */}
             <div
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-52"
-              style={{ animation: 'floatCard 4s ease-in-out infinite' }}
+              style={{ animation: 'driftFloat 6s ease-in-out infinite' }}
             >
               <div className="bg-gradient-to-br from-amber-500/30 to-orange-600/20 backdrop-blur-md rounded-2xl p-5 border border-amber-400/40 shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
                 <div className="text-5xl mb-3">🍛</div>
@@ -236,7 +236,7 @@ export default function Homepage() {
             {/* ── Hair & Beauty card (top-right) ── */}
             <div
               className="absolute top-6 right-0 z-10 w-44"
-              style={{ animation: 'floatCardReverse 3.8s ease-in-out infinite 0.6s' }}
+              style={{ animation: 'swingCard 5s ease-in-out infinite 0.8s' }}
             >
               <div className="bg-gradient-to-br from-purple-600/30 to-pink-600/20 backdrop-blur-md rounded-2xl p-4 border border-purple-400/35 shadow-[0_16px_40px_rgba(0,0,0,0.45)]">
                 <div className="text-4xl mb-2">✂️</div>
@@ -256,7 +256,7 @@ export default function Homepage() {
             {/* ── Printing card (bottom-left) ── */}
             <div
               className="absolute bottom-8 left-0 z-10 w-44"
-              style={{ animation: 'floatCardSlow 5s ease-in-out infinite 1.2s' }}
+              style={{ animation: 'breatheCard 5.5s ease-in-out infinite 1.5s' }}
             >
               <div className="bg-gradient-to-br from-[#1E3A8A]/60 to-blue-700/30 backdrop-blur-md rounded-2xl p-4 border border-blue-400/30 shadow-[0_16px_40px_rgba(0,0,0,0.45)]">
                 <div className="text-4xl mb-2">🖨️</div>
@@ -273,13 +273,17 @@ export default function Homepage() {
               </div>
             </div>
 
-            {/* Small decorative floating badge */}
+            {/* Live on Campus badge */}
             <div
-              className="absolute top-2 left-12 z-30 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-3 py-1.5 flex items-center gap-1.5"
-              style={{ animation: 'floatCard 6s ease-in-out infinite 2s' }}
+              className="absolute top-2 left-8 z-30 bg-white/15 backdrop-blur-md border border-white/30 rounded-full px-5 py-2.5 flex items-center gap-2.5 shadow-lg"
+              style={{ animation: 'badgeBob 4s ease-in-out infinite 2s' }}
             >
-              <span className="text-xs">🔥</span>
-              <span className="text-white text-xs font-semibold">Live on Campus</span>
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-400" />
+              </span>
+              <span className="text-base">🔥</span>
+              <span className="text-white text-sm font-bold tracking-wide">Live on Campus</span>
             </div>
           </div>
 
