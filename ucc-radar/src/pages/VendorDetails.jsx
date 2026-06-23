@@ -13,6 +13,10 @@ import {
   AlertCircle,
   Send,
   UserCircle2,
+  Pencil,
+  Trash2,
+  Check,
+  X,
 } from 'lucide-react';
 import { vendors, getApprovedVendors } from '../data/vendors';
 import { supabase } from '../config/supabase';
@@ -103,6 +107,14 @@ function CommentsSection({ vendorId }) {
   const [rating, setRating] = useState(0);
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [myCommentIds, setMyCommentIds] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('myCommentIds')) || []; }
+    catch { return []; }
+  });
+  const [editingId, setEditingId] = useState(null);
+  const [editText, setEditText] = useState('');
+  const [editRating, setEditRating] = useState(0);
+  const [confirmDeleteId, setConfirmDeleteId] = useState(null);
 
   async function fetchComments() {
     const { data } = await supabase
@@ -121,17 +133,36 @@ function CommentsSection({ vendorId }) {
     if (!rating) { setError('Please select a star rating.'); return; }
     setError('');
     setSubmitting(true);
-    const { error: err } = await supabase
+    const { data: inserted, error: err } = await supabase
       .from('comments')
-      .insert({ vendor_id: vendorId, name: name.trim(), text: text.trim(), rating });
-    if (err) {
-      setError(`Could not post review: ${err.message}`);
-      setSubmitting(false);
-      return;
+      .insert({ vendor_id: vendorId, name: name.trim(), text: text.trim(), rating })
+      .select()
+      .single();
+    if (err) { setError(`Could not post review: ${err.message}`); setSubmitting(false); return; }
+    if (inserted) {
+      const updated = [...myCommentIds, inserted.id];
+      localStorage.setItem('myCommentIds', JSON.stringify(updated));
+      setMyCommentIds(updated);
     }
     await fetchComments();
     setName(''); setText(''); setRating(0);
     setSubmitting(false);
+  }
+
+  async function handleSaveEdit(id) {
+    if (!editText.trim() || !editRating) return;
+    await supabase.from('comments').update({ text: editText.trim(), rating: editRating }).eq('id', id);
+    await fetchComments();
+    setEditingId(null);
+  }
+
+  async function handleDelete(id) {
+    await supabase.from('comments').delete().eq('id', id);
+    const updated = myCommentIds.filter((i) => i !== id);
+    localStorage.setItem('myCommentIds', JSON.stringify(updated));
+    setMyCommentIds(updated);
+    setConfirmDeleteId(null);
+    await fetchComments();
   }
 
   return (
@@ -172,27 +203,89 @@ function CommentsSection({ vendorId }) {
         <p className="text-sm text-gray-400 text-center py-4">No reviews yet. Be the first!</p>
       ) : (
         <div className="flex flex-col gap-4">
-          {comments.map((c) => (
-            <div key={c.id} className="flex gap-3">
-              <div className="shrink-0 mt-0.5">
-                <UserCircle2 size={32} className="text-gray-300" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="text-sm font-bold text-gray-800">{c.name}</span>
-                  <span className="text-xs text-gray-400">
-                    {new Date(c.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
-                  </span>
+          {comments.map((c) => {
+            const isMine = myCommentIds.includes(c.id);
+            const isEditing = editingId === c.id;
+            const isConfirmingDelete = confirmDeleteId === c.id;
+
+            return (
+              <div key={c.id} className="flex gap-3">
+                <div className="shrink-0 mt-0.5">
+                  <UserCircle2 size={32} className="text-gray-300" />
                 </div>
-                <div className="flex gap-0.5 mb-1.5">
-                  {[1, 2, 3, 4, 5].map((s) => (
-                    <Star key={s} size={13} className={s <= c.rating ? 'text-amber-400 fill-amber-400' : 'text-gray-200 fill-gray-100'} />
-                  ))}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between gap-2 mb-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-bold text-gray-800">{c.name}</span>
+                      <span className="text-xs text-gray-400">
+                        {new Date(c.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+                      </span>
+                    </div>
+                    {isMine && !isEditing && (
+                      <div className="flex items-center gap-1 shrink-0">
+                        <button
+                          onClick={() => { setEditingId(c.id); setEditText(c.text); setEditRating(c.rating); setConfirmDeleteId(null); }}
+                          className="p-1.5 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors"
+                          title="Edit"
+                        >
+                          <Pencil size={13} />
+                        </button>
+                        <button
+                          onClick={() => setConfirmDeleteId(c.id)}
+                          className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                          title="Delete"
+                        >
+                          <Trash2 size={13} />
+                        </button>
+                      </div>
+                    )}
+                  </div>
+
+                  {isEditing ? (
+                    <div className="flex flex-col gap-2 mt-1">
+                      <StarPicker value={editRating} onChange={setEditRating} />
+                      <textarea
+                        value={editText}
+                        onChange={(e) => setEditText(e.target.value)}
+                        rows={3}
+                        className="w-full text-sm border border-gray-200 rounded-xl px-4 py-2.5 resize-none focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                      />
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => handleSaveEdit(c.id)}
+                          className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-lg transition-colors"
+                        >
+                          <Check size={12} /> Save
+                        </button>
+                        <button
+                          onClick={() => setEditingId(null)}
+                          className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-600 text-xs font-semibold rounded-lg transition-colors"
+                        >
+                          <X size={12} /> Cancel
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="flex gap-0.5 mb-1.5">
+                        {[1, 2, 3, 4, 5].map((s) => (
+                          <Star key={s} size={13} className={s <= c.rating ? 'text-amber-400 fill-amber-400' : 'text-gray-200 fill-gray-100'} />
+                        ))}
+                      </div>
+                      <p className="text-sm text-gray-600 leading-relaxed break-words">{c.text}</p>
+                      {isConfirmingDelete && (
+                        <div className="flex items-center gap-2 mt-2 p-2 bg-red-50 rounded-lg border border-red-100">
+                          <span className="text-xs text-red-600 flex-1">Delete this review?</span>
+                          <button onClick={() => handleDelete(c.id)} className="text-xs font-semibold text-white bg-red-500 hover:bg-red-600 px-2.5 py-1 rounded-md transition-colors">Yes</button>
+                          <button onClick={() => setConfirmDeleteId(null)} className="text-xs font-semibold text-gray-500 hover:text-gray-700 px-2 py-1 rounded-md transition-colors">No</button>
+                        </div>
+                      )}
+                    </>
+                  )}
                 </div>
-                <p className="text-sm text-gray-600 leading-relaxed break-words">{c.text}</p>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>
