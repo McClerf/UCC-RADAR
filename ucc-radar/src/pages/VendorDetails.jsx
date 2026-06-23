@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { vendors, getApprovedVendors } from '../data/vendors';
 import { supabase } from '../config/supabase';
+import { getOpenStatus } from '../utils/openHours';
 
 const categoryLabel = {
   local:      'Local Dishes',
@@ -498,11 +499,29 @@ export default function VendorDetails() {
                   <div className="w-9 h-9 bg-blue-50 rounded-xl flex items-center justify-center shrink-0">
                     <Clock size={16} className="text-[#1E3A8A]" />
                   </div>
-                  <div>
-                    <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-0.5">
+                  <div className="flex-1">
+                    <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">
                       Open Hours
                     </p>
-                    <p className="text-sm text-gray-700 leading-snug">{openHours}</p>
+                    {(() => {
+                      const st = getOpenStatus(openHours);
+                      return (
+                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold mb-1.5 ${
+                          st.status === 'open'
+                            ? 'bg-green-50 text-green-700'
+                            : st.status === 'closed'
+                            ? 'bg-red-50 text-red-600'
+                            : 'bg-gray-100 text-gray-500'
+                        }`}>
+                          <span className={`w-1.5 h-1.5 rounded-full ${
+                            st.status === 'open' ? 'bg-green-500 animate-pulse' :
+                            st.status === 'closed' ? 'bg-red-400' : 'bg-gray-400'
+                          }`} />
+                          {st.label}
+                        </span>
+                      );
+                    })()}
+                    <p className="text-sm text-gray-600 leading-snug">{openHours}</p>
                   </div>
                 </div>
 

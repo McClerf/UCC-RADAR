@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Search, SlidersHorizontal, X, ChevronDown, UtensilsCrossed, GraduationCap } from 'lucide-react';
 import { vendors, getApprovedVendors } from '../data/vendors';
+import { isOpenNow } from '../utils/openHours';
 import VendorCard from '../components/VendorCard';
 
 const BG_FOOD    = 'https://images.unsplash.com/photo-1567521464027-f127ff144326?w=900&q=80';
@@ -43,6 +44,7 @@ export default function Vendors() {
   const [activeTab, setActiveTab]             = useState(searchParams.get('tab') || 'all');
   const [activeSubcategory, setActiveSubcategory] = useState(searchParams.get('sub') || '');
   const [deliveryFilter, setDeliveryFilter]   = useState('all');
+  const [openNowOnly, setOpenNowOnly]         = useState(false);
   const [sortBy, setSortBy]                   = useState('rating');
   const [showFilters, setShowFilters]         = useState(false);
   const [approvedVendors, setApprovedVendors] = useState([]);
@@ -81,6 +83,7 @@ export default function Vendors() {
 
     if (deliveryFilter === 'delivery')    list = list.filter((v) => v.delivery);
     if (deliveryFilter === 'no-delivery') list = list.filter((v) => !v.delivery);
+    if (openNowOnly) list = list.filter((v) => isOpenNow(v.openHours));
 
     list.sort((a, b) => {
       if (sortBy === 'rating') return b.rating.rate - a.rating.rate;
@@ -91,19 +94,20 @@ export default function Vendors() {
     });
 
     return list;
-  }, [query, activeTab, activeSubcategory, deliveryFilter, sortBy, approvedVendors]);
+  }, [query, activeTab, activeSubcategory, deliveryFilter, openNowOnly, sortBy, approvedVendors]);
 
   const clearFilters = () => {
     setQuery('');
     setActiveTab('all');
     setActiveSubcategory('');
     setDeliveryFilter('all');
+    setOpenNowOnly(false);
     setSortBy('rating');
     setSearchParams({});
   };
 
   const hasFilters =
-    query || activeTab !== 'all' || activeSubcategory || deliveryFilter !== 'all' || sortBy !== 'rating';
+    query || activeTab !== 'all' || activeSubcategory || deliveryFilter !== 'all' || openNowOnly || sortBy !== 'rating';
 
   const subcategories =
     activeTab === 'food' ? foodSubcategories : activeTab === 'student' ? studentSubcategories : [];
@@ -203,7 +207,7 @@ export default function Vendors() {
               </button>
             </div>
 
-            {/* Delivery toggle */}
+            {/* Delivery + Open Now toggles */}
             <div className="flex gap-2 ml-auto">
               {[
                 { value: 'all',         label: 'All' },
@@ -218,6 +222,17 @@ export default function Vendors() {
                   {label}
                 </button>
               ))}
+              <button
+                onClick={() => setOpenNowOnly(!openNowOnly)}
+                className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium border transition-all duration-200 ${
+                  openNowOnly
+                    ? 'bg-green-500 text-white border-green-500 shadow-sm'
+                    : 'bg-white/10 text-white/75 border-white/20 hover:bg-white/20 hover:text-white'
+                }`}
+              >
+                <span className={`w-1.5 h-1.5 rounded-full ${openNowOnly ? 'bg-white' : 'bg-green-400'}`} />
+                Open Now
+              </button>
             </div>
           </div>
 
@@ -265,6 +280,13 @@ export default function Vendors() {
                 <span className="flex items-center gap-1 px-3 py-1 bg-white/10 text-white text-xs font-medium rounded-full border border-white/20">
                   {deliveryFilter === 'delivery' ? 'Delivery' : 'Dine-in Only'}
                   <button onClick={() => setDeliveryFilter('all')}><X size={10} /></button>
+                </span>
+              )}
+              {openNowOnly && (
+                <span className="flex items-center gap-1.5 px-3 py-1 bg-green-500/20 text-green-300 text-xs font-semibold rounded-full border border-green-400/30">
+                  <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
+                  Open Now
+                  <button onClick={() => setOpenNowOnly(false)}><X size={10} /></button>
                 </span>
               )}
               <button

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { MapPin, Star, Truck, MessageCircle, ChevronRight } from 'lucide-react';
+import { getOpenStatus } from '../utils/openHours';
 
 const categoryStyles = {
   // Food
@@ -43,12 +44,13 @@ function StarRating({ rate, count, glass }) {
 }
 
 export default function VendorCard({ vendor, glass = false }) {
-  const { id, name, shortDescription, image, location, rating, delivery, category, menu, whatsapp } =
+  const { id, name, shortDescription, image, location, rating, delivery, category, menu, whatsapp, openHours } =
     vendor;
 
   const cat = categoryStyles[category];
   const minPrice = menu && menu.length > 0 ? Math.min(...menu.map((m) => m.priceMin)) : null;
   const maxPrice = menu && menu.length > 0 ? Math.max(...menu.map((m) => m.priceMax)) : null;
+  const openStatus = getOpenStatus(openHours);
 
   const handleWhatsApp = (e) => {
     e.preventDefault();
@@ -101,7 +103,24 @@ export default function VendorCard({ vendor, glass = false }) {
 
         <StarRating rate={rating.rate} count={rating.count} glass={glass} />
 
-        <p className={`mt-3 text-sm line-clamp-2 leading-relaxed flex-1 ${glass ? 'text-white/60' : 'text-gray-500'}`}>
+        {/* Open / Closed badge */}
+        {openStatus && (
+          <div className={`inline-flex items-center gap-1.5 mt-2 px-2.5 py-0.5 rounded-full text-[11px] font-semibold ${
+            openStatus.status === 'open'
+              ? glass ? 'bg-green-500/20 text-green-300' : 'bg-green-50 text-green-700'
+              : openStatus.status === 'closed'
+              ? glass ? 'bg-red-500/20 text-red-300' : 'bg-red-50 text-red-600'
+              : glass ? 'bg-white/10 text-white/45' : 'bg-gray-100 text-gray-500'
+          }`}>
+            <span className={`w-1.5 h-1.5 rounded-full ${
+              openStatus.status === 'open' ? 'bg-green-400' :
+              openStatus.status === 'closed' ? 'bg-red-400' : 'bg-gray-400'
+            }`} />
+            {openStatus.label}
+          </div>
+        )}
+
+        <p className={`mt-2 text-sm line-clamp-2 leading-relaxed flex-1 ${glass ? 'text-white/60' : 'text-gray-500'}`}>
           {shortDescription}
         </p>
 
