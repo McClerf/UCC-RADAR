@@ -173,7 +173,13 @@ function CommentsSection({ vendorId }) {
 
     const { data: inserted, error: err } = await supabase
       .from('comments')
-      .insert({ vendor_id: vendorId, name: name.trim(), text: text.trim(), rating, photo_url })
+      .insert({
+        vendor_id: vendorId,
+        name: name.trim(),
+        text: text.trim(),
+        rating,
+        ...(photo_url ? { photo_url } : {}),
+      })
       .select()
       .single();
     if (err) { setError(`Could not post review: ${err.message}`); setSubmitting(false); return; }
