@@ -10,9 +10,11 @@ import About from './pages/About';
 import Contact from './pages/Contact';
 import Admin from './pages/Admin';
 import { SavedVendorsProvider } from './context/SavedVendorsContext';
+import { RatingsProvider } from './context/RatingsContext';
 
 function App() {
   return (
+    <RatingsProvider>
     <SavedVendorsProvider>
       <div className="min-h-screen flex flex-col bg-gray-50">
         <Header />
@@ -31,6 +33,7 @@ function App() {
         <Footer />
       </div>
     </SavedVendorsProvider>
+    </RatingsProvider>
   );
 }
 

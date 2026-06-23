@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { MapPin, Star, Truck, MessageCircle, ChevronRight, Heart } from 'lucide-react';
 import { getOpenStatus } from '../utils/openHours';
 import { useSavedVendors } from '../context/SavedVendorsContext';
+import { useLiveRating } from '../context/RatingsContext';
 
 const categoryStyles = {
   // Food
@@ -18,7 +19,7 @@ const categoryStyles = {
   tutoring:   { bg: 'bg-violet-100',  text: 'text-violet-700',  label: 'Tutoring' },
 };
 
-function StarRating({ rate, count, glass }) {
+function StarRating({ rate, count, glass, live }) {
   const full = Math.floor(rate);
   const half = rate % 1 >= 0.5;
   return (
@@ -39,7 +40,12 @@ function StarRating({ rate, count, glass }) {
         ))}
       </div>
       <span className={`text-xs font-semibold ${glass ? 'text-white/80' : 'text-gray-700'}`}>{rate.toFixed(1)}</span>
-      <span className={`text-xs ${glass ? 'text-white/40' : 'text-gray-400'}`}>({count})</span>
+      <span className={`text-xs ${glass ? 'text-white/40' : 'text-gray-400'}`}>
+        ({count} {live ? 'reviews' : 'est.'})
+      </span>
+      {live && (
+        <span className="w-1.5 h-1.5 rounded-full bg-green-400 shrink-0" title="Live rating from student reviews" />
+      )}
     </div>
   );
 }
@@ -55,6 +61,8 @@ export default function VendorCard({ vendor, glass = false }) {
 
   const { toggle, isSaved } = useSavedVendors();
   const saved = isSaved(id);
+  const liveRating = useLiveRating(id);
+  const displayRating = liveRating ?? rating;
 
   const handleSave = (e) => {
     e.preventDefault();
@@ -123,7 +131,7 @@ export default function VendorCard({ vendor, glass = false }) {
           )}
         </div>
 
-        <StarRating rate={rating.rate} count={rating.count} glass={glass} />
+        <StarRating rate={displayRating.rate} count={displayRating.count} glass={glass} live={!!liveRating} />
 
         {/* Open / Closed badge */}
         {openStatus && (

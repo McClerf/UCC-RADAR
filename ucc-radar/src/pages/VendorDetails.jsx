@@ -23,6 +23,7 @@ import {
 import { vendors, getApprovedVendors } from '../data/vendors';
 import { supabase } from '../config/supabase';
 import { getOpenStatus } from '../utils/openHours';
+import { useLiveRating } from '../context/RatingsContext';
 
 const categoryLabel = {
   local:      'Local Dishes',
@@ -490,6 +491,9 @@ export default function VendorDetails() {
     tags,
   } = vendor;
 
+  const liveRating = useLiveRating(vendor.id);
+  const displayRating = liveRating ?? rating;
+
   const minPrice = menu && menu.length > 0 ? Math.min(...menu.map((m) => m.priceMin)) : null;
   const maxPrice = menu && menu.length > 0 ? Math.max(...menu.map((m) => m.priceMax)) : null;
 
@@ -527,7 +531,13 @@ export default function VendorDetails() {
               )}
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white mb-2">{name}</h1>
-            <StarRating rate={rating.rate} count={rating.count} />
+            <StarRating rate={displayRating.rate} count={displayRating.count} />
+            {liveRating && (
+              <span className="flex items-center gap-1.5 mt-1 text-xs text-green-400 font-medium">
+                <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
+                Based on {liveRating.count} student {liveRating.count === 1 ? 'review' : 'reviews'}
+              </span>
+            )}
           </div>
         </div>
       </div>
