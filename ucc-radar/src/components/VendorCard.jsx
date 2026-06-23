@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
-import { MapPin, Star, Truck, MessageCircle, ChevronRight } from 'lucide-react';
+import { MapPin, Star, Truck, MessageCircle, ChevronRight, Heart } from 'lucide-react';
 import { getOpenStatus } from '../utils/openHours';
+import { useSavedVendors } from '../context/SavedVendorsContext';
 
 const categoryStyles = {
   // Food
@@ -52,6 +53,15 @@ export default function VendorCard({ vendor, glass = false }) {
   const maxPrice = menu && menu.length > 0 ? Math.max(...menu.map((m) => m.priceMax)) : null;
   const openStatus = getOpenStatus(openHours);
 
+  const { toggle, isSaved } = useSavedVendors();
+  const saved = isSaved(id);
+
+  const handleSave = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggle(id);
+  };
+
   const handleWhatsApp = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -88,6 +98,18 @@ export default function VendorCard({ vendor, glass = false }) {
             Delivery
           </span>
         )}
+        {/* Save / Heart button */}
+        <button
+          onClick={handleSave}
+          aria-label={saved ? 'Remove from saved' : 'Save vendor'}
+          className={`absolute bottom-2.5 right-2.5 w-8 h-8 flex items-center justify-center rounded-full shadow-md transition-all duration-200 active:scale-90 ${
+            saved
+              ? 'bg-red-500 text-white'
+              : 'bg-white/80 backdrop-blur-sm text-gray-400 hover:text-red-500 hover:bg-white'
+          }`}
+        >
+          <Heart size={15} className={saved ? 'fill-white' : ''} />
+        </button>
       </div>
 
       {/* Content */}

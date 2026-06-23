@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { Menu, X, Radar } from 'lucide-react';
+import { Menu, X, Radar, Heart } from 'lucide-react';
+import { useSavedVendors } from '../context/SavedVendorsContext';
 
 const navLinks = [
   { to: '/', label: 'Home' },
@@ -13,6 +14,7 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const { count } = useSavedVendors();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -65,6 +67,19 @@ export default function Header() {
                 {label}
               </NavLink>
             ))}
+            {/* Saved vendors heart */}
+            <Link
+              to="/saved"
+              aria-label="Saved vendors"
+              className="relative ml-1 p-2 rounded-lg text-gray-500 hover:text-red-500 hover:bg-red-50 transition-all duration-200"
+            >
+              <Heart size={20} className={count > 0 ? 'fill-red-500 text-red-500' : ''} />
+              {count > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-4 bg-red-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center px-0.5 leading-none">
+                  {count > 9 ? '9+' : count}
+                </span>
+              )}
+            </Link>
           </nav>
 
           {/* Mobile Menu Button */}
@@ -105,6 +120,22 @@ export default function Header() {
               {label}
             </NavLink>
           ))}
+          <NavLink
+            to="/saved"
+            className={({ isActive }) =>
+              `flex items-center gap-2.5 px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
+                isActive ? 'bg-red-50 text-red-600 font-semibold' : 'text-gray-700 hover:bg-gray-50'
+              }`
+            }
+          >
+            <Heart size={16} className={count > 0 ? 'fill-red-500 text-red-500' : 'text-gray-400'} />
+            Saved Vendors
+            {count > 0 && (
+              <span className="ml-auto bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full leading-none">
+                {count}
+              </span>
+            )}
+          </NavLink>
         </div>
       </div>
     </header>
