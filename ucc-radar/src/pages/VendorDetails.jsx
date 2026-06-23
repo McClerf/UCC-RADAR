@@ -441,6 +441,8 @@ export default function VendorDetails() {
   const navigate = useNavigate();
   const [approvedVendors, setApprovedVendors] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [copied, setCopied] = useState(false);
+  const liveRating = useLiveRating(id);
 
   useEffect(() => {
     getApprovedVendors()
@@ -492,10 +494,8 @@ export default function VendorDetails() {
     tags,
   } = vendor;
 
-  const liveRating = useLiveRating(vendor.id);
   const displayRating = liveRating ?? rating;
 
-  const [copied, setCopied] = useState(false);
   async function handleShare() {
     const url = window.location.href;
     if (navigator.share) {
