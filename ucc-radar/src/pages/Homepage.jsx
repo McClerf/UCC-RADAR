@@ -152,7 +152,10 @@ export default function Homepage() {
         <div className="absolute inset-0 bg-gradient-to-br from-[#172554]/95 via-slate-900/85 to-[#1E3A8A]/70" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 w-full">
-          <div className="max-w-2xl">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+
+          {/* ── Left: text content ── */}
+          <div>
             <span className="inline-flex items-center gap-2 bg-amber-500/20 border border-amber-400/40 text-amber-300 text-sm font-medium px-4 py-1.5 rounded-full mb-6">
               <ShieldCheck size={14} />
               Trusted by UCC Students
@@ -162,7 +165,7 @@ export default function Homepage() {
               <span className="block bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent">Vendors on Campus</span>
             </h1>
             <p className="text-lg text-gray-300 mb-10 leading-relaxed max-w-xl">
-              From smoky jollof rice to printing services and hair salons — find every food and student vendor at the University of Cape Coast in one place. Explore, connect, and get things done on campus.
+              From smoky jollof rice to printing services and hair salons — find every food and student vendor at the University of Cape Coast in one place.
             </p>
 
             {/* Search Bar */}
@@ -198,6 +201,89 @@ export default function Homepage() {
               ))}
             </div>
           </div>
+
+          {/* ── Right: floating 3D vendor cards ── */}
+          <div className="hidden lg:block relative h-[480px]">
+            {/* Ambient glow orbs */}
+            <div className="absolute w-56 h-56 bg-amber-500/20 rounded-full blur-3xl top-10 right-10" style={{ animation: 'pulseGlow 4s ease-in-out infinite' }} />
+            <div className="absolute w-40 h-40 bg-blue-500/20 rounded-full blur-3xl bottom-16 left-8" style={{ animation: 'pulseGlow 3.5s ease-in-out infinite 1.2s' }} />
+            <div className="absolute w-24 h-24 bg-purple-500/15 rounded-full blur-2xl top-24 left-16" style={{ animation: 'pulseGlow 5s ease-in-out infinite 0.5s' }} />
+
+            {/* ── Food card (main, centre) ── */}
+            <div
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-52"
+              style={{ animation: 'floatCard 4s ease-in-out infinite' }}
+            >
+              <div className="bg-gradient-to-br from-amber-500/30 to-orange-600/20 backdrop-blur-md rounded-2xl p-5 border border-amber-400/40 shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
+                <div className="text-5xl mb-3">🍛</div>
+                <span className="text-[10px] font-black text-amber-400 uppercase tracking-widest">Food Vendor</span>
+                <h3 className="text-white font-black text-base leading-tight mt-1 mb-2">Jollof Rice Spot</h3>
+                <div className="flex items-center gap-1 mb-3">
+                  <span className="text-amber-400 text-xs">★★★★★</span>
+                  <span className="text-white/60 text-xs ml-1">4.9 · 120 reviews</span>
+                </div>
+                <div className="flex items-center gap-1.5 text-white/50 text-xs">
+                  <MapPin size={10} />
+                  Main Campus, UCC
+                </div>
+                <div className="mt-3 flex gap-1.5">
+                  <span className="px-2 py-0.5 bg-amber-500/30 border border-amber-400/30 text-amber-300 text-[10px] font-semibold rounded-full">Local Dishes</span>
+                  <span className="px-2 py-0.5 bg-green-500/20 border border-green-400/20 text-green-300 text-[10px] font-semibold rounded-full">🛵 Delivery</span>
+                </div>
+              </div>
+            </div>
+
+            {/* ── Hair & Beauty card (top-right) ── */}
+            <div
+              className="absolute top-6 right-0 z-10 w-44"
+              style={{ animation: 'floatCardReverse 3.8s ease-in-out infinite 0.6s' }}
+            >
+              <div className="bg-gradient-to-br from-purple-600/30 to-pink-600/20 backdrop-blur-md rounded-2xl p-4 border border-purple-400/35 shadow-[0_16px_40px_rgba(0,0,0,0.45)]">
+                <div className="text-4xl mb-2">✂️</div>
+                <span className="text-[10px] font-black text-purple-300 uppercase tracking-widest">Hair & Beauty</span>
+                <h3 className="text-white font-black text-sm leading-tight mt-1 mb-2">Glam Studio</h3>
+                <div className="flex items-center gap-1 mb-2">
+                  <span className="text-amber-400 text-xs">★★★★</span>
+                  <span className="text-white/55 text-xs ml-1">4.7</span>
+                </div>
+                <div className="flex items-center gap-1 text-white/45 text-xs">
+                  <MapPin size={9} />
+                  Female Hostel Area
+                </div>
+              </div>
+            </div>
+
+            {/* ── Printing card (bottom-left) ── */}
+            <div
+              className="absolute bottom-8 left-0 z-10 w-44"
+              style={{ animation: 'floatCardSlow 5s ease-in-out infinite 1.2s' }}
+            >
+              <div className="bg-gradient-to-br from-[#1E3A8A]/60 to-blue-700/30 backdrop-blur-md rounded-2xl p-4 border border-blue-400/30 shadow-[0_16px_40px_rgba(0,0,0,0.45)]">
+                <div className="text-4xl mb-2">🖨️</div>
+                <span className="text-[10px] font-black text-blue-300 uppercase tracking-widest">Printing</span>
+                <h3 className="text-white font-black text-sm leading-tight mt-1 mb-2">Quick Print Hub</h3>
+                <div className="flex items-center gap-1 mb-2">
+                  <span className="text-amber-400 text-xs">★★★★</span>
+                  <span className="text-white/55 text-xs ml-1">4.5</span>
+                </div>
+                <div className="flex items-center gap-1 text-white/45 text-xs">
+                  <MapPin size={9} />
+                  Science Complex
+                </div>
+              </div>
+            </div>
+
+            {/* Small decorative floating badge */}
+            <div
+              className="absolute top-2 left-12 z-30 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-3 py-1.5 flex items-center gap-1.5"
+              style={{ animation: 'floatCard 6s ease-in-out infinite 2s' }}
+            >
+              <span className="text-xs">🔥</span>
+              <span className="text-white text-xs font-semibold">Live on Campus</span>
+            </div>
+          </div>
+
+        </div>
         </div>
 
         {/* Scroll hint */}
