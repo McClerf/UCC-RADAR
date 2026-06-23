@@ -362,7 +362,6 @@ export default function Homepage() {
             </Link>
           </div>
         </div>
-        </div>
       </section>
     </div>
   );
