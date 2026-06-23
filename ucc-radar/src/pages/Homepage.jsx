@@ -401,7 +401,7 @@ export default function Homepage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {featuredVendors.map((vendor) => (
-                <VendorCard key={vendor.id} vendor={vendor} />
+                <VendorCard key={vendor.id} vendor={vendor} glass />
               ))}
             </div>
           </div>

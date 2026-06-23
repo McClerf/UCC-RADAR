@@ -16,7 +16,7 @@ const categoryStyles = {
   tutoring:   { bg: 'bg-violet-100',  text: 'text-violet-700',  label: 'Tutoring' },
 };
 
-function StarRating({ rate, count }) {
+function StarRating({ rate, count, glass }) {
   const full = Math.floor(rate);
   const half = rate % 1 >= 0.5;
   return (
@@ -31,18 +31,18 @@ function StarRating({ rate, count }) {
                 ? 'text-amber-400 fill-amber-400'
                 : i === full + 1 && half
                 ? 'text-amber-400 fill-amber-200'
-                : 'text-gray-300 fill-gray-100'
+                : glass ? 'text-white/20 fill-white/10' : 'text-gray-300 fill-gray-100'
             }
           />
         ))}
       </div>
-      <span className="text-xs font-semibold text-gray-700">{rate.toFixed(1)}</span>
-      <span className="text-xs text-gray-400">({count})</span>
+      <span className={`text-xs font-semibold ${glass ? 'text-white/80' : 'text-gray-700'}`}>{rate.toFixed(1)}</span>
+      <span className={`text-xs ${glass ? 'text-white/40' : 'text-gray-400'}`}>({count})</span>
     </div>
   );
 }
 
-export default function VendorCard({ vendor }) {
+export default function VendorCard({ vendor, glass = false }) {
   const { id, name, shortDescription, image, location, rating, delivery, category, menu, whatsapp } =
     vendor;
 
@@ -56,8 +56,12 @@ export default function VendorCard({ vendor }) {
     window.open(`https://wa.me/${whatsapp}`, '_blank', 'noopener,noreferrer');
   };
 
+  const cardClass = glass
+    ? 'bg-white/10 backdrop-blur-md border border-white/15 hover:bg-white/18'
+    : 'bg-white shadow-md border border-gray-100 hover:shadow-2xl';
+
   return (
-    <div className="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 flex flex-col group">
+    <div className={`${cardClass} rounded-2xl overflow-hidden hover:-translate-y-2 transition-all duration-300 flex flex-col group`}>
       {/* Image */}
       <div className="relative h-48 overflow-hidden">
         <img
@@ -87,22 +91,22 @@ export default function VendorCard({ vendor }) {
       {/* Content */}
       <div className="p-5 flex flex-col flex-1">
         <div className="flex items-start justify-between gap-2 mb-1.5">
-          <h3 className="font-bold text-gray-900 text-base leading-snug">{name}</h3>
+          <h3 className={`font-bold text-base leading-snug ${glass ? 'text-white' : 'text-gray-900'}`}>{name}</h3>
           {minPrice && (
-            <span className="shrink-0 text-xs font-semibold text-[#1E3A8A] bg-blue-50 px-2 py-0.5 rounded-full">
+            <span className={`shrink-0 text-xs font-semibold px-2 py-0.5 rounded-full ${glass ? 'text-amber-300 bg-amber-500/20' : 'text-[#1E3A8A] bg-blue-50'}`}>
               GHS {minPrice}+
             </span>
           )}
         </div>
 
-        <StarRating rate={rating.rate} count={rating.count} />
+        <StarRating rate={rating.rate} count={rating.count} glass={glass} />
 
-        <p className="mt-3 text-sm text-gray-500 line-clamp-2 leading-relaxed flex-1">
+        <p className={`mt-3 text-sm line-clamp-2 leading-relaxed flex-1 ${glass ? 'text-white/60' : 'text-gray-500'}`}>
           {shortDescription}
         </p>
 
-        <div className="mt-3 flex items-start gap-1.5 text-xs text-gray-400">
-          <MapPin size={12} className="shrink-0 mt-0.5 text-[#1E3A8A]" />
+        <div className={`mt-3 flex items-start gap-1.5 text-xs ${glass ? 'text-white/45' : 'text-gray-400'}`}>
+          <MapPin size={12} className={`shrink-0 mt-0.5 ${glass ? 'text-amber-400' : 'text-[#1E3A8A]'}`} />
           <span className="line-clamp-2">{location}</span>
         </div>
 
@@ -110,7 +114,11 @@ export default function VendorCard({ vendor }) {
         <div className="mt-4 flex gap-2">
           <button
             onClick={handleWhatsApp}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-green-50 text-green-700 text-xs font-semibold hover:bg-green-100 transition-colors border border-green-100"
+            className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold transition-colors border ${
+              glass
+                ? 'bg-green-500/15 text-green-300 border-green-400/25 hover:bg-green-500/25'
+                : 'bg-green-50 text-green-700 border-green-100 hover:bg-green-100'
+            }`}
           >
             <MessageCircle size={13} />
             WhatsApp
