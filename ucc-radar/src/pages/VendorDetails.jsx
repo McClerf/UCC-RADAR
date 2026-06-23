@@ -166,7 +166,7 @@ function CommentsSection({ vendorId }) {
         .from('review-photos')
         .upload(path, photoFile, { contentType: photoFile.type });
       if (uploadErr) {
-        setError('Photo upload failed — please remove the photo and try again, or contact support.');
+        setError(`Photo upload failed: ${uploadErr.message}`);
         setSubmitting(false);
         return;
       }
