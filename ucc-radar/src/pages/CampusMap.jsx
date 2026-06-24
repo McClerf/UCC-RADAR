@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, Polyline, CircleMarker, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Polyline, CircleMarker, useMap, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { vendors } from '../data/vendors';
@@ -226,6 +226,15 @@ function RouteLayer({ route }) {
   );
 }
 
+function MapClickHandler({ active, onMapClick }) {
+  useMapEvents({
+    click(e) {
+      if (active) onMapClick(e.latlng.lat, e.latlng.lng);
+    },
+  });
+  return null;
+}
+
 function LocateButton() {
   const map = useMap();
   const [locating, setLocating] = useState(false);
@@ -275,35 +284,60 @@ export default function CampusMap() {
   const [route, setRoute] = useState(null);
   const [routing, setRouting] = useState(false);
   const [routeError, setRouteError] = useState(null);
+  const [placingStart, setPlacingStart] = useState(false);
+  const [pending, setPending] = useState(null); // { vendor, modeId } waiting for manual tap
 
   const shown = vendors.filter(v =>
     filter === 'food'     ? FOOD_CATS.has(v.category) :
     filter === 'services' ? !FOOD_CATS.has(v.category) : true
   );
 
+  async function routeFrom(lat, lng, vendor, modeId) {
+    setRouting(true);
+    setRouteError(null);
+    try {
+      const r = await callOSRM(lat, lng, vendor, modeId);
+      setRoute(r);
+    } catch (e) {
+      setRouteError(e.message);
+    }
+    setRouting(false);
+  }
+
   function handleRoute(vendor, modeId) {
+    setRouteError(null);
     if (!navigator.geolocation) {
-      setRouteError('Your browser does not support location access.');
+      // No GPS at all — go straight to tap mode
+      setPending({ vendor, modeId });
+      setPlacingStart(true);
       return;
     }
     setRouting(true);
-    setRouteError(null);
     navigator.geolocation.getCurrentPosition(
-      async (pos) => {
-        try {
-          const r = await callOSRM(pos.coords.latitude, pos.coords.longitude, vendor, modeId);
-          setRoute(r);
-        } catch (e) {
-          setRouteError(e.message);
-        }
-        setRouting(false);
-      },
+      (pos) => routeFrom(pos.coords.latitude, pos.coords.longitude, vendor, modeId),
       () => {
-        setRouteError('Location access denied. Please allow location in your browser.');
+        // GPS denied — let user tap their location on the map
         setRouting(false);
+        setPending({ vendor, modeId });
+        setPlacingStart(true);
       },
       { timeout: 10000 },
     );
+  }
+
+  function handleMapClick(lat, lng) {
+    if (!placingStart || !pending) return;
+    setPlacingStart(false);
+    const { vendor, modeId } = pending;
+    setPending(null);
+    routeFrom(lat, lng, vendor, modeId);
+  }
+
+  function clearRoute() {
+    setRoute(null);
+    setRouteError(null);
+    setPlacingStart(false);
+    setPending(null);
   }
 
   const activeMode = route ? TRAVEL_MODES.find(m => m.id === route.modeId) : null;
@@ -358,6 +392,7 @@ export default function CampusMap() {
           maxZoom={19}
         />
         <LocateButton />
+        <MapClickHandler active={placingStart} onMapClick={handleMapClick} />
         <RouteLayer route={route} />
         {shown.map(vendor =>
           vendor.lat && vendor.lng ? (
@@ -373,6 +408,40 @@ export default function CampusMap() {
           ) : null
         )}
       </MapContainer>
+
+      {/* "Tap your location" instruction banner */}
+      {placingStart && (
+        <div style={{
+          position: 'absolute', top: 'calc(64px + 110px)', left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: 1001, pointerEvents: 'none',
+          background: '#1e3a8a', color: '#fff',
+          padding: '10px 20px', borderRadius: 14, textAlign: 'center',
+          boxShadow: '0 6px 24px rgba(0,0,0,0.3)',
+          width: 'max-content', maxWidth: 'calc(100vw - 40px)',
+        }}>
+          <div style={{ fontSize: 22, marginBottom: 4 }}>👆</div>
+          <div style={{ fontWeight: 800, fontSize: 14 }}>Tap your location on the map</div>
+          <div style={{ fontSize: 11, opacity: 0.65, marginTop: 3 }}>GPS not available — tap where you are to start routing</div>
+        </div>
+      )}
+
+      {placingStart && (
+        <button
+          onClick={clearRoute}
+          style={{
+            position: 'absolute', top: 'calc(64px + 110px + 104px)', left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 1001,
+            background: '#fff', color: '#64748b',
+            border: '1.5px solid #e2e8f0', borderRadius: 99,
+            padding: '6px 18px', fontSize: 12, fontWeight: 700,
+            cursor: 'pointer', boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+          }}
+        >
+          Cancel
+        </button>
+      )}
 
       {/* Route info bar */}
       {(route || routeError) && (
@@ -416,7 +485,7 @@ export default function CampusMap() {
             </>
           )}
           <button
-            onClick={() => { setRoute(null); setRouteError(null); }}
+            onClick={clearRoute}
             style={{
               width: 28, height: 28, borderRadius: '50%',
               border: 'none', background: '#f1f5f9',
