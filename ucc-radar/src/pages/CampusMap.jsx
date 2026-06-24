@@ -20,7 +20,13 @@ const CATEGORY_CFG = {
 };
 
 const FOOD_CATS = new Set(['local', 'restaurant', 'fast_food', 'cafe', 'chinese']);
-const UCC_CENTER = [5.1175, -1.2878];
+const UCC_CENTER = [5.1175, -1.2820];
+
+// Tight bounding box — campus + immediate surroundings only
+const UCC_BOUNDS = [
+  [5.105, -1.298],   // SW corner
+  [5.135, -1.260],   // NE corner
+];
 
 function makeIcon(category) {
   const c = CATEGORY_CFG[category] ?? { emoji: '📍', color: '#1E3A8A' };
@@ -206,6 +212,10 @@ export default function CampusMap() {
       <MapContainer
         center={UCC_CENTER}
         zoom={15}
+        minZoom={14}
+        maxZoom={19}
+        maxBounds={UCC_BOUNDS}
+        maxBoundsViscosity={1.0}
         style={{ flex: 1, width: '100%', minHeight: 0 }}
         scrollWheelZoom
         zoomControl
