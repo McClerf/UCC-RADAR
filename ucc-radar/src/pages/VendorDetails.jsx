@@ -522,7 +522,24 @@ export default function VendorDetails() {
   const maxPrice = menu && menu.length > 0 ? Math.max(...menu.map((m) => m.priceMax)) : null;
 
   return (
-    <div className="pt-16 bg-gray-50 min-h-screen">
+    <div className="pt-16 min-h-screen relative">
+
+      {/* ─── Full-page blurred background ─── */}
+      <div
+        style={{
+          position: 'fixed', inset: 0, zIndex: 0,
+          backgroundImage: `url(${image})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          filter: 'blur(22px)',
+          transform: 'scale(1.08)',
+        }}
+      />
+      <div style={{ position: 'fixed', inset: 0, zIndex: 0, background: 'rgba(8, 16, 40, 0.72)' }} />
+
+      {/* ─── All page content sits above the background ─── */}
+      <div className="relative" style={{ zIndex: 1 }}>
+
       {/* ─── Hero Banner ─── */}
       <div className="relative h-64 sm:h-80 lg:h-96 overflow-hidden">
         <img
@@ -806,13 +823,14 @@ export default function VendorDetails() {
         <div className="mt-12 text-center">
           <Link
             to="/vendors"
-            className="inline-flex items-center gap-2 text-[#1E3A8A] font-semibold hover:text-[#172554] transition-colors"
+            className="inline-flex items-center gap-2 text-white/70 hover:text-white font-semibold transition-colors"
           >
             <ArrowLeft size={16} />
             Browse More Vendors
           </Link>
         </div>
       </div>
+      </div>{/* end relative wrapper */}
     </div>
   );
 }
