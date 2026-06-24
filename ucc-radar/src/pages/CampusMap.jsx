@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import { useState, useEffect } from 'react';
+import { MapContainer, TileLayer, Marker, Popup, Polyline, CircleMarker, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { vendors } from '../data/vendors';
@@ -22,11 +22,47 @@ const CATEGORY_CFG = {
 const FOOD_CATS = new Set(['local', 'restaurant', 'fast_food', 'cafe', 'chinese']);
 const UCC_CENTER = [5.119, -1.280];
 
-// Locked strictly to UCC campus vendor area — no surrounding neighbourhoods
 const UCC_BOUNDS = [
-  [5.110, -1.295],   // SW corner
-  [5.131, -1.268],   // NE corner
+  [5.110, -1.295],
+  [5.131, -1.268],
 ];
+
+// Travel modes — 'car' profile used for both motor and car (same road network)
+const TRAVEL_MODES = [
+  { id: 'foot',  emoji: '🚶', label: 'Walk',  osrm: 'foot', color: '#3b82f6' },
+  { id: 'motor', emoji: '🏍️', label: 'Motor', osrm: 'car',  color: '#f97316' },
+  { id: 'car',   emoji: '🚗', label: 'Car',   osrm: 'car',  color: '#22c55e' },
+];
+
+function fmtDistance(m) {
+  return m >= 1000 ? `${(m / 1000).toFixed(1)} km` : `${Math.round(m)} m`;
+}
+function fmtDuration(s) {
+  const min = Math.round(s / 60);
+  return min < 60 ? `${min} min` : `${Math.floor(min / 60)}h ${min % 60}m`;
+}
+
+async function callOSRM(userLat, userLng, vendor, modeId) {
+  const mode = TRAVEL_MODES.find(m => m.id === modeId);
+  const url =
+    `https://router.project-osrm.org/route/v1/${mode.osrm}` +
+    `/${userLng},${userLat};${vendor.lng},${vendor.lat}` +
+    `?geometries=geojson&overview=full`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error('Routing service unavailable');
+  const json = await res.json();
+  if (!json.routes?.[0]) throw new Error('No route found between these points');
+  const r = json.routes[0];
+  return {
+    coords: r.geometry.coordinates.map(([lng, lat]) => [lat, lng]),
+    distance: r.distance,
+    duration: r.duration,
+    userPos: [userLat, userLng],
+    color: mode.color,
+    modeId,
+    vendorName: vendor.name,
+  };
+}
 
 function makeIcon(category) {
   const c = CATEGORY_CFG[category] ?? { emoji: '📍', color: '#1E3A8A' };
@@ -57,12 +93,13 @@ function makeIcon(category) {
   });
 }
 
-function VendorPopup({ vendor }) {
+function VendorPopup({ vendor, onRoute, routing }) {
   const liveRating = useLiveRating(vendor.id);
   const rating = liveRating ?? vendor.rating;
   const openStatus = getOpenStatus(vendor.openHours);
   const c = CATEGORY_CFG[vendor.category] ?? { emoji: '📍', color: '#1E3A8A', label: vendor.category };
   const isOpen = openStatus.status === 'open';
+  const [mode, setMode] = useState('foot');
 
   return (
     <div style={{ width: 228, fontFamily: 'system-ui,-apple-system,sans-serif', padding: '2px 0' }}>
@@ -83,20 +120,57 @@ function VendorPopup({ vendor }) {
         </span>
       </div>
 
-      {rating.count > 0 && (
+      {rating && rating.count > 0 && (
         <div style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 13, marginBottom: 7 }}>
           <span style={{ color: '#f59e0b' }}>★</span>
           <strong style={{ color: '#111' }}>{rating.rate.toFixed(1)}</strong>
           <span style={{ color: '#9ca3af' }}>({rating.count} {liveRating ? 'reviews' : 'est.'})</span>
-          {liveRating && (
-            <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#22c55e', display: 'inline-block' }} />
-          )}
+          {liveRating && <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#22c55e', display: 'inline-block' }} />}
         </div>
       )}
 
-      <p style={{ fontSize: 12, color: '#6b7280', lineHeight: 1.5, margin: '0 0 11px' }}>
+      <p style={{ fontSize: 12, color: '#6b7280', lineHeight: 1.5, margin: '0 0 10px' }}>
         {vendor.shortDescription}
       </p>
+
+      {/* Transport mode selector */}
+      <div style={{ display: 'flex', gap: 5, marginBottom: 8 }}>
+        {TRAVEL_MODES.map(m => (
+          <button
+            key={m.id}
+            onClick={() => setMode(m.id)}
+            style={{
+              flex: 1, padding: '6px 0', borderRadius: 9,
+              border: mode === m.id ? `2px solid ${m.color}` : '2px solid #e2e8f0',
+              background: mode === m.id ? m.color + '18' : '#f8fafc',
+              color: mode === m.id ? m.color : '#94a3b8',
+              fontWeight: 700, fontSize: 12, cursor: 'pointer',
+              transition: 'all 0.12s',
+            }}
+          >
+            <div style={{ fontSize: 16, lineHeight: 1 }}>{m.emoji}</div>
+            <div style={{ fontSize: 10, marginTop: 2 }}>{m.label}</div>
+          </button>
+        ))}
+      </div>
+
+      {/* Directions button */}
+      <button
+        onClick={() => onRoute(vendor, mode)}
+        disabled={routing}
+        style={{
+          width: '100%', padding: '9px 0', borderRadius: 10, border: 'none',
+          background: routing
+            ? '#94a3b8'
+            : `linear-gradient(135deg, ${TRAVEL_MODES.find(m => m.id === mode).color}, ${TRAVEL_MODES.find(m => m.id === mode).color}cc)`,
+          color: '#fff', fontWeight: 800, fontSize: 13,
+          cursor: routing ? 'default' : 'pointer',
+          marginBottom: 8,
+          boxShadow: routing ? 'none' : '0 2px 8px rgba(0,0,0,0.15)',
+        }}
+      >
+        {routing ? '⏳ Finding route…' : '🧭 Get Directions'}
+      </button>
 
       <div style={{ display: 'flex', gap: 7 }}>
         {vendor.whatsapp && (
@@ -120,6 +194,38 @@ function VendorPopup({ vendor }) {
   );
 }
 
+// Draws the route polyline and user dot; also fits the map to the route bounds
+function RouteLayer({ route }) {
+  const map = useMap();
+  useEffect(() => {
+    if (route?.coords?.length) {
+      map.fitBounds(L.latLngBounds(route.coords), { padding: [60, 60], maxZoom: 17 });
+    }
+  }, [route, map]);
+
+  if (!route) return null;
+  return (
+    <>
+      {/* Outer glow */}
+      <Polyline
+        positions={route.coords}
+        pathOptions={{ color: route.color, weight: 12, opacity: 0.18 }}
+      />
+      {/* Main line */}
+      <Polyline
+        positions={route.coords}
+        pathOptions={{ color: route.color, weight: 5, opacity: 0.9 }}
+      />
+      {/* User location dot */}
+      <CircleMarker
+        center={route.userPos}
+        radius={9}
+        pathOptions={{ color: '#fff', fillColor: '#3b82f6', fillOpacity: 1, weight: 3 }}
+      />
+    </>
+  );
+}
+
 function LocateButton() {
   const map = useMap();
   const [locating, setLocating] = useState(false);
@@ -137,7 +243,6 @@ function LocateButton() {
   }
 
   if (!navigator.geolocation) return null;
-
   return (
     <div className="leaflet-top leaflet-right" style={{ marginTop: 80 }}>
       <div className="leaflet-control">
@@ -145,12 +250,9 @@ function LocateButton() {
           onClick={handleLocate}
           title="Find my location"
           style={{
-            width: 34, height: 34,
-            background: '#fff',
-            border: '2px solid rgba(0,0,0,0.2)',
-            borderRadius: 4,
-            cursor: 'pointer',
-            fontSize: 18,
+            width: 34, height: 34, background: '#fff',
+            border: '2px solid rgba(0,0,0,0.2)', borderRadius: 4,
+            cursor: 'pointer', fontSize: 18,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             boxShadow: '0 1px 5px rgba(0,0,0,0.15)',
           }}
@@ -170,14 +272,44 @@ const FILTER_TABS = [
 
 export default function CampusMap() {
   const [filter, setFilter] = useState('all');
+  const [route, setRoute] = useState(null);
+  const [routing, setRouting] = useState(false);
+  const [routeError, setRouteError] = useState(null);
 
   const shown = vendors.filter(v =>
     filter === 'food'     ? FOOD_CATS.has(v.category) :
     filter === 'services' ? !FOOD_CATS.has(v.category) : true
   );
 
+  function handleRoute(vendor, modeId) {
+    if (!navigator.geolocation) {
+      setRouteError('Your browser does not support location access.');
+      return;
+    }
+    setRouting(true);
+    setRouteError(null);
+    navigator.geolocation.getCurrentPosition(
+      async (pos) => {
+        try {
+          const r = await callOSRM(pos.coords.latitude, pos.coords.longitude, vendor, modeId);
+          setRoute(r);
+        } catch (e) {
+          setRouteError(e.message);
+        }
+        setRouting(false);
+      },
+      () => {
+        setRouteError('Location access denied. Please allow location in your browser.');
+        setRouting(false);
+      },
+      { timeout: 10000 },
+    );
+  }
+
+  const activeMode = route ? TRAVEL_MODES.find(m => m.id === route.modeId) : null;
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100dvh', paddingTop: 64 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100dvh', paddingTop: 64, position: 'relative' }}>
 
       {/* Header bar */}
       <div style={{ background: '#172554', borderBottom: '1px solid rgba(255,255,255,0.1)', padding: '14px 20px', flexShrink: 0 }}>
@@ -187,7 +319,7 @@ export default function CampusMap() {
           <span style={{ color: 'rgba(255,255,255,0.35)', fontSize: 12, marginLeft: 4 }}>{shown.length} vendors</span>
         </div>
         <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: 12, margin: '0 0 12px' }}>
-          Tap any pin to see details · University of Cape Coast
+          Tap any pin → choose transport → Get Directions
         </p>
         <div style={{ display: 'flex', gap: 7 }}>
           {FILTER_TABS.map(tab => (
@@ -226,6 +358,7 @@ export default function CampusMap() {
           maxZoom={19}
         />
         <LocateButton />
+        <RouteLayer route={route} />
         {shown.map(vendor =>
           vendor.lat && vendor.lng ? (
             <Marker
@@ -234,14 +367,70 @@ export default function CampusMap() {
               icon={makeIcon(vendor.category)}
             >
               <Popup maxWidth={244} closeButton>
-                <VendorPopup vendor={vendor} />
+                <VendorPopup vendor={vendor} onRoute={handleRoute} routing={routing} />
               </Popup>
             </Marker>
           ) : null
         )}
       </MapContainer>
 
-      {/* Category legend — horizontally scrollable */}
+      {/* Route info bar */}
+      {(route || routeError) && (
+        <div style={{
+          position: 'absolute',
+          bottom: 70, left: '50%', transform: 'translateX(-50%)',
+          zIndex: 1000,
+          background: routeError ? '#fef2f2' : '#fff',
+          border: `2px solid ${routeError ? '#fca5a5' : activeMode?.color ?? '#e2e8f0'}`,
+          borderRadius: 16,
+          padding: '12px 18px',
+          boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
+          display: 'flex', alignItems: 'center', gap: 14,
+          maxWidth: 'calc(100vw - 40px)',
+          minWidth: 260,
+        }}>
+          {routeError ? (
+            <>
+              <span style={{ fontSize: 20 }}>⚠️</span>
+              <span style={{ fontSize: 13, color: '#dc2626', fontWeight: 600, flex: 1 }}>{routeError}</span>
+            </>
+          ) : route && (
+            <>
+              <span style={{ fontSize: 22 }}>{activeMode?.emoji}</span>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 11, color: '#94a3b8', fontWeight: 600, marginBottom: 2 }}>
+                  To {route.vendorName}
+                </div>
+                <div style={{ display: 'flex', gap: 10, alignItems: 'baseline' }}>
+                  <span style={{ fontWeight: 900, fontSize: 17, color: '#0f172a' }}>
+                    {fmtDistance(route.distance)}
+                  </span>
+                  <span style={{ fontWeight: 700, fontSize: 14, color: activeMode?.color }}>
+                    ~{fmtDuration(route.duration)}
+                  </span>
+                  <span style={{ fontSize: 11, color: '#cbd5e1', fontWeight: 600 }}>
+                    {activeMode?.label}
+                  </span>
+                </div>
+              </div>
+            </>
+          )}
+          <button
+            onClick={() => { setRoute(null); setRouteError(null); }}
+            style={{
+              width: 28, height: 28, borderRadius: '50%',
+              border: 'none', background: '#f1f5f9',
+              color: '#64748b', fontWeight: 900, fontSize: 14,
+              cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+              flexShrink: 0,
+            }}
+          >
+            ✕
+          </button>
+        </div>
+      )}
+
+      {/* Category legend */}
       <div style={{ background: '#fff', borderTop: '1px solid #f1f5f9', padding: '10px 16px', flexShrink: 0, overflowX: 'auto' }}>
         <div style={{ display: 'flex', gap: 7, width: 'max-content' }}>
           {Object.entries(CATEGORY_CFG).map(([key, c]) => (
