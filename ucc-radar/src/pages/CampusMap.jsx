@@ -22,9 +22,10 @@ const CATEGORY_CFG = {
 const FOOD_CATS = new Set(['local', 'restaurant', 'fast_food', 'cafe', 'chinese']);
 const UCC_CENTER = [5.119, -1.280];
 
+// Wide enough to show full routing paths to any vendor
 const UCC_BOUNDS = [
-  [5.110, -1.295],
-  [5.131, -1.268],
+  [5.095, -1.315],
+  [5.150, -1.250],
 ];
 
 // Travel modes — 'car' profile used for both motor and car (same road network)
@@ -351,7 +352,7 @@ export default function CampusMap() {
       <MapContainer
         center={UCC_CENTER}
         zoom={16}
-        minZoom={15}
+        minZoom={14}
         maxZoom={19}
         maxBounds={UCC_BOUNDS}
         maxBoundsViscosity={1.0}
@@ -389,59 +390,46 @@ export default function CampusMap() {
         )}
       </MapContainer>
 
-      {/* Route info bar */}
-      {(route || routeError) && (
+      {/* Route info — compact pill at top so it never blocks the route line */}
+      {routeError && (
         <div style={{
-          position: 'absolute',
-          bottom: 70, left: '50%', transform: 'translateX(-50%)',
-          zIndex: 1000,
-          background: routeError ? '#fef2f2' : '#fff',
-          border: `2px solid ${routeError ? '#fca5a5' : activeMode?.color ?? '#e2e8f0'}`,
-          borderRadius: 16,
-          padding: '12px 18px',
-          boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
-          display: 'flex', alignItems: 'center', gap: 14,
-          maxWidth: 'calc(100vw - 40px)',
-          minWidth: 260,
+          position: 'absolute', top: 12, left: '50%', transform: 'translateX(-50%)',
+          zIndex: 1000, maxWidth: 'calc(100vw - 32px)',
+          background: '#fef2f2', border: '1.5px solid #fca5a5',
+          borderRadius: 99, padding: '8px 16px',
+          display: 'flex', alignItems: 'center', gap: 8,
+          boxShadow: '0 4px 16px rgba(0,0,0,0.15)',
         }}>
-          {routeError ? (
-            <>
-              <span style={{ fontSize: 20 }}>⚠️</span>
-              <span style={{ fontSize: 13, color: '#dc2626', fontWeight: 600, flex: 1 }}>{routeError}</span>
-            </>
-          ) : route && (
-            <>
-              <span style={{ fontSize: 22 }}>{activeMode?.emoji}</span>
-              <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 11, color: '#94a3b8', fontWeight: 600, marginBottom: 2 }}>
-                  To {route.vendorName}
-                </div>
-                <div style={{ display: 'flex', gap: 10, alignItems: 'baseline' }}>
-                  <span style={{ fontWeight: 900, fontSize: 17, color: '#0f172a' }}>
-                    {fmtDistance(route.distance)}
-                  </span>
-                  <span style={{ fontWeight: 700, fontSize: 14, color: activeMode?.color }}>
-                    ~{fmtDuration(route.duration)}
-                  </span>
-                  <span style={{ fontSize: 11, color: '#cbd5e1', fontWeight: 600 }}>
-                    {activeMode?.label}
-                  </span>
-                </div>
-              </div>
-            </>
-          )}
+          <span style={{ fontSize: 16 }}>⚠️</span>
+          <span style={{ fontSize: 12, color: '#dc2626', fontWeight: 600 }}>{routeError}</span>
+          <button onClick={clearRoute} style={{ marginLeft: 4, background: 'none', border: 'none', color: '#dc2626', fontWeight: 900, cursor: 'pointer', fontSize: 14, lineHeight: 1 }}>✕</button>
+        </div>
+      )}
+
+      {route && (
+        <div style={{
+          position: 'absolute', top: 12, left: '50%', transform: 'translateX(-50%)',
+          zIndex: 1000, maxWidth: 'calc(100vw - 32px)',
+          background: '#fff', border: `2px solid ${activeMode?.color}`,
+          borderRadius: 99, padding: '8px 18px',
+          display: 'flex', alignItems: 'center', gap: 10,
+          boxShadow: '0 4px 16px rgba(0,0,0,0.18)',
+          whiteSpace: 'nowrap',
+        }}>
+          <span style={{ fontSize: 18 }}>{activeMode?.emoji}</span>
+          <span style={{ fontWeight: 900, fontSize: 15, color: '#0f172a' }}>{fmtDistance(route.distance)}</span>
+          <span style={{ fontWeight: 700, fontSize: 14, color: activeMode?.color }}>~{fmtDuration(route.duration)}</span>
+          <span style={{ fontSize: 11, color: '#94a3b8', fontWeight: 600 }}>{activeMode?.label}</span>
           <button
             onClick={clearRoute}
+            title="Clear route"
             style={{
-              width: 28, height: 28, borderRadius: '50%',
-              border: 'none', background: '#f1f5f9',
-              color: '#64748b', fontWeight: 900, fontSize: 14,
-              cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
-              flexShrink: 0,
+              marginLeft: 4, width: 24, height: 24, borderRadius: '50%',
+              border: 'none', background: '#f1f5f9', color: '#64748b',
+              fontWeight: 900, fontSize: 13, cursor: 'pointer',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
             }}
-          >
-            ✕
-          </button>
+          >✕</button>
         </div>
       )}
 
