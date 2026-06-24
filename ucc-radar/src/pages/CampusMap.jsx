@@ -1,266 +1,256 @@
-import { useState, useMemo, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import { MapPin, ArrowLeft, Navigation } from 'lucide-react';
+import { useState } from 'react';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 import { vendors } from '../data/vendors';
-import VendorCard from '../components/VendorCard';
+import { getOpenStatus } from '../utils/openHours';
+import { useLiveRating } from '../context/RatingsContext';
 
-const BG_FOOD    = 'https://images.unsplash.com/photo-1567521464027-f127ff144326?w=900&q=80';
-const BG_MALL    = 'https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=900&q=80';
-const BG_PRINT   = 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=900&q=80';
-const BG_CLOTHES = 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=80';
+const CATEGORY_CFG = {
+  local:      { emoji: '🍛', color: '#F59E0B', label: 'Local Dishes' },
+  restaurant: { emoji: '🍽️', color: '#3B82F6', label: 'Restaurant' },
+  fast_food:  { emoji: '🍔', color: '#F97316', label: 'Fast Food' },
+  cafe:       { emoji: '☕', color: '#14B8A6', label: 'Café & Drinks' },
+  chinese:    { emoji: '🥢', color: '#EF4444', label: 'Chinese' },
+  printing:   { emoji: '🖨️', color: '#A855F7', label: 'Printing' },
+  beauty:     { emoji: '✂️', color: '#EC4899', label: 'Beauty' },
+  tech:       { emoji: '💻', color: '#0EA5E9', label: 'Tech' },
+  clothing:   { emoji: '👗', color: '#6366F1', label: 'Clothing' },
+  tutoring:   { emoji: '📚', color: '#8B5CF6', label: 'Tutoring' },
+};
 
-const ZONES = [
-  {
-    id: 'main-campus',
-    label: 'Main Campus',
-    sublabel: 'Admin block, Library & Academic areas',
-    emoji: '🏛️',
-    border: 'border-blue-400/40',
-    bg: 'bg-blue-500/15',
-    bgHover: 'hover:bg-blue-500/22',
-    bgActive: 'bg-blue-500/30',
-    ring: 'ring-2 ring-blue-400/60',
-    glow: 'shadow-[0_0_30px_rgba(59,130,246,0.2)]',
-    accent: 'text-blue-300',
-    dot: 'bg-blue-400',
-    match: (loc) =>
-      loc.includes('on campus') &&
-      !loc.includes('female hostel') &&
-      !loc.includes('male hostel') &&
-      !loc.includes('clubhouse'),
-  },
-  {
-    id: 'senior-clubhouse',
-    label: 'Senior Clubhouse',
-    sublabel: 'Campus social hub & café corner',
-    emoji: '☕',
-    border: 'border-teal-400/40',
-    bg: 'bg-teal-500/15',
-    bgHover: 'hover:bg-teal-500/22',
-    bgActive: 'bg-teal-500/30',
-    ring: 'ring-2 ring-teal-400/60',
-    glow: 'shadow-[0_0_30px_rgba(20,184,166,0.2)]',
-    accent: 'text-teal-300',
-    dot: 'bg-teal-400',
-    match: (loc) => loc.includes('clubhouse'),
-  },
-  {
-    id: 'hostels',
-    label: 'Hostel Areas',
-    sublabel: 'Male & Female residential halls',
-    emoji: '🏘️',
-    border: 'border-purple-400/40',
-    bg: 'bg-purple-500/15',
-    bgHover: 'hover:bg-purple-500/22',
-    bgActive: 'bg-purple-500/30',
-    ring: 'ring-2 ring-purple-400/60',
-    glow: 'shadow-[0_0_30px_rgba(168,85,247,0.2)]',
-    accent: 'text-purple-300',
-    dot: 'bg-purple-400',
-    match: (loc) => loc.includes('female hostel') || loc.includes('male hostel'),
-  },
-  {
-    id: 'amamoma',
-    label: 'Amamoma Village',
-    sublabel: 'Student streets, local food & services',
-    emoji: '🍽️',
-    border: 'border-amber-400/40',
-    bg: 'bg-amber-500/15',
-    bgHover: 'hover:bg-amber-500/22',
-    bgActive: 'bg-amber-500/30',
-    ring: 'ring-2 ring-amber-400/60',
-    glow: 'shadow-[0_0_30px_rgba(245,158,11,0.2)]',
-    accent: 'text-amber-300',
-    dot: 'bg-amber-400',
-    match: (loc) => loc.includes('amamoma') || loc.includes('ayensu'),
-  },
-  {
-    id: 'school-bus-rd',
-    label: 'School Bus Road',
-    sublabel: 'Near the main campus entrance',
-    emoji: '🚌',
-    border: 'border-orange-400/40',
-    bg: 'bg-orange-500/15',
-    bgHover: 'hover:bg-orange-500/22',
-    bgActive: 'bg-orange-500/30',
-    ring: 'ring-2 ring-orange-400/60',
-    glow: 'shadow-[0_0_30px_rgba(249,115,22,0.2)]',
-    accent: 'text-orange-300',
-    dot: 'bg-orange-400',
-    match: (loc) => loc.includes('school bus'),
-  },
-  {
-    id: 'off-campus',
-    label: 'Off Campus',
-    sublabel: 'Cape Coast & Takoradi Road',
-    emoji: '🏙️',
-    border: 'border-gray-400/30',
-    bg: 'bg-white/8',
-    bgHover: 'hover:bg-white/12',
-    bgActive: 'bg-white/16',
-    ring: 'ring-2 ring-gray-400/50',
-    glow: 'shadow-[0_0_30px_rgba(156,163,175,0.15)]',
-    accent: 'text-gray-300',
-    dot: 'bg-gray-400',
-    match: (loc) =>
-      loc.includes('off campus') || loc.includes('cape coast') || loc.includes('takoradi'),
-  },
-];
+const FOOD_CATS = new Set(['local', 'restaurant', 'fast_food', 'cafe', 'chinese']);
+const UCC_CENTER = [5.1175, -1.2878];
 
-function assignZone(vendor) {
-  const loc = vendor.location.toLowerCase();
-  return ZONES.find((z) => z.match(loc)) ?? ZONES[0];
+function makeIcon(category) {
+  const c = CATEGORY_CFG[category] ?? { emoji: '📍', color: '#1E3A8A' };
+  return L.divIcon({
+    html: `
+      <div style="display:flex;flex-direction:column;align-items:center;width:40px">
+        <div style="
+          width:40px;height:40px;
+          background:${c.color};
+          border:3px solid #fff;
+          border-radius:50%;
+          box-shadow:0 3px 14px rgba(0,0,0,0.32);
+          display:flex;align-items:center;justify-content:center;
+          font-size:20px;line-height:1;
+        ">${c.emoji}</div>
+        <div style="
+          width:0;height:0;
+          border-left:8px solid transparent;
+          border-right:8px solid transparent;
+          border-top:11px solid ${c.color};
+          margin-top:-2px;
+        "></div>
+      </div>`,
+    iconSize: [40, 53],
+    iconAnchor: [20, 53],
+    popupAnchor: [0, -55],
+    className: '',
+  });
 }
 
-export default function CampusMap() {
-  const [selectedZoneId, setSelectedZoneId] = useState(null);
-  const vendorListRef = useRef(null);
-
-  const vendorsByZone = useMemo(() => {
-    const map = {};
-    ZONES.forEach((z) => (map[z.id] = []));
-    vendors.forEach((v) => {
-      const zone = assignZone(v);
-      map[zone.id].push(v);
-    });
-    return map;
-  }, []);
-
-  function handleZoneClick(zoneId) {
-    const isDeselect = selectedZoneId === zoneId;
-    setSelectedZoneId(isDeselect ? null : zoneId);
-    if (!isDeselect) {
-      setTimeout(() => {
-        vendorListRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 80);
-    }
-  }
-
-  const selectedZone = ZONES.find((z) => z.id === selectedZoneId);
-  const selectedVendors = selectedZoneId ? vendorsByZone[selectedZoneId] : [];
+function VendorPopup({ vendor }) {
+  const liveRating = useLiveRating(vendor.id);
+  const rating = liveRating ?? vendor.rating;
+  const openStatus = getOpenStatus(vendor.openHours);
+  const c = CATEGORY_CFG[vendor.category] ?? { emoji: '📍', color: '#1E3A8A', label: vendor.category };
+  const isOpen = openStatus.status === 'open';
 
   return (
-    <div className="pt-16 min-h-screen relative">
+    <div style={{ width: 228, fontFamily: 'system-ui,-apple-system,sans-serif', padding: '2px 0' }}>
+      <p style={{ fontWeight: 800, fontSize: 15, color: '#0f172a', margin: '0 0 7px', lineHeight: 1.25 }}>
+        {vendor.name}
+      </p>
 
-      {/* Fixed 4-quadrant background */}
-      <div className="fixed inset-0 z-0">
-        <div className="absolute inset-0 grid grid-cols-2 grid-rows-2">
-          <div className="bg-cover bg-center" style={{ backgroundImage: `url('${BG_FOOD}')` }} />
-          <div className="bg-cover bg-center" style={{ backgroundImage: `url('${BG_MALL}')` }} />
-          <div className="bg-cover bg-center" style={{ backgroundImage: `url('${BG_PRINT}')` }} />
-          <div className="bg-cover bg-center" style={{ backgroundImage: `url('${BG_CLOTHES}')` }} />
-        </div>
-        <div className="absolute inset-0 bg-[#172554]/87" />
+      <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', marginBottom: 8 }}>
+        <span style={{ background: c.color + '22', color: c.color, fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 99 }}>
+          {c.emoji} {c.label}
+        </span>
+        <span style={{
+          background: isOpen ? '#f0fdf4' : '#fef2f2',
+          color: isOpen ? '#16a34a' : '#dc2626',
+          fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 99,
+        }}>
+          {isOpen ? '● Open' : '● Closed'}
+        </span>
       </div>
 
-      <div className="relative z-10">
+      {rating.count > 0 && (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 13, marginBottom: 7 }}>
+          <span style={{ color: '#f59e0b' }}>★</span>
+          <strong style={{ color: '#111' }}>{rating.rate.toFixed(1)}</strong>
+          <span style={{ color: '#9ca3af' }}>({rating.count} {liveRating ? 'reviews' : 'est.'})</span>
+          {liveRating && (
+            <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#22c55e', display: 'inline-block' }} />
+          )}
+        </div>
+      )}
 
-        {/* Page header */}
-        <div className="border-b border-white/10">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-            <Link
-              to="/vendors"
-              className="inline-flex items-center gap-1.5 text-white/50 hover:text-white text-sm mb-4 transition-colors"
+      <p style={{ fontSize: 12, color: '#6b7280', lineHeight: 1.5, margin: '0 0 11px' }}>
+        {vendor.shortDescription}
+      </p>
+
+      <div style={{ display: 'flex', gap: 7 }}>
+        {vendor.whatsapp && (
+          <a
+            href={`https://wa.me/${vendor.whatsapp}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ flex: 1, background: '#25D366', color: '#fff', textDecoration: 'none', padding: '8px 0', borderRadius: 10, fontSize: 12, fontWeight: 700, textAlign: 'center', display: 'block' }}
+          >
+            💬 WhatsApp
+          </a>
+        )}
+        <a
+          href={`/vendors/${vendor.id}`}
+          style={{ flex: 1, background: '#1e3a8a', color: '#fff', textDecoration: 'none', padding: '8px 0', borderRadius: 10, fontSize: 12, fontWeight: 700, textAlign: 'center', display: 'block' }}
+        >
+          View Details →
+        </a>
+      </div>
+    </div>
+  );
+}
+
+function LocateButton() {
+  const map = useMap();
+  const [locating, setLocating] = useState(false);
+
+  function handleLocate() {
+    setLocating(true);
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        map.flyTo([pos.coords.latitude, pos.coords.longitude], 17, { duration: 1.2 });
+        setLocating(false);
+      },
+      () => setLocating(false),
+      { timeout: 8000 },
+    );
+  }
+
+  if (!navigator.geolocation) return null;
+
+  return (
+    <div className="leaflet-top leaflet-right" style={{ marginTop: 80 }}>
+      <div className="leaflet-control">
+        <button
+          onClick={handleLocate}
+          title="Find my location"
+          style={{
+            width: 34, height: 34,
+            background: '#fff',
+            border: '2px solid rgba(0,0,0,0.2)',
+            borderRadius: 4,
+            cursor: 'pointer',
+            fontSize: 18,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            boxShadow: '0 1px 5px rgba(0,0,0,0.15)',
+          }}
+        >
+          {locating ? '⏳' : '📍'}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+const FILTER_TABS = [
+  { value: 'all',      label: 'All Vendors' },
+  { value: 'food',     label: '🍽️ Food' },
+  { value: 'services', label: '🎓 Services' },
+];
+
+export default function CampusMap() {
+  const [filter, setFilter] = useState('all');
+
+  const shown = vendors.filter(v =>
+    filter === 'food'     ? FOOD_CATS.has(v.category) :
+    filter === 'services' ? !FOOD_CATS.has(v.category) : true
+  );
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100dvh', paddingTop: 64 }}>
+
+      {/* Header bar */}
+      <div style={{ background: '#172554', borderBottom: '1px solid rgba(255,255,255,0.1)', padding: '14px 20px', flexShrink: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 3 }}>
+          <span style={{ fontSize: 20 }}>🗺️</span>
+          <h1 style={{ color: '#fff', fontWeight: 900, fontSize: 20, margin: 0 }}>UCC Campus Map</h1>
+          <span style={{ color: 'rgba(255,255,255,0.35)', fontSize: 12, marginLeft: 4 }}>{shown.length} vendors</span>
+        </div>
+        <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: 12, margin: '0 0 12px' }}>
+          Tap any pin to see details · University of Cape Coast
+        </p>
+        <div style={{ display: 'flex', gap: 7 }}>
+          {FILTER_TABS.map(tab => (
+            <button
+              key={tab.value}
+              onClick={() => setFilter(tab.value)}
+              style={{
+                padding: '5px 14px', borderRadius: 999,
+                border: filter === tab.value ? 'none' : '1px solid rgba(255,255,255,0.2)',
+                background: filter === tab.value ? '#fff' : 'rgba(255,255,255,0.1)',
+                color: filter === tab.value ? '#1e3a8a' : 'rgba(255,255,255,0.8)',
+                fontWeight: 700, fontSize: 13, cursor: 'pointer', transition: 'all 0.15s',
+              }}
             >
-              <ArrowLeft size={14} />
-              Back to all vendors
-            </Link>
-            <div className="flex items-start justify-between gap-4 flex-wrap">
-              <div className="flex items-center gap-3">
-                <div className="w-11 h-11 bg-[#1E3A8A]/60 border border-blue-400/30 rounded-xl flex items-center justify-center">
-                  <Navigation size={22} className="text-blue-300" />
-                </div>
-                <div>
-                  <h1 className="text-3xl sm:text-4xl font-black text-white">Campus Zone Map</h1>
-                  <p className="text-white/50 text-sm mt-0.5">Select a zone to see vendors in that area</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2 text-white/35 text-xs">
-                <MapPin size={12} />
-                University of Cape Coast
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 pb-20">
-
-          {/* Zone Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 mb-3">
-            {ZONES.map((zone) => {
-              const count = vendorsByZone[zone.id].length;
-              const isActive = selectedZoneId === zone.id;
-              return (
-                <button
-                  key={zone.id}
-                  onClick={() => handleZoneClick(zone.id)}
-                  className={`relative text-left rounded-2xl p-5 border backdrop-blur-md transition-all duration-300 active:scale-[0.98] group ${
-                    zone.border
-                  } ${
-                    isActive
-                      ? `${zone.bgActive} ${zone.ring} ${zone.glow}`
-                      : `${zone.bg} ${zone.bgHover}`
-                  }`}
-                >
-                  {/* Vendor count badge */}
-                  <span
-                    className={`absolute top-3 right-3 w-6 h-6 flex items-center justify-center rounded-full text-[11px] font-black text-white ${
-                      isActive ? zone.dot : 'bg-white/20'
-                    } transition-colors`}
-                  >
-                    {count}
-                  </span>
-
-                  <span className="text-3xl block mb-3">{zone.emoji}</span>
-                  <h3 className={`font-black text-base leading-tight mb-1 ${isActive ? zone.accent : 'text-white'} transition-colors`}>
-                    {zone.label}
-                  </h3>
-                  <p className="text-white/45 text-xs leading-snug">{zone.sublabel}</p>
-
-                  {/* Active indicator dot */}
-                  <div className={`absolute bottom-3 right-3 flex items-center gap-1 transition-all duration-300 ${isActive ? 'opacity-100' : 'opacity-0'}`}>
-                    <span className={`w-1.5 h-1.5 rounded-full ${zone.dot} animate-pulse`} />
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Legend */}
-          <p className="text-center text-white/25 text-xs mb-10">
-            Tap a zone to browse its vendors
-          </p>
-
-          {/* Vendor list for selected zone */}
-          <div ref={vendorListRef}>
-            {selectedZone && (
-              <div>
-                {/* Zone heading */}
-                <div className={`inline-flex items-center gap-2.5 px-4 py-2 rounded-full border backdrop-blur-md mb-6 ${selectedZone.border} ${selectedZone.bgActive}`}>
-                  <span className="text-xl">{selectedZone.emoji}</span>
-                  <span className={`font-bold text-base ${selectedZone.accent}`}>{selectedZone.label}</span>
-                  <span className="text-white/40 text-sm">·</span>
-                  <span className="text-white/50 text-sm">{selectedVendors.length} vendor{selectedVendors.length !== 1 ? 's' : ''}</span>
-                </div>
-
-                {selectedVendors.length > 0 ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-                    {selectedVendors.map((vendor) => (
-                      <VendorCard key={vendor.id} vendor={vendor} glass />
-                    ))}
-                  </div>
-                ) : (
-                  <div className="flex flex-col items-center py-16 text-center">
-                    <div className="text-4xl mb-3">{selectedZone.emoji}</div>
-                    <p className="text-white/40 text-sm">No vendors listed in this zone yet.</p>
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-
+              {tab.label}
+            </button>
+          ))}
         </div>
       </div>
+
+      {/* Map */}
+      <MapContainer
+        center={UCC_CENTER}
+        zoom={15}
+        style={{ flex: 1, width: '100%', minHeight: 0 }}
+        scrollWheelZoom
+        zoomControl
+      >
+        <TileLayer
+          attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          maxZoom={19}
+        />
+        <LocateButton />
+        {shown.map(vendor =>
+          vendor.lat && vendor.lng ? (
+            <Marker
+              key={vendor.id}
+              position={[vendor.lat, vendor.lng]}
+              icon={makeIcon(vendor.category)}
+            >
+              <Popup maxWidth={244} closeButton>
+                <VendorPopup vendor={vendor} />
+              </Popup>
+            </Marker>
+          ) : null
+        )}
+      </MapContainer>
+
+      {/* Category legend — horizontally scrollable */}
+      <div style={{ background: '#fff', borderTop: '1px solid #f1f5f9', padding: '10px 16px', flexShrink: 0, overflowX: 'auto' }}>
+        <div style={{ display: 'flex', gap: 7, width: 'max-content' }}>
+          {Object.entries(CATEGORY_CFG).map(([key, c]) => (
+            <span
+              key={key}
+              style={{
+                background: c.color + '18', color: c.color,
+                border: `1px solid ${c.color}40`,
+                fontSize: 11, fontWeight: 700,
+                padding: '4px 10px', borderRadius: 99,
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {c.emoji} {c.label}
+            </span>
+          ))}
+        </div>
+      </div>
+
     </div>
   );
 }
