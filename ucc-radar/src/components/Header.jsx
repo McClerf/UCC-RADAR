@@ -101,42 +101,27 @@ export default function Header() {
         }`}
       >
         <div className="bg-white border-t border-gray-100 px-4 py-3 flex flex-col gap-1">
-          {navLinks.map(({ to, label }) => (
-            <NavLink
-              key={to}
-              to={to}
-              end={to === '/'}
-              className={({ isActive }) =>
-                `px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
-                  isActive
-                    ? 'bg-blue-50 text-[#1E3A8A] font-semibold'
-                    : 'text-gray-700 hover:bg-gray-50'
-                } ${
-                  label === 'List Your Vendor'
-                    ? 'mt-1 bg-[#1E3A8A] text-white text-center hover:bg-[#172554]'
-                    : ''
-                }`
-              }
-            >
-              {label}
-            </NavLink>
-          ))}
-          <NavLink
-            to="/saved"
-            className={({ isActive }) =>
-              `flex items-center gap-2.5 px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
-                isActive ? 'bg-red-50 text-red-600 font-semibold' : 'text-gray-700 hover:bg-gray-50'
-              }`
-            }
-          >
-            <Heart size={16} className={count > 0 ? 'fill-red-500 text-red-500' : 'text-gray-400'} />
-            Saved Vendors
-            {count > 0 && (
-              <span className="ml-auto bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full leading-none">
-                {count}
-              </span>
-            )}
-          </NavLink>
+          {navLinks
+            .filter(({ label }) => label === 'About' || label === 'List Your Vendor')
+            .map(({ to, label }) => (
+              <NavLink
+                key={to}
+                to={to}
+                className={({ isActive }) =>
+                  `px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
+                    isActive
+                      ? 'bg-blue-50 text-[#1E3A8A] font-semibold'
+                      : 'text-gray-700 hover:bg-gray-50'
+                  } ${
+                    label === 'List Your Vendor'
+                      ? 'mt-1 bg-[#1E3A8A] text-white text-center hover:bg-[#172554]'
+                      : ''
+                  }`
+                }
+              >
+                {label}
+              </NavLink>
+            ))}
         </div>
       </div>
     </header>
