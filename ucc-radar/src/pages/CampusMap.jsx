@@ -10,85 +10,64 @@ const MAPTILER_KEY = 'YfKuF1pv1JfcKgCn9YqD';
 const MAPTILER_ATTR = '&copy; <a href="https://www.maptiler.com/copyright/">MapTiler</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 
 // UCC campus landmarks — calibrated to real vendor GPS anchors
+// Curated to ~28 key places so labels don't blanket and hide tile structures
 const CAMPUS_LANDMARKS = [
-  // ── Gates ──
-  { name: 'Main Gate',                lat: 5.1083,    lng: -1.2858,    icon: '🚪', minZoom: 14 },
-  { name: 'North Gate',               lat: 5.1310,    lng: -1.2848,    icon: '🚪', minZoom: 15 },
-  { name: 'East Gate',                lat: 5.1208,    lng: -1.2705,    icon: '🚪', minZoom: 16 },
+  // ── Gates (always visible from zoom 14) ──
+  { name: 'Main Gate',               lat: 5.1083,  lng: -1.2858,  icon: '🚪', minZoom: 14 },
+  { name: 'North Gate',              lat: 5.1310,  lng: -1.2848,  icon: '🚪', minZoom: 15 },
 
-  // ── Core Administration ──
-  { name: 'Admin Block',              lat: 5.1197,    lng: -1.2855,    icon: '🏛️', minZoom: 15 },
-  { name: 'Central Library',          lat: 5.1183,    lng: -1.2840,    icon: '📚', minZoom: 15 },
-  { name: 'Great Hall',               lat: 5.1205,    lng: -1.2875,    icon: '🎓', minZoom: 15 },
-  { name: 'Examinations Centre',      lat: 5.1182,    lng: -1.2868,    icon: '📝', minZoom: 15 },
-  { name: 'SRC Secretariat',          lat: 5.1185,    lng: -1.2897,    icon: '🏢', minZoom: 16 },
-  { name: 'Bursary',                  lat: 5.1190,    lng: -1.2862,    icon: '🏦', minZoom: 16 },
-  { name: 'Registry',                 lat: 5.1193,    lng: -1.2850,    icon: '🗂️', minZoom: 17 },
-  { name: 'Post Office',              lat: 5.1193,    lng: -1.2865,    icon: '📮', minZoom: 16 },
-  { name: 'Guest Centre',             lat: 5.1200,    lng: -1.2843,    icon: '🏨', minZoom: 16 },
+  // ── Core campus (zoom 15) ──
+  { name: 'Admin Block',             lat: 5.1197,  lng: -1.2855,  icon: '🏛️', minZoom: 15 },
+  { name: 'Central Library',         lat: 5.1183,  lng: -1.2840,  icon: '📚', minZoom: 15 },
+  { name: 'Great Hall',              lat: 5.1205,  lng: -1.2875,  icon: '🎓', minZoom: 15 },
+  { name: 'Examinations Centre',     lat: 5.1182,  lng: -1.2868,  icon: '📝', minZoom: 15 },
+  { name: 'UCC Chapel',              lat: 5.1202,  lng: -1.2895,  icon: '⛪', minZoom: 15 },
+  { name: 'Health Centre',           lat: 5.1178,  lng: -1.2908,  icon: '🏥', minZoom: 15 },
+  { name: 'Sports Complex',          lat: 5.1255,  lng: -1.2812,  icon: '⚽', minZoom: 14 },
+  { name: 'College of Engineering',  lat: 5.1206,  lng: -1.2727,  icon: '⚙️', minZoom: 14 },
 
-  // ── Faculties & Schools ──
-  { name: 'Faculty of Arts',          lat: 5.1170,    lng: -1.2875,    icon: '🎭', minZoom: 15 },
-  { name: 'Faculty of Social Sciences', lat: 5.1175,  lng: -1.2878,    icon: '📖', minZoom: 15 },
-  { name: 'Faculty of Education',     lat: 5.1155,    lng: -1.2890,    icon: '🏫', minZoom: 15 },
-  { name: 'Faculty of Science',       lat: 5.1138,    lng: -1.2915,    icon: '🔬', minZoom: 15 },
-  { name: 'School of Business',       lat: 5.1168,    lng: -1.2858,    icon: '💼', minZoom: 15 },
-  { name: 'College of Engineering',   lat: 5.1206,    lng: -1.2727,    icon: '⚙️', minZoom: 14 },
-  { name: 'School of Medical Sciences', lat: 5.1148,  lng: -1.2882,    icon: '🩺', minZoom: 15 },
-  { name: 'Dept. of Computer Science', lat: 5.1160,   lng: -1.2870,    icon: '💻', minZoom: 16 },
-  { name: 'Law Faculty',              lat: 5.1178,    lng: -1.2888,    icon: '⚖️', minZoom: 16 },
+  // ── Faculties (zoom 15) ──
+  { name: 'Faculty of Arts',         lat: 5.1170,  lng: -1.2875,  icon: '🎭', minZoom: 15 },
+  { name: 'Faculty of Science',      lat: 5.1138,  lng: -1.2915,  icon: '🔬', minZoom: 15 },
+  { name: 'School of Business',      lat: 5.1168,  lng: -1.2858,  icon: '💼', minZoom: 15 },
+  { name: 'Faculty of Education',    lat: 5.1155,  lng: -1.2890,  icon: '🏫', minZoom: 15 },
+  { name: 'Faculty of Social Sci.',  lat: 5.1175,  lng: -1.2878,  icon: '📖', minZoom: 15 },
+  { name: 'Medical Sciences',        lat: 5.1148,  lng: -1.2882,  icon: '🩺', minZoom: 15 },
 
-  // ── Lecture Halls & Classrooms ──
-  { name: 'New Site Lecture Hall',    lat: 5.1142,    lng: -1.2934,    icon: '🏫', minZoom: 16 },
-  { name: 'JQB Lecture Hall',         lat: 5.1172,    lng: -1.2883,    icon: '🏫', minZoom: 16 },
-  { name: 'Lecture Theatre A',        lat: 5.1165,    lng: -1.2860,    icon: '🏫', minZoom: 17 },
-  { name: 'Lecture Theatre B',        lat: 5.1168,    lng: -1.2852,    icon: '🏫', minZoom: 17 },
+  // ── Residential halls (zoom 15) ──
+  { name: 'Oguaa Hall',              lat: 5.1288,  lng: -1.2852,  icon: '🏠', minZoom: 14 },
+  { name: 'Kwame Nkrumah Hall',      lat: 5.1262,  lng: -1.2776,  icon: '🏠', minZoom: 14 },
+  { name: 'Atlantic Hall',           lat: 5.1278,  lng: -1.2832,  icon: '🏠', minZoom: 15 },
+  { name: 'Independence Hall',       lat: 5.1270,  lng: -1.2818,  icon: '🏠', minZoom: 15 },
+  { name: 'Valco Hall',              lat: 5.1258,  lng: -1.2795,  icon: '🏠', minZoom: 16 },
+  { name: 'Continental Hall',        lat: 5.1282,  lng: -1.2804,  icon: '🏠', minZoom: 16 },
 
-  // ── Facilities ──
-  { name: 'Senior Clubhouse',         lat: 5.1172,    lng: -1.2883,    icon: '🏠', minZoom: 15 },
-  { name: 'UCC Chapel',               lat: 5.1202,    lng: -1.2895,    icon: '⛪', minZoom: 15 },
-  { name: 'Health Centre',            lat: 5.1178,    lng: -1.2908,    icon: '🏥', minZoom: 15 },
-  { name: 'Sports Complex',           lat: 5.1255,    lng: -1.2812,    icon: '⚽', minZoom: 14 },
-  { name: 'Swimming Pool',            lat: 5.1248,    lng: -1.2822,    icon: '🏊', minZoom: 16 },
-  { name: 'UCC Canteen',              lat: 5.1148,    lng: -1.2882,    icon: '🍽️', minZoom: 16 },
-  { name: 'University Bookshop',      lat: 5.1185,    lng: -1.2872,    icon: '📗', minZoom: 16 },
-  { name: 'UCC Bank (GCB)',           lat: 5.1188,    lng: -1.2845,    icon: '🏦', minZoom: 16 },
-  { name: 'ATM Centre',               lat: 5.1190,    lng: -1.2843,    icon: '💳', minZoom: 17 },
-  { name: 'Printing & Stationery',    lat: 5.1173,    lng: -1.2854,    icon: '🖨️', minZoom: 17 },
-  { name: 'UCC Car Park',             lat: 5.1195,    lng: -1.2838,    icon: '🅿️', minZoom: 17 },
-
-  // ── Residential Halls ──
-  { name: 'Oguaa Hall',               lat: 5.1288,    lng: -1.2852,    icon: '🏠', minZoom: 14 },
-  { name: 'Kwame Nkrumah Hall',       lat: 5.1262,    lng: -1.2776,    icon: '🏠', minZoom: 14 },
-  { name: 'Atlantic Hall',            lat: 5.1278,    lng: -1.2832,    icon: '🏠', minZoom: 15 },
-  { name: 'Independence Hall',        lat: 5.1270,    lng: -1.2818,    icon: '🏠', minZoom: 15 },
-  { name: 'Valco Hall',               lat: 5.1258,    lng: -1.2795,    icon: '🏠', minZoom: 15 },
-  { name: 'Continental Hall',         lat: 5.1282,    lng: -1.2804,    icon: '🏠', minZoom: 15 },
-  { name: 'International Hostel',     lat: 5.1183,    lng: -1.2910,    icon: '🏠', minZoom: 16 },
-
-  // ── Roads & Areas ──
-  { name: 'University Avenue',        lat: 5.1150,    lng: -1.2855,    icon: '🛣️', minZoom: 16 },
-  { name: 'Science Rd',               lat: 5.1140,    lng: -1.2898,    icon: '🛣️', minZoom: 17 },
-  { name: 'Engineering Rd',           lat: 5.1175,    lng: -1.2750,    icon: '🛣️', minZoom: 17 },
+  // ── Services (zoom 16 — only appear when zoomed in enough) ──
+  { name: 'SRC Secretariat',         lat: 5.1185,  lng: -1.2897,  icon: '🏢', minZoom: 16 },
+  { name: 'Bursary',                 lat: 5.1190,  lng: -1.2862,  icon: '🏦', minZoom: 16 },
+  { name: 'Post Office',             lat: 5.1193,  lng: -1.2865,  icon: '📮', minZoom: 16 },
+  { name: 'University Bookshop',     lat: 5.1185,  lng: -1.2872,  icon: '📗', minZoom: 16 },
+  { name: 'JQB Lecture Hall',        lat: 5.1172,  lng: -1.2883,  icon: '🏫', minZoom: 16 },
+  { name: 'New Site Lecture Hall',   lat: 5.1142,  lng: -1.2934,  icon: '🏫', minZoom: 16 },
 ];
 
 function makeLandmarkIcon(icon, name) {
   return L.divIcon({
     html: `<div style="
-      background:rgba(255,255,255,0.93);
-      border:1px solid rgba(0,0,0,0.13);
-      border-radius:5px;
-      padding:2px 7px 2px 5px;
-      font-size:11.5px;
-      font-weight:600;
+      background:rgba(255,255,255,0.78);
+      border:1px solid rgba(0,0,0,0.10);
+      border-radius:4px;
+      padding:1px 6px 1px 4px;
+      font-size:10.5px;
+      font-weight:650;
       color:#1a2744;
       white-space:nowrap;
-      box-shadow:0 1px 4px rgba(0,0,0,0.18);
+      box-shadow:0 1px 3px rgba(0,0,0,0.12);
       display:inline-flex;
       align-items:center;
-      gap:4px;
+      gap:3px;
       pointer-events:none;
-      line-height:1.4;
+      line-height:1.5;
     ">${icon} ${name}</div>`,
     iconSize: [0, 0],
     iconAnchor: [0, 0],
