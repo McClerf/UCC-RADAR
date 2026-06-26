@@ -46,7 +46,7 @@ const values = [
 
 const stats = [
   { icon: <Store size={20} />,  value: '12+',    label: 'Listed Vendors' },
-  { icon: <Users size={20} />,  value: '2,000+', label: 'Students Reached' },
+  { icon: <Users size={20} />,  value: '30,000+', label: 'UCC Students' },
   { icon: <Star size={20} />,   value: '4.5★',   label: 'Average Rating' },
   { icon: <MapPin size={20} />, value: '8+',     label: 'Campus Locations' },
 ];
