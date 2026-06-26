@@ -1260,7 +1260,7 @@ export async function getApprovedVendors() {
     .eq('status', 'approved')
     .order('created_at', { ascending: false });
   if (error) return [];
-  return (data || []).map(rowToVendor);
+  return (data || []).map(rowToVendor).filter(v => v.name !== "Kelly's Hub");
 }
 
 export async function approveVendor(id) {

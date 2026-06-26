@@ -72,8 +72,8 @@ function StarRating({ rate, count }) {
           />
         ))}
       </div>
-      <span className="font-bold text-gray-900">{rate.toFixed(1)}</span>
-      <span className="text-gray-400 text-sm">({count} reviews)</span>
+      <span className="font-bold text-white">{rate.toFixed(1)}</span>
+      <span className="text-white/50 text-sm">({count} reviews)</span>
     </div>
   );
 }
@@ -234,8 +234,8 @@ function CommentsSection({ vendorId }) {
         </div>
       )}
 
-      <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-        <h2 className="text-lg font-black text-gray-900 mb-5">Reviews & Comments</h2>
+      <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/15">
+        <h2 className="text-lg font-black text-white mb-5">Reviews & Comments</h2>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-3 mb-6">
           <input
@@ -246,7 +246,7 @@ function CommentsSection({ vendorId }) {
             className="w-full text-sm border border-gray-200 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1E3A8A] placeholder:text-gray-400"
           />
           <div>
-            <p className="text-xs font-semibold text-gray-500 mb-2">Your Rating *</p>
+            <p className="text-xs font-semibold text-white/70 mb-2">Your Rating *</p>
             <StarPicker value={rating} onChange={setRating} />
           </div>
           <textarea
@@ -310,8 +310,8 @@ function CommentsSection({ vendorId }) {
           <div className="mb-6 pb-6 border-b border-gray-100">
             <div className="flex items-center gap-2 mb-3">
               <Images size={15} className="text-gray-400" />
-              <span className="text-sm font-bold text-gray-700">Student Photos</span>
-              <span className="text-xs text-gray-400 font-medium">({photoComments.length})</span>
+              <span className="text-sm font-bold text-white/80">Student Photos</span>
+              <span className="text-xs text-white/50 font-medium">({photoComments.length})</span>
             </div>
             <div className="flex gap-2.5 overflow-x-auto pb-1" style={{ scrollbarWidth: 'none' }}>
               {photoComments.map((c) => (
@@ -336,7 +336,7 @@ function CommentsSection({ vendorId }) {
         )}
 
         {comments.length === 0 ? (
-          <p className="text-sm text-gray-400 text-center py-4">No reviews yet. Be the first!</p>
+          <p className="text-sm text-white/50 text-center py-4">No reviews yet. Be the first!</p>
         ) : (
           <div className="flex flex-col gap-4">
             {comments.map((c) => {
@@ -352,8 +352,8 @@ function CommentsSection({ vendorId }) {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between gap-2 mb-1">
                       <div className="flex items-center gap-2">
-                        <span className="text-sm font-bold text-gray-800">{c.name}</span>
-                        <span className="text-xs text-gray-400">
+                        <span className="text-sm font-bold text-white">{c.name}</span>
+                        <span className="text-xs text-white/50">
                           {new Date(c.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
                         </span>
                       </div>
@@ -408,7 +408,7 @@ function CommentsSection({ vendorId }) {
                             <Star key={s} size={13} className={s <= c.rating ? 'text-amber-400 fill-amber-400' : 'text-gray-200 fill-gray-100'} />
                           ))}
                         </div>
-                        <p className="text-sm text-gray-600 leading-relaxed break-words">{c.text}</p>
+                        <p className="text-sm text-white/70 leading-relaxed break-words">{c.text}</p>
                         {c.photo_url && (
                           <button
                             type="button"
@@ -589,9 +589,9 @@ export default function VendorDetails() {
           {/* Left: Description + Menu */}
           <div className="lg:col-span-2 flex flex-col gap-8">
             {/* About */}
-            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-              <h2 className="text-xl font-black text-gray-900 mb-4">About {name}</h2>
-              <p className="text-gray-600 leading-relaxed">{description}</p>
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/15">
+              <h2 className="text-xl font-black text-white mb-4">About {name}</h2>
+              <p className="text-white/70 leading-relaxed">{description}</p>
 
               {/* Tags */}
               {tags && tags.length > 0 && (
@@ -599,7 +599,7 @@ export default function VendorDetails() {
                   {tags.map((tag) => (
                     <span
                       key={tag}
-                      className="flex items-center gap-1 px-3 py-1 bg-gray-100 text-gray-600 text-xs font-medium rounded-full"
+                      className="flex items-center gap-1 px-3 py-1 bg-white/10 text-white/80 text-xs font-medium rounded-full border border-white/10"
                     >
                       <Tag size={10} />
                       {tag}
@@ -610,13 +610,13 @@ export default function VendorDetails() {
             </div>
 
             {/* Menu Board */}
-            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/15">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-black text-gray-900">
+                <h2 className="text-xl font-black text-white">
                   {foodCategories.has(category) ? 'Menu' : 'Services & Pricing'}
                 </h2>
                 {minPrice !== null && (
-                  <span className="text-sm text-gray-400 bg-gray-50 px-3 py-1 rounded-full">
+                  <span className="text-sm text-white/50 bg-white/10 px-3 py-1 rounded-full">
                     GHS {minPrice} – {maxPrice}
                   </span>
                 )}
@@ -627,7 +627,7 @@ export default function VendorDetails() {
                   {menu.map((item, idx) => (
                     <div
                       key={idx}
-                      className="flex gap-4 p-4 rounded-xl border border-gray-100 hover:border-blue-200 hover:shadow-sm transition-all duration-200"
+                      className="flex gap-4 p-4 rounded-xl border border-white/10 hover:border-white/25 hover:bg-white/5 transition-all duration-200"
                     >
                       <img
                         src={item.image}
@@ -636,14 +636,14 @@ export default function VendorDetails() {
                       />
                       <div className="flex flex-col justify-between min-w-0">
                         <div>
-                          <h3 className="font-bold text-gray-900 text-sm leading-snug mb-1">
+                          <h3 className="font-bold text-white text-sm leading-snug mb-1">
                             {item.name}
                           </h3>
-                          <p className="text-xs text-gray-500 line-clamp-2 leading-relaxed">
+                          <p className="text-xs text-white/60 line-clamp-2 leading-relaxed">
                             {item.description}
                           </p>
                         </div>
-                        <span className="mt-2 inline-block text-xs font-bold text-[#1E3A8A] bg-blue-50 px-2 py-0.5 rounded-full w-fit">
+                        <span className="mt-2 inline-block text-xs font-bold text-amber-400 bg-amber-500/20 px-2 py-0.5 rounded-full w-fit">
                           GHS {item.priceMin} – {item.priceMax}
                         </span>
                       </div>
@@ -651,7 +651,7 @@ export default function VendorDetails() {
                   ))}
                 </div>
               ) : (
-                <p className="text-sm text-gray-400 text-center py-6">
+                <p className="text-sm text-white/50 text-center py-6">
                   Detailed {foodCategories.has(category) ? 'menu' : 'service'} information will be added soon. Contact the vendor directly for pricing.
                 </p>
               )}
@@ -659,9 +659,9 @@ export default function VendorDetails() {
 
             {/* Flyer / Promo Image */}
             {flyer && (
-              <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
-                <div className="p-5 border-b border-gray-50">
-                  <h2 className="text-lg font-black text-gray-900">Promotions & Flyer</h2>
+              <div className="bg-white/10 backdrop-blur-md rounded-2xl overflow-hidden border border-white/15">
+                <div className="p-5 border-b border-white/10">
+                  <h2 className="text-lg font-black text-white">Promotions & Flyer</h2>
                 </div>
                 <img src={flyer} alt={`${name} flyer`} className="w-full object-cover max-h-72" />
               </div>
@@ -671,28 +671,28 @@ export default function VendorDetails() {
           {/* Right: Info Card */}
           <div className="flex flex-col gap-5">
             {/* Quick Info */}
-            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-              <h2 className="text-lg font-black text-gray-900 mb-5">Vendor Info</h2>
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/15">
+              <h2 className="text-lg font-black text-white mb-5">Vendor Info</h2>
 
               <div className="flex flex-col gap-4">
                 <div className="flex items-start gap-3">
-                  <div className="w-9 h-9 bg-blue-50 rounded-xl flex items-center justify-center shrink-0">
-                    <MapPin size={16} className="text-[#1E3A8A]" />
+                  <div className="w-9 h-9 bg-white/10 rounded-xl flex items-center justify-center shrink-0">
+                    <MapPin size={16} className="text-amber-400" />
                   </div>
                   <div>
-                    <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-0.5">
+                    <p className="text-xs font-semibold text-white/50 uppercase tracking-wider mb-0.5">
                       Location
                     </p>
-                    <p className="text-sm text-gray-700 leading-snug">{location}</p>
+                    <p className="text-sm text-white/80 leading-snug">{location}</p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <div className="w-9 h-9 bg-blue-50 rounded-xl flex items-center justify-center shrink-0">
-                    <Clock size={16} className="text-[#1E3A8A]" />
+                  <div className="w-9 h-9 bg-white/10 rounded-xl flex items-center justify-center shrink-0">
+                    <Clock size={16} className="text-amber-400" />
                   </div>
                   <div className="flex-1">
-                    <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">
+                    <p className="text-xs font-semibold text-white/50 uppercase tracking-wider mb-1">
                       Open Hours
                     </p>
                     {(() => {
@@ -700,34 +700,34 @@ export default function VendorDetails() {
                       return (
                         <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold mb-1.5 ${
                           st.status === 'open'
-                            ? 'bg-green-50 text-green-700'
+                            ? 'bg-green-500/20 text-green-400'
                             : st.status === 'closed'
-                            ? 'bg-red-50 text-red-600'
-                            : 'bg-gray-100 text-gray-500'
+                            ? 'bg-red-500/20 text-red-400'
+                            : 'bg-white/10 text-white/50'
                         }`}>
                           <span className={`w-1.5 h-1.5 rounded-full ${
-                            st.status === 'open' ? 'bg-green-500 animate-pulse' :
-                            st.status === 'closed' ? 'bg-red-400' : 'bg-gray-400'
+                            st.status === 'open' ? 'bg-green-400 animate-pulse' :
+                            st.status === 'closed' ? 'bg-red-400' : 'bg-white/40'
                           }`} />
                           {st.label}
                         </span>
                       );
                     })()}
-                    <p className="text-sm text-gray-600 leading-snug">{openHours}</p>
+                    <p className="text-sm text-white/70 leading-snug">{openHours}</p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <div className="w-9 h-9 bg-blue-50 rounded-xl flex items-center justify-center shrink-0">
-                    <Phone size={16} className="text-[#1E3A8A]" />
+                  <div className="w-9 h-9 bg-white/10 rounded-xl flex items-center justify-center shrink-0">
+                    <Phone size={16} className="text-amber-400" />
                   </div>
                   <div>
-                    <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-0.5">
+                    <p className="text-xs font-semibold text-white/50 uppercase tracking-wider mb-0.5">
                       Phone
                     </p>
                     <a
                       href={`tel:${contact}`}
-                      className="text-sm text-[#1E3A8A] font-semibold hover:underline"
+                      className="text-sm text-amber-400 font-semibold hover:underline"
                     >
                       {contact}
                     </a>
@@ -735,14 +735,14 @@ export default function VendorDetails() {
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <div className="w-9 h-9 bg-blue-50 rounded-xl flex items-center justify-center shrink-0">
-                    <Truck size={16} className="text-[#1E3A8A]" />
+                  <div className="w-9 h-9 bg-white/10 rounded-xl flex items-center justify-center shrink-0">
+                    <Truck size={16} className="text-amber-400" />
                   </div>
                   <div>
-                    <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-0.5">
+                    <p className="text-xs font-semibold text-white/50 uppercase tracking-wider mb-0.5">
                       Delivery
                     </p>
-                    <p className="text-sm text-gray-700">
+                    <p className="text-sm text-white/80">
                       {delivery
                         ? `Available · ${deliveryFee} delivery fee`
                         : 'Not available (dine-in only)'}
@@ -754,21 +754,21 @@ export default function VendorDetails() {
 
             {/* Price Range Card */}
             {minPrice !== null ? (
-              <div className="bg-blue-50 border border-blue-100 rounded-2xl p-5">
-                <p className="text-xs font-semibold text-[#1E3A8A] uppercase tracking-wider mb-1">
+              <div className="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-5">
+                <p className="text-xs font-semibold text-amber-400 uppercase tracking-wider mb-1">
                   Price Range
                 </p>
-                <p className="text-2xl font-black text-[#172554]">
-                  GHS {minPrice} <span className="text-base font-medium text-[#1E3A8A]">to</span> GHS {maxPrice}
+                <p className="text-2xl font-black text-white">
+                  GHS {minPrice} <span className="text-base font-medium text-white/60">to</span> GHS {maxPrice}
                 </p>
-                <p className="text-xs text-[#1E3A8A] mt-1">Prices vary per item and portion size</p>
+                <p className="text-xs text-white/50 mt-1">Prices vary per item and portion size</p>
               </div>
             ) : (
-              <div className="bg-gray-50 border border-gray-100 rounded-2xl p-5">
-                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">
+              <div className="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-5">
+                <p className="text-xs font-semibold text-white/50 uppercase tracking-wider mb-1">
                   Pricing
                 </p>
-                <p className="text-sm text-gray-500">Contact this vendor directly for pricing information.</p>
+                <p className="text-sm text-white/60">Contact this vendor directly for pricing information.</p>
               </div>
             )}
 
@@ -786,7 +786,7 @@ export default function VendorDetails() {
             {/* Call Button */}
             <a
               href={`tel:${contact}`}
-              className="flex items-center justify-center gap-3 w-full py-4 bg-white border-2 border-[#1E3A8A] text-[#1E3A8A] font-bold text-base rounded-2xl hover:bg-blue-50 transition-colors"
+              className="flex items-center justify-center gap-3 w-full py-4 bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white font-bold text-base rounded-2xl hover:bg-white/20 transition-colors"
             >
               <Phone size={18} />
               Call Vendor
@@ -797,8 +797,8 @@ export default function VendorDetails() {
               onClick={handleShare}
               className={`flex items-center justify-center gap-3 w-full py-3.5 rounded-2xl border-2 font-semibold text-sm transition-all duration-200 ${
                 copied
-                  ? 'border-green-400 bg-green-50 text-green-600'
-                  : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300 hover:bg-gray-50'
+                  ? 'border-green-400 bg-green-500/20 text-green-400'
+                  : 'border-white/20 bg-white/10 text-white/70 hover:border-white/30 hover:bg-white/20'
               }`}
             >
               {copied ? (
