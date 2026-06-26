@@ -381,11 +381,11 @@ export default function CampusMap() {
             />
           </>
         ) : (
-          /* CartoDB Voyager — crisp vector-quality at any zoom, full building + road labels */
+          /* OpenStreetMap standard — renders ALL named buildings, roads, and places */
           <TileLayer
-            url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
-            maxNativeZoom={20} maxZoom={20}
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            maxNativeZoom={19} maxZoom={20}
           />
         )}
         <LocateButton />
