@@ -9,46 +9,18 @@ import { useLiveRating } from '../context/RatingsContext';
 const MAPTILER_KEY = 'YfKuF1pv1JfcKgCn9YqD';
 const MAPTILER_ATTR = '&copy; <a href="https://www.maptiler.com/copyright/">MapTiler</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 
-// UCC campus landmarks — calibrated to real vendor GPS anchors
-// Curated to ~28 key places so labels don't blanket and hide tile structures
+// Only 10 high-confidence navigation anchors — OSM tiles handle all other building names
 const CAMPUS_LANDMARKS = [
-  // ── Gates (always visible from zoom 14) ──
-  { name: 'Main Gate',               lat: 5.1083,  lng: -1.2858,  icon: '🚪', minZoom: 14 },
-  { name: 'North Gate',              lat: 5.1310,  lng: -1.2848,  icon: '🚪', minZoom: 15 },
-
-  // ── Core campus (zoom 15) ──
-  { name: 'Admin Block',             lat: 5.1197,  lng: -1.2855,  icon: '🏛️', minZoom: 15 },
-  { name: 'Central Library',         lat: 5.1183,  lng: -1.2840,  icon: '📚', minZoom: 15 },
-  { name: 'Great Hall',              lat: 5.1205,  lng: -1.2875,  icon: '🎓', minZoom: 15 },
-  { name: 'Examinations Centre',     lat: 5.1182,  lng: -1.2868,  icon: '📝', minZoom: 15 },
-  { name: 'UCC Chapel',              lat: 5.1202,  lng: -1.2895,  icon: '⛪', minZoom: 15 },
-  { name: 'Health Centre',           lat: 5.1178,  lng: -1.2908,  icon: '🏥', minZoom: 15 },
-  { name: 'Sports Complex',          lat: 5.1255,  lng: -1.2812,  icon: '⚽', minZoom: 14 },
-  { name: 'College of Engineering',  lat: 5.1206,  lng: -1.2727,  icon: '⚙️', minZoom: 14 },
-
-  // ── Faculties (zoom 15) ──
-  { name: 'Faculty of Arts',         lat: 5.1170,  lng: -1.2875,  icon: '🎭', minZoom: 15 },
-  { name: 'Faculty of Science',      lat: 5.1138,  lng: -1.2915,  icon: '🔬', minZoom: 15 },
-  { name: 'School of Business',      lat: 5.1168,  lng: -1.2858,  icon: '💼', minZoom: 15 },
-  { name: 'Faculty of Education',    lat: 5.1155,  lng: -1.2890,  icon: '🏫', minZoom: 15 },
-  { name: 'Faculty of Social Sci.',  lat: 5.1175,  lng: -1.2878,  icon: '📖', minZoom: 15 },
-  { name: 'Medical Sciences',        lat: 5.1148,  lng: -1.2882,  icon: '🩺', minZoom: 15 },
-
-  // ── Residential halls (zoom 15) ──
-  { name: 'Oguaa Hall',              lat: 5.1288,  lng: -1.2852,  icon: '🏠', minZoom: 14 },
-  { name: 'Kwame Nkrumah Hall',      lat: 5.1262,  lng: -1.2776,  icon: '🏠', minZoom: 14 },
-  { name: 'Atlantic Hall',           lat: 5.1278,  lng: -1.2832,  icon: '🏠', minZoom: 15 },
-  { name: 'Independence Hall',       lat: 5.1270,  lng: -1.2818,  icon: '🏠', minZoom: 15 },
-  { name: 'Valco Hall',              lat: 5.1258,  lng: -1.2795,  icon: '🏠', minZoom: 16 },
-  { name: 'Continental Hall',        lat: 5.1282,  lng: -1.2804,  icon: '🏠', minZoom: 16 },
-
-  // ── Services (zoom 16 — only appear when zoomed in enough) ──
-  { name: 'SRC Secretariat',         lat: 5.1185,  lng: -1.2897,  icon: '🏢', minZoom: 16 },
-  { name: 'Bursary',                 lat: 5.1190,  lng: -1.2862,  icon: '🏦', minZoom: 16 },
-  { name: 'Post Office',             lat: 5.1193,  lng: -1.2865,  icon: '📮', minZoom: 16 },
-  { name: 'University Bookshop',     lat: 5.1185,  lng: -1.2872,  icon: '📗', minZoom: 16 },
-  { name: 'JQB Lecture Hall',        lat: 5.1172,  lng: -1.2883,  icon: '🏫', minZoom: 16 },
-  { name: 'New Site Lecture Hall',   lat: 5.1142,  lng: -1.2934,  icon: '🏫', minZoom: 16 },
+  { name: 'Main Gate',              lat: 5.1083,  lng: -1.2858,  icon: '🚪', minZoom: 14 },
+  { name: 'North Gate',             lat: 5.1310,  lng: -1.2848,  icon: '🚪', minZoom: 14 },
+  { name: 'College of Engineering', lat: 5.1206,  lng: -1.2727,  icon: '⚙️', minZoom: 14 },
+  { name: 'Sports Complex',         lat: 5.1255,  lng: -1.2812,  icon: '⚽', minZoom: 14 },
+  { name: 'Oguaa Hall',             lat: 5.1288,  lng: -1.2852,  icon: '🏠', minZoom: 15 },
+  { name: 'Kwame Nkrumah Hall',     lat: 5.1262,  lng: -1.2776,  icon: '🏠', minZoom: 15 },
+  { name: 'Atlantic Hall',          lat: 5.1278,  lng: -1.2832,  icon: '🏠', minZoom: 15 },
+  { name: 'Independence Hall',      lat: 5.1270,  lng: -1.2818,  icon: '🏠', minZoom: 15 },
+  { name: 'Admin Block',            lat: 5.1197,  lng: -1.2855,  icon: '🏛️', minZoom: 15 },
+  { name: 'Central Library',        lat: 5.1183,  lng: -1.2840,  icon: '📚', minZoom: 15 },
 ];
 
 function makeLandmarkIcon(icon, name) {
@@ -456,9 +428,9 @@ export default function CampusMap() {
           />
         ) : (
           <TileLayer
-            url={`https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=${MAPTILER_KEY}`}
+            url={`https://api.maptiler.com/maps/openstreetmap/{z}/{x}/{y}.png?key=${MAPTILER_KEY}`}
             attribution={MAPTILER_ATTR}
-            maxNativeZoom={20} maxZoom={22}
+            maxNativeZoom={19} maxZoom={22}
           />
         )}
         <LocateButton />
