@@ -28,11 +28,11 @@ const UCC_BOUNDS = [
   [5.150, -1.250],
 ];
 
-// Travel modes — 'car' profile used for both motor and car (same road network)
+// Travel modes — motor uses car road network but is ~28% faster (traffic weaving)
 const TRAVEL_MODES = [
-  { id: 'foot',  emoji: '🚶', label: 'Walk',  osrm: 'foot', color: '#3b82f6' },
-  { id: 'motor', emoji: '🏍️', label: 'Motor', osrm: 'car',  color: '#f97316' },
-  { id: 'car',   emoji: '🚗', label: 'Car',   osrm: 'car',  color: '#22c55e' },
+  { id: 'foot',  emoji: '🚶', label: 'Walk',  osrm: 'foot', color: '#3b82f6', speedFactor: 1.00 },
+  { id: 'motor', emoji: '🏍️', label: 'Motor', osrm: 'car',  color: '#f97316', speedFactor: 0.72 },
+  { id: 'car',   emoji: '🚗', label: 'Car',   osrm: 'car',  color: '#22c55e', speedFactor: 1.00 },
 ];
 
 function fmtDistance(m) {
@@ -57,7 +57,7 @@ async function callOSRM(userLat, userLng, vendor, modeId) {
   return {
     coords: r.geometry.coordinates.map(([lng, lat]) => [lat, lng]),
     distance: r.distance,
-    duration: r.duration,
+    duration: r.duration * mode.speedFactor,
     userPos: [userLat, userLng],
     color: mode.color,
     modeId,
@@ -277,6 +277,7 @@ export default function CampusMap() {
   const [routing, setRouting] = useState(false);
   const [routeError, setRouteError] = useState(null);
   const [userPos, setUserPos] = useState(null);
+  const [mapStyle, setMapStyle] = useState('satellite');
 
   // Silently grab location once on mount — ready before user even taps a pin
   useEffect(() => {
@@ -360,11 +361,25 @@ export default function CampusMap() {
         scrollWheelZoom
         zoomControl
       >
-        <TileLayer
-          attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          maxZoom={19}
-        />
+        {mapStyle === 'satellite' ? (
+          <>
+            <TileLayer
+              url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+              attribution='Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+              maxZoom={19}
+            />
+            <TileLayer
+              url="https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}"
+              maxZoom={19}
+            />
+          </>
+        ) : (
+          <TileLayer
+            url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
+            attribution='Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
+            maxZoom={20}
+          />
+        )}
         <LocateButton />
         <RouteLayer route={route} />
         {/* Live blue dot for user position */}
@@ -389,6 +404,34 @@ export default function CampusMap() {
           ) : null
         )}
       </MapContainer>
+
+      {/* Satellite / Street toggle — bottom-left corner */}
+      <div style={{
+        position: 'absolute', bottom: 72, left: 12,
+        zIndex: 1000,
+        display: 'flex', borderRadius: 10, overflow: 'hidden',
+        boxShadow: '0 2px 10px rgba(0,0,0,0.25)',
+        border: '2px solid rgba(255,255,255,0.7)',
+      }}>
+        {[
+          { id: 'satellite', label: '🛰 Satellite' },
+          { id: 'street',    label: '🗺 Street' },
+        ].map(opt => (
+          <button
+            key={opt.id}
+            onClick={() => setMapStyle(opt.id)}
+            style={{
+              padding: '6px 12px', fontSize: 12, fontWeight: 700,
+              border: 'none', cursor: 'pointer',
+              background: mapStyle === opt.id ? '#1e3a8a' : '#fff',
+              color: mapStyle === opt.id ? '#fff' : '#374151',
+              transition: 'all 0.15s',
+            }}
+          >
+            {opt.label}
+          </button>
+        ))}
+      </div>
 
       {/* Route info — compact pill at top so it never blocks the route line */}
       {routeError && (
