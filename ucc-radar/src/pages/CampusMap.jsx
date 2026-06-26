@@ -355,7 +355,7 @@ export default function CampusMap() {
       {/* Map */}
       <MapContainer
         center={UCC_CENTER}
-        zoom={16}
+        zoom={17}
         minZoom={14}
         maxZoom={22}
         maxBounds={UCC_BOUNDS}
@@ -365,19 +365,15 @@ export default function CampusMap() {
         zoomControl
       >
         {mapStyle === 'satellite' ? (
-          /* MapTiler Hybrid — satellite imagery with full road + building labels baked in */
           <TileLayer
             url={`https://api.maptiler.com/maps/hybrid/{z}/{x}/{y}.jpg?key=${MAPTILER_KEY}`}
             attribution={MAPTILER_ATTR}
-            tileSize={512} zoomOffset={-1}
             maxNativeZoom={20} maxZoom={22}
           />
         ) : (
-          /* MapTiler Streets — Google Maps-quality street view, names appear as you zoom */
           <TileLayer
             url={`https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=${MAPTILER_KEY}`}
             attribution={MAPTILER_ATTR}
-            tileSize={512} zoomOffset={-1}
             maxNativeZoom={20} maxZoom={22}
           />
         )}
