@@ -6,6 +6,9 @@ import { vendors } from '../data/vendors';
 import { getOpenStatus } from '../utils/openHours';
 import { useLiveRating } from '../context/RatingsContext';
 
+const MAPTILER_KEY = 'YfKuF1pv1JfcKgCn9YqD';
+const MAPTILER_ATTR = '&copy; <a href="https://www.maptiler.com/copyright/">MapTiler</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+
 const CATEGORY_CFG = {
   local:      { emoji: '🍛', color: '#F59E0B', label: 'Local Dishes' },
   restaurant: { emoji: '🍽️', color: '#3B82F6', label: 'Restaurant' },
@@ -354,7 +357,7 @@ export default function CampusMap() {
         center={UCC_CENTER}
         zoom={16}
         minZoom={14}
-        maxZoom={20}
+        maxZoom={22}
         maxBounds={UCC_BOUNDS}
         maxBoundsViscosity={1.0}
         style={{ flex: 1, width: '100%', minHeight: 0 }}
@@ -362,30 +365,20 @@ export default function CampusMap() {
         zoomControl
       >
         {mapStyle === 'satellite' ? (
-          <>
-            {/* Satellite base — native tiles up to z19, upscaled beyond */}
-            <TileLayer
-              url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
-              attribution='Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
-              maxNativeZoom={19} maxZoom={20}
-            />
-            {/* Road names overlay */}
-            <TileLayer
-              url="https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer/tile/{z}/{y}/{x}"
-              maxNativeZoom={19} maxZoom={20} opacity={0.85}
-            />
-            {/* Place / building name labels overlay */}
-            <TileLayer
-              url="https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}"
-              maxNativeZoom={19} maxZoom={20}
-            />
-          </>
-        ) : (
-          /* OpenStreetMap standard — renders ALL named buildings, roads, and places */
+          /* MapTiler Hybrid — satellite imagery with full road + building labels baked in */
           <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            maxNativeZoom={19} maxZoom={20}
+            url={`https://api.maptiler.com/maps/hybrid/{z}/{x}/{y}.jpg?key=${MAPTILER_KEY}`}
+            attribution={MAPTILER_ATTR}
+            tileSize={512} zoomOffset={-1}
+            maxNativeZoom={20} maxZoom={22}
+          />
+        ) : (
+          /* MapTiler Streets — Google Maps-quality street view, names appear as you zoom */
+          <TileLayer
+            url={`https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=${MAPTILER_KEY}`}
+            attribution={MAPTILER_ATTR}
+            tileSize={512} zoomOffset={-1}
+            maxNativeZoom={20} maxZoom={22}
           />
         )}
         <LocateButton />
