@@ -338,14 +338,20 @@ export default function CampusMap() {
   const [userPos, setUserPos] = useState(null);
   const [mapStyle, setMapStyle] = useState('street');
 
-  // Silently grab location once on mount — ready before user even taps a pin
+  // Network-based location (enableHighAccuracy:false) — fast, works indoors, no GPS required
+  function fetchLocation() {
+    return new Promise((resolve, reject) => {
+      if (!navigator.geolocation) { reject(new Error('no-geo')); return; }
+      navigator.geolocation.getCurrentPosition(
+        pos => resolve([pos.coords.latitude, pos.coords.longitude]),
+        err => reject(err),
+        { timeout: 10000, enableHighAccuracy: false },
+      );
+    });
+  }
+
   useEffect(() => {
-    if (!navigator.geolocation) return;
-    navigator.geolocation.getCurrentPosition(
-      (pos) => setUserPos([pos.coords.latitude, pos.coords.longitude]),
-      () => {},
-      { timeout: 12000, enableHighAccuracy: true },
-    );
+    fetchLocation().then(setUserPos).catch(() => {});
   }, []);
 
   const shown = vendors.filter(v =>
@@ -355,16 +361,24 @@ export default function CampusMap() {
 
   async function handleRoute(vendor, modeId) {
     setRouteError(null);
-    if (!userPos) {
-      setRouteError('Enable location on your phone/browser, then refresh the page.');
-      return;
-    }
     setRouting(true);
     try {
-      const r = await callOSRM(userPos[0], userPos[1], vendor, modeId);
+      let loc = userPos;
+      if (!loc) {
+        // Location wasn't ready on mount — try again right now
+        loc = await fetchLocation();
+        setUserPos(loc);
+      }
+      const r = await callOSRM(loc[0], loc[1], vendor, modeId);
       setRoute(r);
     } catch (e) {
-      setRouteError(e.message);
+      if (e.code === 1) {
+        setRouteError('Location permission blocked. Open browser settings and allow location for this site.');
+      } else if (e.message === 'no-geo') {
+        setRouteError('Your browser does not support location.');
+      } else {
+        setRouteError('Could not get your location. Make sure location is on and try again.');
+      }
     }
     setRouting(false);
   }
