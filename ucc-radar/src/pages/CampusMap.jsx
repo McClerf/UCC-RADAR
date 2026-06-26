@@ -398,7 +398,6 @@ export default function CampusMap() {
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 3 }}>
           <span style={{ fontSize: 20 }}>🗺️</span>
           <h1 style={{ color: '#fff', fontWeight: 900, fontSize: 20, margin: 0 }}>UCC Campus Map</h1>
-          <span style={{ color: 'rgba(255,255,255,0.35)', fontSize: 12, marginLeft: 4 }}>{shown.length} vendors</span>
         </div>
         <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: 12, margin: '0 0 12px' }}>
           Tap any pin → choose transport → Get Directions
