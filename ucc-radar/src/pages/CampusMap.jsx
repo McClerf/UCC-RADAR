@@ -277,7 +277,7 @@ export default function CampusMap() {
   const [routing, setRouting] = useState(false);
   const [routeError, setRouteError] = useState(null);
   const [userPos, setUserPos] = useState(null);
-  const [mapStyle, setMapStyle] = useState('satellite');
+  const [mapStyle, setMapStyle] = useState('street');
 
   // Silently grab location once on mount — ready before user even taps a pin
   useEffect(() => {
@@ -354,7 +354,7 @@ export default function CampusMap() {
         center={UCC_CENTER}
         zoom={16}
         minZoom={14}
-        maxZoom={19}
+        maxZoom={20}
         maxBounds={UCC_BOUNDS}
         maxBoundsViscosity={1.0}
         style={{ flex: 1, width: '100%', minHeight: 0 }}
@@ -363,21 +363,29 @@ export default function CampusMap() {
       >
         {mapStyle === 'satellite' ? (
           <>
+            {/* Satellite base — native tiles up to z19, upscaled beyond */}
             <TileLayer
               url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
               attribution='Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
-              maxZoom={19}
+              maxNativeZoom={19} maxZoom={20}
             />
+            {/* Road names overlay */}
+            <TileLayer
+              url="https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer/tile/{z}/{y}/{x}"
+              maxNativeZoom={19} maxZoom={20} opacity={0.85}
+            />
+            {/* Place / building name labels overlay */}
             <TileLayer
               url="https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}"
-              maxZoom={19}
+              maxNativeZoom={19} maxZoom={20}
             />
           </>
         ) : (
+          /* CartoDB Voyager — crisp vector-quality at any zoom, full building + road labels */
           <TileLayer
-            url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
-            attribution='Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
-            maxZoom={20}
+            url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+            maxNativeZoom={20} maxZoom={20}
           />
         )}
         <LocateButton />
