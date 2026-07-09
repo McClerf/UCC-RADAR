@@ -38,8 +38,10 @@ export function LocationProvider({ children }) {
     if (watchId.current != null) navigator.geolocation.clearWatch(watchId.current);
   }, []);
 
+  function clearTrail() { setTrail([]); }
+
   return (
-    <LocationContext.Provider value={{ position, trail, granted, startTracking }}>
+    <LocationContext.Provider value={{ position, trail, granted, startTracking, clearTrail }}>
       {children}
     </LocationContext.Provider>
   );

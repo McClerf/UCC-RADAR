@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
-import { MapPin, Star, Truck, MessageCircle, ChevronRight, Heart } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { MapPin, Star, Truck, MessageCircle, ChevronRight, Heart, Map } from 'lucide-react';
 import { getOpenStatus } from '../utils/openHours';
 import { useSavedVendors } from '../context/SavedVendorsContext';
 import { useLiveRating } from '../context/RatingsContext';
@@ -53,6 +53,7 @@ function StarRating({ rate, count, glass, live }) {
 export default function VendorCard({ vendor, glass = false }) {
   const { id, name, shortDescription, image, location, rating, delivery, category, menu, whatsapp, openHours } =
     vendor;
+  const navigate = useNavigate();
 
   const cat = categoryStyles[category];
   const minPrice = menu && menu.length > 0 ? Math.min(...menu.map((m) => m.priceMin)) : null;
@@ -68,6 +69,12 @@ export default function VendorCard({ vendor, glass = false }) {
     e.preventDefault();
     e.stopPropagation();
     toggle(id);
+  };
+
+  const handleMapView = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    navigate(`/map?vendor=${id}`);
   };
 
   const handleWhatsApp = (e) => {
@@ -106,6 +113,14 @@ export default function VendorCard({ vendor, glass = false }) {
             Delivery
           </span>
         )}
+        {/* Map button */}
+        <button
+          onClick={handleMapView}
+          aria-label="View on map"
+          className="absolute bottom-2.5 right-12 w-8 h-8 flex items-center justify-center rounded-full shadow-md bg-white/80 backdrop-blur-sm text-[#1E3A8A] hover:bg-white hover:text-[#172554] transition-all duration-200 active:scale-90"
+        >
+          <Map size={15} />
+        </button>
         {/* Save / Heart button */}
         <button
           onClick={handleSave}

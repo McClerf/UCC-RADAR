@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, Polyline, CircleMarker, useMap, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import { useSearchParams } from 'react-router-dom';
 import { vendors } from '../data/vendors';
 import { getOpenStatus } from '../utils/openHours';
 import { useLiveRating } from '../context/RatingsContext';
@@ -492,7 +493,17 @@ export default function CampusMap() {
   const [categoryFilter, setCategoryFilter] = useState(null);
 
   // Global persistent location — survives page navigation
-  const { position: userPos, trail, granted, startTracking } = useUserLocation();
+  const { position: userPos, trail, granted, startTracking, clearTrail } = useUserLocation();
+
+  // If arriving from a vendor card's map button, fly to that vendor
+  const [searchParams] = useSearchParams();
+  useEffect(() => {
+    const vendorId = searchParams.get('vendor');
+    if (vendorId) {
+      const v = vendors.find(x => x.id === vendorId || String(x.id) === vendorId);
+      if (v) setFocusedVendor(v);
+    }
+  }, []);
 
   const searchResults = search.trim().length > 0
     ? vendors.filter(v => v.name.toLowerCase().includes(search.trim().toLowerCase())).slice(0, 6)
@@ -707,6 +718,23 @@ export default function CampusMap() {
         <ZoomAwareMarkers vendors={shown} onRoute={handleRoute} routing={routing} />
       </MapContainer>
 
+      {/* Clear trail button — appears above satellite toggle when trail exists */}
+      {trail.length > 1 && (
+        <button
+          onClick={clearTrail}
+          style={{
+            position: 'absolute', bottom: 118, left: 12, zIndex: 1000,
+            padding: '6px 12px', borderRadius: 99, border: 'none',
+            background: '#1e293b', color: '#fff',
+            fontWeight: 700, fontSize: 11, cursor: 'pointer',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+            display: 'flex', alignItems: 'center', gap: 5,
+          }}
+        >
+          🗑 Clear Trail
+        </button>
+      )}
+
       {/* Satellite / Street toggle — bottom-left corner */}
       <div style={{
         position: 'absolute', bottom: 72, left: 12,
@@ -753,28 +781,36 @@ export default function CampusMap() {
 
       {route && (
         <div style={{
+          display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8,
           position: 'absolute', top: 12, left: '50%', transform: 'translateX(-50%)',
           zIndex: 1000, maxWidth: 'calc(100vw - 32px)',
-          background: '#fff', border: `2px solid ${activeMode?.color}`,
-          borderRadius: 99, padding: '8px 18px',
-          display: 'flex', alignItems: 'center', gap: 10,
-          boxShadow: '0 4px 16px rgba(0,0,0,0.18)',
-          whiteSpace: 'nowrap',
         }}>
-          <span style={{ fontSize: 18 }}>{activeMode?.emoji}</span>
-          <span style={{ fontWeight: 900, fontSize: 15, color: '#0f172a' }}>{fmtDistance(route.distance)}</span>
-          <span style={{ fontWeight: 700, fontSize: 14, color: activeMode?.color }}>~{fmtDuration(route.duration)}</span>
-          <span style={{ fontSize: 11, color: '#94a3b8', fontWeight: 600 }}>{activeMode?.label}</span>
+          {/* Route info pill */}
+          <div style={{
+            background: '#fff', border: `2px solid ${activeMode?.color}`,
+            borderRadius: 99, padding: '8px 18px',
+            display: 'flex', alignItems: 'center', gap: 10,
+            boxShadow: '0 4px 16px rgba(0,0,0,0.18)',
+            whiteSpace: 'nowrap',
+          }}>
+            <span style={{ fontSize: 18 }}>{activeMode?.emoji}</span>
+            <span style={{ fontWeight: 900, fontSize: 15, color: '#0f172a' }}>{fmtDistance(route.distance)}</span>
+            <span style={{ fontWeight: 700, fontSize: 14, color: activeMode?.color }}>~{fmtDuration(route.duration)}</span>
+            <span style={{ fontSize: 11, color: '#94a3b8', fontWeight: 600 }}>{activeMode?.label}</span>
+          </div>
+          {/* Prominent close button below the pill */}
           <button
             onClick={clearRoute}
-            title="Clear route"
             style={{
-              marginLeft: 4, width: 24, height: 24, borderRadius: '50%',
-              border: 'none', background: '#f1f5f9', color: '#64748b',
-              fontWeight: 900, fontSize: 13, cursor: 'pointer',
-              display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+              padding: '7px 22px', borderRadius: 99, border: 'none',
+              background: '#1e293b', color: '#fff',
+              fontWeight: 700, fontSize: 12, cursor: 'pointer',
+              boxShadow: '0 3px 10px rgba(0,0,0,0.25)',
+              display: 'flex', alignItems: 'center', gap: 6,
             }}
-          >✕</button>
+          >
+            ✕ Close Route
+          </button>
         </div>
       )}
 
