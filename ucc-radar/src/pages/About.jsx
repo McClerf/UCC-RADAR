@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Target,
@@ -13,6 +14,9 @@ import {
   UtensilsCrossed,
   GraduationCap,
 } from 'lucide-react';
+import { useSiteRating } from '../hooks/useSiteRating';
+import SiteRatingModal from '../components/SiteRatingModal';
+import { useSiteVisits } from '../hooks/useSiteVisits';
 
 const BG_FOOD    = 'https://images.unsplash.com/photo-1567521464027-f127ff144326?w=900&q=80';
 const BG_CAMPUS  = 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=900&q=80';
@@ -44,12 +48,6 @@ const values = [
   },
 ];
 
-const stats = [
-  { icon: <Store size={20} />,  value: '12+',    label: 'Listed Vendors' },
-  { icon: <Users size={20} />,  value: '30,000+', label: 'UCC Students' },
-  { icon: <Star size={20} />,   value: '4.5★',   label: 'Average Rating' },
-  { icon: <MapPin size={20} />, value: '8+',     label: 'Campus Locations' },
-];
 
 const faqs = [
   {
@@ -77,8 +75,33 @@ const faqs = [
 const card = 'bg-white/10 backdrop-blur-md rounded-2xl border border-white/15';
 
 export default function About() {
+  const { average, count, hasRated, submitRating } = useSiteRating();
+  const [ratingOpen, setRatingOpen] = useState(false);
+  const visitorCount = useSiteVisits();
+
+  const stats = [
+    { icon: <Store size={20} />,  value: '12+',    label: 'Listed Vendors' },
+    { icon: <Users size={20} />,  value: visitorCount > 0 ? visitorCount.toLocaleString() : '0', label: 'Site Visitors' },
+    {
+      icon: <Star size={20} />,
+      value: average > 0 ? average.toFixed(1) : '0.0',
+      label: `/ 5 · ${count} rating${count !== 1 ? 's' : ''}`,
+      onClick: () => setRatingOpen(true),
+    },
+    { icon: <MapPin size={20} />, value: '8+',     label: 'Campus Locations' },
+  ];
+
   return (
     <div className="pt-16 relative min-h-screen">
+      {ratingOpen && (
+        <SiteRatingModal
+          average={average}
+          count={count}
+          hasRated={hasRated}
+          onSubmit={submitRating}
+          onClose={() => setRatingOpen(false)}
+        />
+      )}
       {/* Background — left half food, right half campus students */}
       <div className="absolute inset-0 overflow-hidden">
         <div
@@ -124,8 +147,12 @@ export default function About() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-10">
           <div className={`${card} p-6`}>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {stats.map(({ icon, value, label }) => (
-                <div key={label} className="flex flex-col items-center text-center gap-2">
+              {stats.map(({ icon, value, label, onClick }) => (
+                <div
+                  key={label}
+                  onClick={onClick}
+                  className={`flex flex-col items-center text-center gap-2 ${onClick ? 'cursor-pointer hover:opacity-80 transition-opacity' : ''}`}
+                >
                   <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center text-amber-400 border border-white/10">
                     {icon}
                   </div>

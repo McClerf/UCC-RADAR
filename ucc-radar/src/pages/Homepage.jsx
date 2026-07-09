@@ -23,6 +23,9 @@ import {
 import { featuredVendors } from '../data/vendors';
 import VendorCard from '../components/VendorCard';
 import TodaysSpecials from '../components/TodaysSpecials';
+import { useSiteRating } from '../hooks/useSiteRating';
+import SiteRatingModal from '../components/SiteRatingModal';
+import { useSiteVisits } from '../hooks/useSiteVisits';
 
 const foodCategories = [
   {
@@ -121,16 +124,24 @@ const steps = [
   },
 ];
 
-const stats = [
-  { icon: <Store size={20} />, value: '12+', label: 'Campus Vendors' },
-  { icon: <Users size={20} />, value: '30,000+', label: 'UCC Students' },
-  { icon: <Star size={20} />, value: '4.5', label: 'Average Rating' },
-  { icon: <MapPin size={20} />, value: '8+', label: 'Campus Locations' },
-];
-
 export default function Homepage() {
   const [query, setQuery] = useState('');
   const navigate = useNavigate();
+  const { average, count, hasRated, submitRating } = useSiteRating();
+  const [ratingOpen, setRatingOpen] = useState(false);
+  const visitorCount = useSiteVisits();
+
+  const stats = [
+    { icon: <Store size={20} />, value: '12+', label: 'Campus Vendors' },
+    { icon: <Users size={20} />, value: visitorCount > 0 ? visitorCount.toLocaleString() : '0', label: 'Site Visitors' },
+    {
+      icon: <Star size={20} />,
+      value: average > 0 ? average.toFixed(1) : '0.0',
+      label: `/ 5 · ${count} rating${count !== 1 ? 's' : ''}`,
+      onClick: () => setRatingOpen(true),
+    },
+    { icon: <MapPin size={20} />, value: '8+', label: 'Campus Locations' },
+  ];
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -140,6 +151,15 @@ export default function Homepage() {
 
   return (
     <div className="pt-16">
+      {ratingOpen && (
+        <SiteRatingModal
+          average={average}
+          count={count}
+          hasRated={hasRated}
+          onSubmit={submitRating}
+          onClose={() => setRatingOpen(false)}
+        />
+      )}
       {/* ─── Shared background: Hero → How It Works ─── */}
       <div className="relative">
         <div
@@ -301,8 +321,12 @@ export default function Homepage() {
       <section className="relative z-10 bg-gradient-to-r from-[#1E3A8A] via-[#172554] to-[#1E3A8A] py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            {stats.map(({ icon, value, label }) => (
-              <div key={label} className="flex flex-col items-center text-center gap-2 bg-white/10 backdrop-blur-sm rounded-2xl p-5 border border-white/20 hover:bg-white/20 transition-colors">
+            {stats.map(({ icon, value, label, onClick }) => (
+              <div
+                key={label}
+                onClick={onClick}
+                className={`flex flex-col items-center text-center gap-2 bg-white/10 backdrop-blur-sm rounded-2xl p-5 border border-white/20 hover:bg-white/20 transition-colors ${onClick ? 'cursor-pointer' : ''}`}
+              >
                 <div className="w-11 h-11 bg-white/20 rounded-xl flex items-center justify-center text-white">
                   {icon}
                 </div>

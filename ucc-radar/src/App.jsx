@@ -11,10 +11,12 @@ import Contact from './pages/Contact';
 import Admin from './pages/Admin';
 import { SavedVendorsProvider } from './context/SavedVendorsContext';
 import { RatingsProvider } from './context/RatingsContext';
+import { LocationProvider } from './context/LocationContext';
 import BottomNav from './components/BottomNav';
 
 function App() {
   return (
+    <LocationProvider>
     <RatingsProvider>
     <SavedVendorsProvider>
       <div className="min-h-screen flex flex-col bg-gray-50">
@@ -36,6 +38,7 @@ function App() {
       </div>
     </SavedVendorsProvider>
     </RatingsProvider>
+    </LocationProvider>
   );
 }
 
