@@ -214,12 +214,6 @@ export default function Login() {
             </p>
           </div>
 
-          {/* Back to site */}
-          <div className="text-center mt-5">
-            <Link to="/" className="text-white/40 hover:text-white/70 text-sm transition-colors">
-              ← Continue without signing in
-            </Link>
-          </div>
         </div>
 
       </div>
