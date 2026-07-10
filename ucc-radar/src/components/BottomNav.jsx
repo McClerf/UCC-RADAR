@@ -1,12 +1,13 @@
 import { NavLink } from 'react-router-dom';
-import { Home, Store, Navigation, Heart } from 'lucide-react';
+import { Home, Store, Navigation, Heart, UserCircle } from 'lucide-react';
 import { useSavedVendors } from '../context/SavedVendorsContext';
 
 const tabs = [
-  { to: '/',        label: 'Home',    Icon: Home,       end: true },
-  { to: '/vendors', label: 'Vendors', Icon: Store,       end: false },
-  { to: '/map',     label: 'Map',     Icon: Navigation,  end: false },
-  { to: '/saved',   label: 'Saved',   Icon: Heart,       end: false },
+  { to: '/',        label: 'Home',    Icon: Home,        end: true },
+  { to: '/vendors', label: 'Vendors', Icon: Store,        end: false },
+  { to: '/map',     label: 'Map',     Icon: Navigation,   end: false },
+  { to: '/saved',   label: 'Saved',   Icon: Heart,        end: false },
+  { to: '/profile', label: 'Profile', Icon: UserCircle,   end: false },
 ];
 
 export default function BottomNav() {
