@@ -7,7 +7,6 @@ const navLinks = [
   { to: '/', label: 'Home' },
   { to: '/vendors', label: 'Vendors' },
   { to: '/map', label: 'Map' },
-  { to: '/about', label: 'About' },
   { to: '/contact', label: 'List Your Vendor' },
 ];
 
@@ -118,7 +117,7 @@ export default function Header() {
       >
         <div className="bg-white border-t border-gray-100 px-4 py-3 flex flex-col gap-1">
           {navLinks
-            .filter(({ label }) => label === 'About' || label === 'List Your Vendor')
+            .filter(({ label }) => label === 'List Your Vendor')
             .map(({ to, label }) => (
               <NavLink
                 key={to}

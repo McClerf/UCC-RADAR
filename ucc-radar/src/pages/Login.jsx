@@ -1,20 +1,50 @@
 import { useState } from 'react';
-import { useNavigate, Link, Navigate } from 'react-router-dom';
-import { Radar, ShieldCheck, Users, Zap, Store, Eye, EyeOff, ArrowRight } from 'lucide-react';
+import { useNavigate, Navigate } from 'react-router-dom';
+import {
+  Radar, ShieldCheck, Users, Zap, Store,
+  Eye, EyeOff, ArrowRight, Target, Star,
+  MapPin, UtensilsCrossed, GraduationCap,
+} from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useSiteRating } from '../hooks/useSiteRating';
+import { useSiteVisits } from '../hooks/useSiteVisits';
 
 const BG_FOOD   = 'https://images.unsplash.com/photo-1567521464027-f127ff144326?w=1200&q=80';
 const BG_CAMPUS = 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1200&q=80';
 
-const perks = [
-  { icon: <ShieldCheck size={20} />, title: 'Verified Vendors',   desc: 'Every listing is confirmed accurate before going live.' },
-  { icon: <Users size={20} />,       title: 'Student-Centred',    desc: 'Built for the UCC community — free, fast, accessible.' },
-  { icon: <Zap size={20} />,         title: 'Instant WhatsApp',   desc: 'One tap connects you directly with any vendor.' },
-  { icon: <Store size={20} />,       title: '12+ Campus Vendors', desc: 'Food, printing, beauty, tech and more in one place.' },
+const values = [
+  {
+    icon: <ShieldCheck size={17} />,
+    title: 'Accuracy First',
+    desc: 'Every vendor listing is verified before going live — menus, prices, and locations you can trust.',
+    accent: 'text-blue-300',
+    bg: 'bg-blue-500/15 border-blue-400/20',
+  },
+  {
+    icon: <Users size={17} />,
+    title: 'Student-Centred',
+    desc: 'Every feature is built free for the UCC community — fast, accessible, and always improving.',
+    accent: 'text-amber-400',
+    bg: 'bg-amber-500/15 border-amber-400/20',
+  },
+  {
+    icon: <Zap size={17} />,
+    title: 'Instant WhatsApp',
+    desc: 'One tap connects you directly with any vendor — no middlemen, no extra apps.',
+    accent: 'text-amber-400',
+    bg: 'bg-amber-500/15 border-amber-400/20',
+  },
+  {
+    icon: <Store size={17} />,
+    title: 'Vendor Growth',
+    desc: 'We give food vendors and service providers a free digital presence to reach more students.',
+    accent: 'text-blue-300',
+    bg: 'bg-blue-500/15 border-blue-400/20',
+  },
 ];
 
 export default function Login() {
-  const [mode, setMode]         = useState('signin'); // 'signin' | 'signup'
+  const [mode, setMode]         = useState('signin');
   const [email, setEmail]       = useState('');
   const [password, setPassword] = useState('');
   const [showPw, setShowPw]     = useState(false);
@@ -23,9 +53,18 @@ export default function Login() {
   const [success, setSuccess]   = useState(null);
 
   const { user, signIn, signUp } = useAuth();
-  const navigate = useNavigate();
+  const { average, count }       = useSiteRating();
+  const visitorCount             = useSiteVisits();
+  const navigate                 = useNavigate();
 
   if (user) return <Navigate to="/" replace />;
+
+  const stats = [
+    { icon: <Store size={15} />,  value: '12+',  label: 'Vendors' },
+    { icon: <Users size={15} />,  value: visitorCount > 0 ? visitorCount.toLocaleString() : '0', label: 'Visitors' },
+    { icon: <Star size={15} />,   value: average > 0 ? average.toFixed(1) : '0.0', label: '/ 5 Stars' },
+    { icon: <MapPin size={15} />, value: '8+',   label: 'Locations' },
+  ];
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -49,70 +88,118 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen flex relative overflow-hidden">
+    <div className="min-h-screen flex relative overflow-x-hidden">
 
       {/* ── Split background ── */}
-      <div className="absolute inset-0 flex">
-        <div className="w-1/2 bg-cover bg-center" style={{ backgroundImage: `url('${BG_FOOD}')` }} />
-        <div className="w-1/2 bg-cover bg-center" style={{ backgroundImage: `url('${BG_CAMPUS}')` }} />
+      <div className="fixed inset-0">
+        <div className="absolute inset-0 flex">
+          <div className="w-1/2 bg-cover bg-center" style={{ backgroundImage: `url('${BG_FOOD}')` }} />
+          <div className="w-1/2 bg-cover bg-center" style={{ backgroundImage: `url('${BG_CAMPUS}')` }} />
+        </div>
+        <div className="absolute inset-0 bg-[#0d1f47]/90 backdrop-blur-[3px]" />
       </div>
-      <div className="absolute inset-0 bg-[#172554]/88 backdrop-blur-[2px]" />
 
-      {/* ── Content grid ── */}
-      <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-8 flex flex-col lg:flex-row items-center justify-center gap-12 py-16">
+      {/* ── Content ── */}
+      <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-8 flex flex-col lg:flex-row items-start lg:items-center justify-center gap-10 lg:gap-16 py-10 lg:py-14">
 
-        {/* ── Left: brand + about panel ── */}
-        <div className="flex-1 max-w-lg text-white">
+        {/* ══════════════════════════════════════
+            LEFT PANEL — About UCC Radar
+        ══════════════════════════════════════ */}
+        <div className="flex-1 max-w-xl text-white">
 
           {/* Logo */}
-          <Link to="/" className="inline-flex items-center gap-2.5 mb-8 group">
-            <div className="w-11 h-11 bg-[#1E3A8A] border border-blue-400/40 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
+          <div className="inline-flex items-center gap-2.5 mb-7">
+            <div className="w-11 h-11 bg-[#1E3A8A] border border-blue-400/40 rounded-2xl flex items-center justify-center shadow-lg">
               <Radar size={22} className="text-white" />
             </div>
             <div className="flex items-baseline gap-0.5">
               <span className="text-2xl font-black tracking-tight">UCC</span>
               <span className="text-2xl font-black bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent tracking-tight">Radar</span>
             </div>
-          </Link>
+          </div>
 
+          {/* Pill */}
+          <span className="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white/75 text-xs font-semibold px-4 py-1.5 rounded-full mb-4">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+            About UCC Radar
+          </span>
+
+          {/* Headline */}
           <h1 className="text-3xl sm:text-4xl font-black leading-tight mb-3">
-            Your Campus.<br />
-            <span className="bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent">One Platform.</span>
+            Connecting UCC Students<br />
+            <span className="bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent">
+              with Campus Vendors
+            </span>
           </h1>
-          <p className="text-white/60 text-base leading-relaxed mb-8">
-            Discover food, services, and student vendors at the University of Cape Coast — all in one place. Fast, free, and built for you.
+
+          {/* Tagline */}
+          <p className="text-white/55 text-sm leading-relaxed mb-6">
+            A student-built directory that makes finding food vendors and campus services at the University of Cape Coast effortless — all in one place, completely free.
           </p>
 
-          {/* Perks */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-            {perks.map(({ icon, title, desc }) => (
-              <div key={title} className="bg-white/8 backdrop-blur-sm border border-white/12 rounded-2xl p-4 flex gap-3">
-                <div className="text-amber-400 shrink-0 mt-0.5">{icon}</div>
-                <div>
-                  <p className="text-white font-bold text-sm mb-0.5">{title}</p>
-                  <p className="text-white/50 text-xs leading-relaxed">{desc}</p>
+          {/* ── Mission ── */}
+          <div className="bg-white/8 backdrop-blur-sm border border-white/12 rounded-2xl p-4 mb-5">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-6 h-6 rounded-lg bg-[#1E3A8A]/60 border border-blue-400/25 flex items-center justify-center shrink-0">
+                <Target size={13} className="text-blue-300" />
+              </div>
+              <span className="text-white text-xs font-bold uppercase tracking-widest">Our Mission</span>
+            </div>
+            <p className="text-white/60 text-xs leading-relaxed">
+              Make campus life simpler for every UCC student — one reliable directory of food vendors and student services, with real details and a direct WhatsApp line. No guesswork. No wasted trips. Just what you need, found fast.
+            </p>
+          </div>
+
+          {/* ── Live Stats ── */}
+          <div className="grid grid-cols-4 gap-2 mb-5">
+            {stats.map(({ icon, value, label }) => (
+              <div
+                key={label}
+                className="bg-white/8 border border-white/10 rounded-xl p-2.5 text-center"
+              >
+                <div className="text-amber-400 flex justify-center mb-1">{icon}</div>
+                <p className="text-base font-black text-white leading-none">{value}</p>
+                <p className="text-white/40 text-[10px] mt-1 leading-tight">{label}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* ── What We Stand For ── */}
+          <p className="text-white/40 text-[10px] font-bold uppercase tracking-widest mb-2.5">
+            What We Stand For
+          </p>
+          <div className="grid grid-cols-2 gap-2.5 mb-5">
+            {values.map(({ icon, title, desc, accent, bg }) => (
+              <div
+                key={title}
+                className={`rounded-xl p-3 border flex gap-2.5 ${bg}`}
+              >
+                <div className={`shrink-0 mt-0.5 ${accent}`}>{icon}</div>
+                <div className="min-w-0">
+                  <p className="text-white text-xs font-bold mb-0.5">{title}</p>
+                  <p className="text-white/45 text-[10px] leading-relaxed">{desc}</p>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Stats row */}
-          <div className="flex gap-6">
-            {[
-              { value: '12+',  label: 'Vendors' },
-              { value: '8+',   label: 'Locations' },
-              { value: '100%', label: 'Free' },
-            ].map(({ value, label }) => (
-              <div key={label}>
-                <p className="text-2xl font-black text-white">{value}</p>
-                <p className="text-white/45 text-xs font-semibold">{label}</p>
-              </div>
-            ))}
+          {/* ── Category badges ── */}
+          <div className="flex flex-wrap gap-2.5">
+            <div className="flex items-center gap-1.5 bg-amber-500/20 border border-amber-400/30 text-amber-300 px-3.5 py-1.5 rounded-full text-xs font-semibold">
+              <UtensilsCrossed size={12} />
+              Food Vendors
+            </div>
+            <div className="flex items-center gap-1.5 bg-white/10 border border-white/20 text-blue-200 px-3.5 py-1.5 rounded-full text-xs font-semibold">
+              <GraduationCap size={12} />
+              Student Services
+            </div>
           </div>
         </div>
 
-        {/* ── Right: auth card ── */}
-        <div className="w-full max-w-sm">
+        {/* ══════════════════════════════════════
+            RIGHT PANEL — Auth form
+        ══════════════════════════════════════ */}
+        <div className="w-full max-w-sm lg:self-center">
           <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-8 shadow-2xl">
 
             {/* Tab toggle */}
@@ -153,9 +240,10 @@ export default function Login() {
             )}
 
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-              {/* Email */}
               <div>
-                <label className="block text-white/70 text-xs font-semibold mb-1.5">Email address</label>
+                <label className="block text-white/70 text-xs font-semibold mb-1.5">
+                  Email address
+                </label>
                 <input
                   type="email"
                   value={email}
@@ -166,9 +254,10 @@ export default function Login() {
                 />
               </div>
 
-              {/* Password */}
               <div>
-                <label className="block text-white/70 text-xs font-semibold mb-1.5">Password</label>
+                <label className="block text-white/70 text-xs font-semibold mb-1.5">
+                  Password
+                </label>
                 <div className="relative">
                   <input
                     type={showPw ? 'text' : 'password'}
@@ -215,7 +304,6 @@ export default function Login() {
               By continuing you agree to UCC Radar's terms of use.
             </p>
           </div>
-
         </div>
 
       </div>
