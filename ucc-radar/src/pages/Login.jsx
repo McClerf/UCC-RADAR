@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { Radar, ShieldCheck, Users, Zap, Store, Star, Eye, EyeOff, ArrowRight } from 'lucide-react';
+import { useNavigate, Link, Navigate } from 'react-router-dom';
+import { Radar, ShieldCheck, Users, Zap, Store, Eye, EyeOff, ArrowRight } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const BG_FOOD   = 'https://images.unsplash.com/photo-1567521464027-f127ff144326?w=1200&q=80';
@@ -22,8 +22,10 @@ export default function Login() {
   const [error, setError]       = useState(null);
   const [success, setSuccess]   = useState(null);
 
-  const { signIn, signUp } = useAuth();
+  const { user, signIn, signUp } = useAuth();
   const navigate = useNavigate();
+
+  if (user) return <Navigate to="/" replace />;
 
   async function handleSubmit(e) {
     e.preventDefault();

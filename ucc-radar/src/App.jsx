@@ -1,4 +1,4 @@
-import { Routes, Route, Outlet, useLocation } from 'react-router-dom';
+import { Routes, Route, Outlet, Navigate } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Homepage from './pages/Homepage';
@@ -13,12 +13,27 @@ import { SavedVendorsProvider } from './context/SavedVendorsContext';
 import { RatingsProvider } from './context/RatingsContext';
 import { LocationProvider } from './context/LocationContext';
 import { AuthProvider } from './context/AuthContext';
+import { useAuth } from './context/AuthContext';
 import Login from './pages/Login';
 import UserProfile from './pages/UserProfile';
 import VendorDashboard from './pages/VendorDashboard';
 import BottomNav from './components/BottomNav';
 
-function MainLayout() {
+function ProtectedLayout() {
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#0a1628]">
+        <div className="w-8 h-8 border-4 border-[#1E3A8A] border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Header />
@@ -41,8 +56,8 @@ function App() {
         {/* Full-screen standalone pages — no header/footer */}
         <Route path="/login" element={<Login />} />
 
-        {/* Main layout with header, footer, bottom nav */}
-        <Route element={<MainLayout />}>
+        {/* Protected pages — require sign in */}
+        <Route element={<ProtectedLayout />}>
           <Route path="/" element={<Homepage />} />
           <Route path="/vendors" element={<Vendors />} />
           <Route path="/vendors/:id" element={<VendorDetails />} />
