@@ -201,7 +201,7 @@ export default function Login() {
         <div className="flex-1 max-w-xl text-white">
 
           {/* Logo */}
-          <div className="inline-flex items-center gap-2.5 mb-7">
+          <div className="flex w-fit items-center gap-2.5 mb-7">
             <div className="w-11 h-11 bg-[#1E3A8A] border border-blue-400/40 rounded-2xl flex items-center justify-center shadow-lg">
               <Radar size={22} className="text-white" />
             </div>
