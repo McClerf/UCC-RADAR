@@ -526,18 +526,6 @@ export default function CampusMap() {
     setShowDropdown(false);
   }
 
-  // Fallback one-shot fetch for routing when watchPosition hasn't fired yet
-  function fetchLocation() {
-    return new Promise((resolve, reject) => {
-      if (!navigator.geolocation) { reject(new Error('no-geo')); return; }
-      navigator.geolocation.getCurrentPosition(
-        pos => resolve([pos.coords.latitude, pos.coords.longitude]),
-        err => reject(err),
-        { timeout: 10000, enableHighAccuracy: false },
-      );
-    });
-  }
-
   // Do NOT auto-call startTracking() here — doing so sets watchId before the
   // "Enable" banner button fires, causing the guard to block the permission prompt.
 
@@ -555,35 +543,29 @@ export default function CampusMap() {
     setRouteFallbackUrl(null);
     setRouting(true);
 
-    // ── Step 1: get user location ──
-    let loc = userPos;
+    const mode = TRAVEL_MODES.find(m => m.id === modeId);
+    const gmMode = mode.id === 'foot' ? 'walking' : 'driving';
+    const loc = userPos;
+
+    // ── Open Google Maps SYNCHRONOUSLY before any await so popup blockers don't fire ──
+    const gmUrl = loc
+      ? `https://www.google.com/maps/dir/?api=1&origin=${loc[0]},${loc[1]}&destination=${vendor.lat},${vendor.lng}&travelmode=${gmMode}`
+      : `https://www.google.com/maps/search/?api=1&query=${vendor.lat},${vendor.lng}`;
+    window.open(gmUrl, '_blank', 'noopener,noreferrer');
+
     if (!loc) {
-      try {
-        loc = await fetchLocation();
-      } catch (e) {
-        if (e.message === 'no-geo') {
-          setRouteError('Your device does not support location services.');
-        } else if (e.code === 1) {
-          setRouteError('Location access denied. Tap the 📍 button and allow location in your browser settings, then try again.');
-        } else if (e.code === 3) {
-          setRouteError('Location timed out — make sure GPS is turned on and try again.');
-        } else {
-          setRouteError('Could not get your location. Make sure location is enabled and try again.');
-        }
-        setRouting(false);
-        return;
-      }
+      // No location yet — start tracking so next tap gets the full route
+      startTracking();
+      setRouting(false);
+      return;
     }
 
-    // ── Step 2: get route from OSRM ──
+    // ── Bonus: also draw the route on the map if OSRM responds in time ──
     try {
       const r = await callOSRM(loc[0], loc[1], vendor, modeId);
       setRoute(r);
     } catch {
-      setRouteError(`Could not draw route to ${vendor.name} on map.`);
-      setRouteFallbackUrl(
-        `https://www.google.com/maps/dir/?api=1&origin=${loc[0]},${loc[1]}&destination=${vendor.lat},${vendor.lng}`
-      );
+      // OSRM failed or timed out — that's fine, Google Maps is already open
     }
 
     setRouting(false);
@@ -707,7 +689,11 @@ export default function CampusMap() {
             Allow location to see yourself on the map and get directions
           </span>
           <button
-            onClick={startTracking}
+            onClick={() => {
+              startTracking();
+              // getCurrentPosition also fires the dialog on iOS Safari where watchPosition alone may not
+              navigator.geolocation?.getCurrentPosition(() => {}, () => {}, { enableHighAccuracy: true, timeout: 15000 });
+            }}
             style={{
               padding: '7px 16px', borderRadius: 99, border: 'none',
               background: '#fff', color: '#1e40af',
