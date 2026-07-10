@@ -14,6 +14,8 @@ import { RatingsProvider } from './context/RatingsContext';
 import { LocationProvider } from './context/LocationContext';
 import { AuthProvider } from './context/AuthContext';
 import Login from './pages/Login';
+import UserProfile from './pages/UserProfile';
+import VendorDashboard from './pages/VendorDashboard';
 import BottomNav from './components/BottomNav';
 
 function MainLayout() {
@@ -49,6 +51,8 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/profile" element={<UserProfile />} />
+          <Route path="/vendor-dashboard" element={<VendorDashboard />} />
         </Route>
       </Routes>
     </SavedVendorsProvider>

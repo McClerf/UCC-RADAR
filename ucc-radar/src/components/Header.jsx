@@ -87,10 +87,15 @@ export default function Header() {
             {/* Auth */}
             {user ? (
               <div className="flex items-center gap-2 ml-1">
-                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-50 text-[#1E3A8A] text-xs font-semibold">
+                <Link
+                  to="/profile"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-50 text-[#1E3A8A] text-xs font-semibold hover:bg-blue-100 transition-colors"
+                >
                   <User size={13} />
-                  <span className="max-w-[100px] truncate">{user.email.split('@')[0]}</span>
-                </div>
+                  <span className="max-w-[100px] truncate">
+                    {user.user_metadata?.full_name?.split(' ')[0] || user.email.split('@')[0]}
+                  </span>
+                </Link>
                 <button
                   onClick={signOut}
                   title="Sign out"
