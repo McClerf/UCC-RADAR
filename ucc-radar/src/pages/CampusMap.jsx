@@ -175,20 +175,30 @@ async function callOSRM(userLat, userLng, vendor, modeId) {
     `https://router.project-osrm.org/route/v1/${mode.osrm}` +
     `/${userLng},${userLat};${vendor.lng},${vendor.lat}` +
     `?geometries=geojson&overview=full`;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error('Routing service unavailable');
-  const json = await res.json();
-  if (!json.routes?.[0]) throw new Error('No route found between these points');
-  const r = json.routes[0];
-  return {
-    coords: r.geometry.coordinates.map(([lng, lat]) => [lat, lng]),
-    distance: r.distance,
-    duration: r.duration * mode.speedFactor,
-    userPos: [userLat, userLng],
-    color: mode.color,
-    modeId,
-    vendorName: vendor.name,
-  };
+
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 8000);
+
+  try {
+    const res = await fetch(url, { signal: controller.signal });
+    clearTimeout(timer);
+    if (!res.ok) throw new Error('server_error');
+    const json = await res.json();
+    if (!json.routes?.[0]) throw new Error('no_route');
+    const r = json.routes[0];
+    return {
+      coords: r.geometry.coordinates.map(([lng, lat]) => [lat, lng]),
+      distance: r.distance,
+      duration: r.duration * mode.speedFactor,
+      userPos: [userLat, userLng],
+      color: mode.color,
+      modeId,
+      vendorName: vendor.name,
+    };
+  } catch (err) {
+    clearTimeout(timer);
+    throw err;
+  }
 }
 
 function makeIcon(category) {
@@ -528,8 +538,8 @@ export default function CampusMap() {
     });
   }
 
-  // Auto-start tracking as soon as the map page mounts
-  useEffect(() => { startTracking(); }, []);
+  // Do NOT auto-call startTracking() here — doing so sets watchId before the
+  // "Enable" banner button fires, causing the guard to block the permission prompt.
 
   const q = search.trim().toLowerCase();
   const shown = vendors.filter(v => {
@@ -826,37 +836,38 @@ export default function CampusMap() {
         <div style={{
           position: 'absolute', top: 12, left: '50%', transform: 'translateX(-50%)',
           zIndex: 1000, maxWidth: 'calc(100vw - 32px)',
-          background: '#fef2f2', border: '1.5px solid #fca5a5',
-          borderRadius: 16, padding: '10px 14px',
-          display: 'flex', alignItems: 'flex-start', gap: 8,
-          boxShadow: '0 4px 16px rgba(0,0,0,0.18)',
+          background: '#fff', border: '1.5px solid #fca5a5',
+          borderRadius: 16, padding: '12px 14px',
+          display: 'flex', flexDirection: 'column', gap: 8,
+          boxShadow: '0 4px 20px rgba(0,0,0,0.22)',
+          minWidth: 260,
         }}>
-          <span style={{ fontSize: 16, marginTop: 1 }}>⚠️</span>
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <p style={{ fontSize: 12, color: '#dc2626', fontWeight: 600, margin: '0 0 4px', lineHeight: 1.4 }}>
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
+            <span style={{ fontSize: 16, marginTop: 1 }}>⚠️</span>
+            <p style={{ fontSize: 12, color: '#dc2626', fontWeight: 600, margin: 0, lineHeight: 1.4, flex: 1 }}>
               {routeError}
             </p>
-            {routeFallbackUrl && (
-              <a
-                href={routeFallbackUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: 4,
-                  fontSize: 11, fontWeight: 700, color: '#1d4ed8',
-                  background: '#eff6ff', padding: '4px 10px',
-                  borderRadius: 99, textDecoration: 'none',
-                  border: '1px solid #bfdbfe',
-                }}
-              >
-                🗺 Open in Google Maps ↗
-              </a>
-            )}
+            <button
+              onClick={clearRoute}
+              style={{ background: 'none', border: 'none', color: '#9ca3af', fontWeight: 900, cursor: 'pointer', fontSize: 14, lineHeight: 1, padding: 2, marginTop: 1 }}
+            >✕</button>
           </div>
-          <button
-            onClick={clearRoute}
-            style={{ background: 'none', border: 'none', color: '#dc2626', fontWeight: 900, cursor: 'pointer', fontSize: 14, lineHeight: 1, padding: 2, marginTop: 1 }}
-          >✕</button>
+          {routeFallbackUrl && (
+            <a
+              href={routeFallbackUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+                fontSize: 13, fontWeight: 800, color: '#fff',
+                background: '#1d4ed8', padding: '10px 16px',
+                borderRadius: 10, textDecoration: 'none',
+                boxShadow: '0 2px 8px rgba(29,78,216,0.35)',
+              }}
+            >
+              🗺 Open in Google Maps ↗
+            </a>
+          )}
         </div>
       )}
 
