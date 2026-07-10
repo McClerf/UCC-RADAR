@@ -486,6 +486,7 @@ export default function CampusMap() {
   const [route, setRoute] = useState(null);
   const [routing, setRouting] = useState(false);
   const [routeError, setRouteError] = useState(null);
+  const [routeFallbackUrl, setRouteFallbackUrl] = useState(null);
   const [mapStyle, setMapStyle] = useState('street');
   const [search, setSearch] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
@@ -493,7 +494,7 @@ export default function CampusMap() {
   const [categoryFilter, setCategoryFilter] = useState(null);
 
   // Global persistent location — survives page navigation
-  const { position: userPos, trail, granted, startTracking, clearTrail } = useUserLocation();
+  const { position: userPos, trail, granted, locationError, startTracking, clearTrail } = useUserLocation();
 
   // If arriving from a vendor card's map button, fly to that vendor
   const [searchParams] = useSearchParams();
@@ -541,27 +542,47 @@ export default function CampusMap() {
 
   async function handleRoute(vendor, modeId) {
     setRouteError(null);
+    setRouteFallbackUrl(null);
     setRouting(true);
-    try {
-      const loc = userPos ?? await fetchLocation();
-      if (!loc) throw new Error('no-pos');
-      const r = await callOSRM(loc[0], loc[1], vendor, modeId);
-      setRoute(r);
-    } catch (e) {
-      if (e.code === 1) {
-        setRouteError('Location permission blocked. Open browser settings and allow location for this site.');
-      } else if (e.message === 'no-geo') {
-        setRouteError('Your browser does not support location.');
-      } else {
-        setRouteError('Could not get your location. Make sure location is on and try again.');
+
+    // ── Step 1: get user location ──
+    let loc = userPos;
+    if (!loc) {
+      try {
+        loc = await fetchLocation();
+      } catch (e) {
+        if (e.message === 'no-geo') {
+          setRouteError('Your device does not support location services.');
+        } else if (e.code === 1) {
+          setRouteError('Location access denied. Tap the 📍 button and allow location in your browser settings, then try again.');
+        } else if (e.code === 3) {
+          setRouteError('Location timed out — make sure GPS is turned on and try again.');
+        } else {
+          setRouteError('Could not get your location. Make sure location is enabled and try again.');
+        }
+        setRouting(false);
+        return;
       }
     }
+
+    // ── Step 2: get route from OSRM ──
+    try {
+      const r = await callOSRM(loc[0], loc[1], vendor, modeId);
+      setRoute(r);
+    } catch {
+      setRouteError(`Could not draw route to ${vendor.name} on map.`);
+      setRouteFallbackUrl(
+        `https://www.google.com/maps/dir/?api=1&origin=${loc[0]},${loc[1]}&destination=${vendor.lat},${vendor.lng}`
+      );
+    }
+
     setRouting(false);
   }
 
   function clearRoute() {
     setRoute(null);
     setRouteError(null);
+    setRouteFallbackUrl(null);
   }
 
   const activeMode = route ? TRAVEL_MODES.find(m => m.id === route.modeId) : null;
@@ -664,6 +685,43 @@ export default function CampusMap() {
           ))}
         </div>
       </div>
+
+      {/* ── Location permission banner ── */}
+      {!granted && !locationError && (
+        <div style={{
+          background: '#1e40af', padding: '10px 16px', flexShrink: 0,
+          display: 'flex', alignItems: 'center', gap: 10,
+        }}>
+          <span style={{ fontSize: 18 }}>📍</span>
+          <span style={{ color: '#fff', fontSize: 13, fontWeight: 600, flex: 1, lineHeight: 1.3 }}>
+            Allow location to see yourself on the map and get directions
+          </span>
+          <button
+            onClick={startTracking}
+            style={{
+              padding: '7px 16px', borderRadius: 99, border: 'none',
+              background: '#fff', color: '#1e40af',
+              fontWeight: 800, fontSize: 12, cursor: 'pointer', whiteSpace: 'nowrap',
+            }}
+          >
+            Enable
+          </button>
+        </div>
+      )}
+
+      {/* ── Location denied banner ── */}
+      {locationError === 'denied' && (
+        <div style={{
+          background: '#fef2f2', borderBottom: '1px solid #fca5a5',
+          padding: '10px 16px', flexShrink: 0,
+          display: 'flex', alignItems: 'center', gap: 8,
+        }}>
+          <span style={{ fontSize: 16 }}>🔒</span>
+          <span style={{ color: '#dc2626', fontSize: 12, fontWeight: 600, flex: 1, lineHeight: 1.4 }}>
+            Location blocked. Open your browser settings → Site permissions → allow Location for this site.
+          </span>
+        </div>
+      )}
 
       {/* Map */}
       <MapContainer
@@ -769,13 +827,36 @@ export default function CampusMap() {
           position: 'absolute', top: 12, left: '50%', transform: 'translateX(-50%)',
           zIndex: 1000, maxWidth: 'calc(100vw - 32px)',
           background: '#fef2f2', border: '1.5px solid #fca5a5',
-          borderRadius: 99, padding: '8px 16px',
-          display: 'flex', alignItems: 'center', gap: 8,
-          boxShadow: '0 4px 16px rgba(0,0,0,0.15)',
+          borderRadius: 16, padding: '10px 14px',
+          display: 'flex', alignItems: 'flex-start', gap: 8,
+          boxShadow: '0 4px 16px rgba(0,0,0,0.18)',
         }}>
-          <span style={{ fontSize: 16 }}>⚠️</span>
-          <span style={{ fontSize: 12, color: '#dc2626', fontWeight: 600 }}>{routeError}</span>
-          <button onClick={clearRoute} style={{ marginLeft: 4, background: 'none', border: 'none', color: '#dc2626', fontWeight: 900, cursor: 'pointer', fontSize: 14, lineHeight: 1 }}>✕</button>
+          <span style={{ fontSize: 16, marginTop: 1 }}>⚠️</span>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <p style={{ fontSize: 12, color: '#dc2626', fontWeight: 600, margin: '0 0 4px', lineHeight: 1.4 }}>
+              {routeError}
+            </p>
+            {routeFallbackUrl && (
+              <a
+                href={routeFallbackUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 4,
+                  fontSize: 11, fontWeight: 700, color: '#1d4ed8',
+                  background: '#eff6ff', padding: '4px 10px',
+                  borderRadius: 99, textDecoration: 'none',
+                  border: '1px solid #bfdbfe',
+                }}
+              >
+                🗺 Open in Google Maps ↗
+              </a>
+            )}
+          </div>
+          <button
+            onClick={clearRoute}
+            style={{ background: 'none', border: 'none', color: '#dc2626', fontWeight: 900, cursor: 'pointer', fontSize: 14, lineHeight: 1, padding: 2, marginTop: 1 }}
+          >✕</button>
         </div>
       )}
 
