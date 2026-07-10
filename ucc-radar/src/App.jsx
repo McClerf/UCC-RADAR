@@ -12,10 +12,13 @@ import Admin from './pages/Admin';
 import { SavedVendorsProvider } from './context/SavedVendorsContext';
 import { RatingsProvider } from './context/RatingsContext';
 import { LocationProvider } from './context/LocationContext';
+import { AuthProvider } from './context/AuthContext';
+import Login from './pages/Login';
 import BottomNav from './components/BottomNav';
 
 function App() {
   return (
+    <AuthProvider>
     <LocationProvider>
     <RatingsProvider>
     <SavedVendorsProvider>
@@ -31,6 +34,7 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/admin" element={<Admin />} />
+            <Route path="/login" element={<Login />} />
           </Routes>
         </main>
         <Footer />
@@ -39,6 +43,7 @@ function App() {
     </SavedVendorsProvider>
     </RatingsProvider>
     </LocationProvider>
+    </AuthProvider>
   );
 }
 

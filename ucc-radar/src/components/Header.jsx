@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { Menu, X, Radar, Heart, MapPin } from 'lucide-react';
+import { Menu, X, Radar, Heart, LogIn, LogOut, User } from 'lucide-react';
 import { useSavedVendors } from '../context/SavedVendorsContext';
+import { useAuth } from '../context/AuthContext';
 
 const navLinks = [
   { to: '/', label: 'Home' },
@@ -16,6 +17,7 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const { count } = useSavedVendors();
+  const { user, signOut } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -81,6 +83,31 @@ export default function Header() {
                 </span>
               )}
             </Link>
+
+            {/* Auth */}
+            {user ? (
+              <div className="flex items-center gap-2 ml-1">
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-50 text-[#1E3A8A] text-xs font-semibold">
+                  <User size={13} />
+                  <span className="max-w-[100px] truncate">{user.email.split('@')[0]}</span>
+                </div>
+                <button
+                  onClick={signOut}
+                  title="Sign out"
+                  className="p-2 rounded-lg text-gray-500 hover:text-red-500 hover:bg-red-50 transition-all duration-200"
+                >
+                  <LogOut size={18} />
+                </button>
+              </div>
+            ) : (
+              <Link
+                to="/login"
+                className="ml-1 flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#1E3A8A] text-white text-sm font-semibold hover:bg-[#172554] transition-colors shadow-sm"
+              >
+                <LogIn size={14} />
+                Sign In
+              </Link>
+            )}
           </nav>
 
           {/* Mobile Menu Button */}
