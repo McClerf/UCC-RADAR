@@ -57,7 +57,7 @@ export default function Login() {
       <div className="absolute inset-0 bg-[#172554]/88 backdrop-blur-[2px]" />
 
       {/* ── Content grid ── */}
-      <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-8 flex flex-col lg:flex-row items-center justify-center gap-12 py-20 pt-24">
+      <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-8 flex flex-col lg:flex-row items-center justify-center gap-12 py-16">
 
         {/* ── Left: brand + about panel ── */}
         <div className="flex-1 max-w-lg text-white">
