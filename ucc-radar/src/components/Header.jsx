@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { Menu, X, Radar, Heart, LogIn, LogOut, User } from 'lucide-react';
-import { useSavedVendors } from '../context/SavedVendorsContext';
+import { Menu, X, Radar, LogIn, LogOut, User } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const navLinks = [
@@ -16,7 +15,6 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
-  const { count } = useSavedVendors();
   const { user, signOut } = useAuth();
 
   useEffect(() => {
@@ -70,20 +68,6 @@ export default function Header() {
                 {label}
               </NavLink>
             ))}
-            {/* Saved vendors heart */}
-            <Link
-              to="/saved"
-              aria-label="Saved vendors"
-              className="relative ml-1 p-2 rounded-lg text-gray-500 hover:text-red-500 hover:bg-red-50 transition-all duration-200"
-            >
-              <Heart size={20} className={count > 0 ? 'fill-red-500 text-red-500' : ''} />
-              {count > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-4 bg-red-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center px-0.5 leading-none">
-                  {count > 9 ? '9+' : count}
-                </span>
-              )}
-            </Link>
-
             {/* Auth */}
             {user ? (
               <div className="flex items-center gap-2 ml-1">
